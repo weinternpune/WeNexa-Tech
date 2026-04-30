@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 const testimonials = [
@@ -45,6 +45,16 @@ export default function TestimonialsSection() {
   const next = () =>
     setCurrent((c) => (c === testimonials.length - 1 ? 0 : c + 1));
 
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array ensures interval runs only once
+
   const t = testimonials[current];
 
   return (
@@ -54,11 +64,11 @@ export default function TestimonialsSection() {
         {/* HEADER */}
         <div className="text-center mb-14">
           <div className="flex items-center justify-center gap-3 mb-4">
-  <div className="w-8 h-[1px] bg-teal-400"></div>
-  <span className="text-[11px] tracking-[0.2em] uppercase text-teal-400 font-medium">
-    TESTIMONIALS
-  </span>
-</div>
+            <div className="w-8 h-[1px] bg-teal-400"></div>
+            <span className="text-[11px] tracking-[0.2em] uppercase text-teal-400 font-medium">
+              TESTIMONIALS
+            </span>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white">
             What Our Clients Say
           </h2>
