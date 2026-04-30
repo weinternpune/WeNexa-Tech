@@ -4,7 +4,7 @@ import About from "../pages/About/About";
 import Service from "../pages/ServicePage/Service";
 import Portfolio from "../pages/Portfolio/Portfolio";
 import Product from "../pages/Product/Product";
-import Contact from "../pages/Contact/Contact";
+import ContactForm from "../pages/Contact/ContactPage";
 import Blog from "../pages/Blog/Blog";
 
 
@@ -56,7 +56,7 @@ const routes = [
   path: "/contact",
   element: (
     <MainLayout>
-      <Contact />
+      <ContactForm />
     </MainLayout>
   ),
 },

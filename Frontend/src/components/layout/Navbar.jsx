@@ -114,7 +114,7 @@ export default function Navbar() {
 
         {/* CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" className="btn-outline text-sm py-2.5 text-white rounded-xl px-5">
+          <Link to="/contact" className="btn-outline text-sm py-2.5 text-navy-400 rounded-xl px-5 border border-red-400  ">
             Get Quote
           </Link>
           <Link to="/contact" className="btn-primary text-sm py-2.5 px-5">
