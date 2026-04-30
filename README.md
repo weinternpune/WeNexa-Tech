@@ -77,6 +77,28 @@ cd wenexa-tech
 
 ---
 
+## ⚙️ How to Run the Project
+
+## 1. Install Backend Dependencies
+cd Backend
+npm install
+
+## 2. Install Frontend Dependencies
+npm install
+
+## 3. Setup Environment Variables (.env)
+EMAIL_USER=your_email_here
+EMAIL_PASS=your_email_password_here
+
+## 4. Run the Backend
+cd Backend
+nodemon server.js     // If you have nodemon
+node server.js        // If you don't have nodemon
+
+## 5. Run the Frontend
+npm run dev
+
+
 If you want, I can next upgrade this into a **premium GitHub README** with:
 - Shields.io badges  
 - Live demo section  
