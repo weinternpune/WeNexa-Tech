@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown, Zap } from "lucide-react";
 
 const navLinks = [
@@ -22,8 +21,8 @@ const navLinks = [
       { label: "NexaBill — Billing System", href: "/products#nexabill" },
       { label: "NexaHR — HR Suite", href: "/products#nexahr" },
       { label: "NexaCRM — CRM", href: "/products#nexacrm" },
-      { label: "NexaInventory", href: "/products#nexainventory" },
-      { label: "NexaAI Suite", href: "/products#nexaai" },
+      { label: "NexaInventory", href: "/products" },
+      { label: "NexaAI Suite", href: "/products" },
     ],
   },
   { label: "Portfolio", href: "/portfolio" },
@@ -38,16 +37,24 @@ export default function Navbar() {
 
   useEffect(() => {
     const handler = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  // 🔥 Scroll handler (works for both services & products)
+  const handleScroll = (href) => {
+    const id = href.split("#")[1];
+
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
 
   return (
     <nav
@@ -99,7 +106,8 @@ export default function Navbar() {
                     {link.dropdown.map((item) => (
                       <Link
                         key={item.label}
-                        to={item.href}
+                        to={link.href} // ✅ dynamic route
+                        onClick={() => handleScroll(item.href)}
                         className="block px-4 py-2.5 text-sm text-navy-200 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                       >
                         {item.label}
@@ -150,8 +158,11 @@ export default function Navbar() {
                     {link.dropdown.map((item) => (
                       <Link
                         key={item.label}
-                        to={item.href}
-                        onClick={() => setOpen(false)}
+                        to={link.href} // ✅ dynamic route
+                        onClick={() => {
+                          setOpen(false);
+                          handleScroll(item.href);
+                        }}
                         className="block px-4 py-2 text-sm text-navy-300 hover:text-electric-300 hover:bg-white/5 rounded-lg transition-colors"
                       >
                         {item.label}
