@@ -1,4 +1,17 @@
+# ========================
+
+# ROOT LEVEL (MERN SETUP)
+
+# ========================
+
+# Node modules (all apps)
+
+node_modules/
+Frontend/node_modules/
+Backend/node_modules/
+
 # Logs
+
 logs
 *.log
 npm-debug.log*
@@ -7,18 +20,72 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment variables (CRITICAL)
 
-# Editor directories and files
+.env
+.env.*
+Frontend/.env
+Backend/.env
+
+
+
+# Cache / temp files
+
+.cache
+.tmp
+.temp
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# ========================
+
+# FRONTEND (Vite)
+
+# ========================
+
+Frontend/.vite
+Frontend/.cache
+
+# ========================
+
+# BACKEND (Node/Express)
+
+# ========================
+
+Backend/uploads
+Backend/logs
+Backend/tmp
+
+# ========================
+
+# TESTING / COVERAGE
+
+# ========================
+
+coverage/
+
+# ========================
+
+# OPTIONAL (Uncomment if needed)
+
+# ========================
+
+# package-lock.json
+
+# yarn.lock
+
+# pnpm-lock.yaml
