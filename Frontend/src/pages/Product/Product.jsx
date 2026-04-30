@@ -40,7 +40,7 @@ const products = [
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-[#020617]">
+    <div className="min-h-screen bg-navy-950 pt-28 pb-24 relative overflow-hidden">
 
       {/* Background */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] 
