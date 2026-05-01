@@ -5,7 +5,7 @@ import {
   getSubscriberCount,
   getAllSubscribers,
 } from "../controllers/subscriberController.js";
-import validateSubscription from "../middleware/validation.js";
+import { validateSubscription } from "../middleware/validation.js";
 
 const router = express.Router();
 
