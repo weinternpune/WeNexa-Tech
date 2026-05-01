@@ -1,5 +1,5 @@
 import Subscriber from "../models/subscriber.js";
-import sendWelcomeEmail from "../services/emailService.js";
+import { sendWelcomeEmail } from "../services/emailService.js";
 
 const subscribe = async (req, res) => {
   try {
@@ -19,6 +19,12 @@ const subscribe = async (req, res) => {
         existingSubscriber.ipAddress = ipAddress;
         await existingSubscriber.save();
 
+        const emailSent = await sendWelcomeEmail(email);
+        
+        if (!emailSent) {
+          console.warn(`Welcome email failed for reactivated user: ${email}`);
+        }
+
         return res.status(200).json({
           success: true,
           message: "Welcome Back! Your subscription has been reactivated.",
@@ -26,6 +32,7 @@ const subscribe = async (req, res) => {
       }
     }
 
+    // New subscriber
     const subscriber = new Subscriber({
       email,
       ipAddress,
@@ -33,7 +40,12 @@ const subscribe = async (req, res) => {
     });
 
     await subscriber.save();
-    sendWelcomeEmail(email).catch(console.error);
+
+    const emailSent = await sendWelcomeEmail(email);
+    
+    if (!emailSent) {
+      console.warn(`Welcome email failed for new subscriber: ${email}`);
+    }
 
     res.status(201).json({
       success: true,
