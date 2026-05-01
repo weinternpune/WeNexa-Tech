@@ -33,6 +33,7 @@ export default function ContactForm() {
   })
 
   const [status, setStatus] = useState('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -41,15 +42,18 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
+    setErrorMessage('')
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('http://localhost:5000/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
 
-      if (res.ok) {
+      const data = await res.json()
+
+      if (res.ok && data.success) {
         setStatus('success')
         setForm({
           name: '',
@@ -62,13 +66,15 @@ export default function ContactForm() {
         })
       } else {
         setStatus('error')
+        setErrorMessage(data.message || 'Something went wrong')
       }
-    } catch {
+    } catch (error) {
+      console.error('Submit error:', error)
       setStatus('error')
+      setErrorMessage('Cannot connect to server. Please try again later.')
     }
   }
 
-  // ✅ Success UI
   if (status === 'success') {
     return (
       <div className="bg-white/5 border border-white/10 rounded-2xl p-12 flex flex-col items-center justify-center text-center min-h-[420px] backdrop-blur-xl">
@@ -77,7 +83,8 @@ export default function ContactForm() {
           Message Sent!
         </h3>
         <p className="text-white/60 max-w-sm mb-6 leading-relaxed">
-          We’ve received your request. Our team will reach out within 24 hours.
+          We've received your request. Our team will reach out within 24 hours.
+          Check your email for confirmation.
         </p>
         <button
           onClick={() => setStatus('idle')}
@@ -101,8 +108,8 @@ export default function ContactForm() {
       {/* Error */}
       {status === 'error' && (
         <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 mb-6 text-sm text-red-300">
-          <AlertCircle className="w-4 h-4" />
-          Something went wrong. Try again.
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{errorMessage || 'Something went wrong. Try again.'}</span>
         </div>
       )}
 
@@ -159,7 +166,6 @@ export default function ContactForm() {
   )
 }
 
-/* Reusable Input */
 function Input({ label, ...props }) {
   return (
     <div>
@@ -173,7 +179,6 @@ function Input({ label, ...props }) {
   )
 }
 
-/* Reusable Select */
 function Select({ label, options, ...props }) {
   return (
     <div>
