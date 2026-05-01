@@ -1,5 +1,30 @@
 {
   "dependencies": {
     "react-router-dom": "^7.14.2"
+  },
+  "name": "wenexa-tech-v1",
+  "version": "1.0.0",
+  "description": "> Building scalable, high-performance digital solutions with modern web technologies.",
+  "main": "index.js",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+ 
+  "scripts": {
+    "Frontend": "npm run dev --prefix frontend",
+    "Backend": "npm run dev --prefix backend",
+    "dev": "concurrently -n Frontend,Backend -c green,blue \"npm run Frontend\" \"npm run Backend\""
   }
+,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ayush5x/wenexa-tech.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ayush5x/wenexa-tech/issues"
+  },
+  "homepage": "https://github.com/Ayush5x/wenexa-tech#readme"
 }
