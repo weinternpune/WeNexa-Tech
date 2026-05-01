@@ -65,12 +65,12 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <a className="flex items-center gap-3 text-sm text-white/60 hover:text-cyan-400">
                 <HiOutlineMail className="w-4 h-4" />
-                hello@wenexa.tech
+                partnership@superstart.in
               </a>
 
               <a className="flex items-center gap-3 text-sm text-white/60 hover:text-cyan-400">
                 <HiOutlinePhone className="w-4 h-4" />
-                +91 90000 00000
+                +91 7414974582
               </a>
 
               <div className="flex items-center gap-3 text-sm text-white/60">

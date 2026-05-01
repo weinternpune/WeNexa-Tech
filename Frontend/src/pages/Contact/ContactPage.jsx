@@ -11,8 +11,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Call / WhatsApp',
-    value: '+91 90000 00000',
-    href: 'tel:+919000000000',
+    value: '+91 7414974582',
+    href: 'tel:+917414974582',
   },
   {
     icon: MapPin,
