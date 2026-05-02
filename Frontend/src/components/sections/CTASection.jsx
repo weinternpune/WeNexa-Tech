@@ -3,11 +3,10 @@ import { ArrowRight, Calendar } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="py-28 relative overflow-hidden  bg-navy-900/20">
-      {/* background orb */}
-      <div className="orb w-[600px] h-[600px] bg-electric-500/10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute" />
-
-      <div className="max-w-4xl mx-auto px-6 text-center relative">
+    <section className="py-28 relative overflow-hidden">
+      
+      {/* CONTENT */}
+      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
 
         {/* LABEL */}
         <div className="flex items-center justify-center gap-3 mb-6">
@@ -44,7 +43,6 @@ export default function CTASection() {
               text-white font-medium text-base
               flex items-center gap-2
               transition-all duration-300
-
               hover:-translate-y-1
               hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]
             "
@@ -63,7 +61,6 @@ export default function CTASection() {
               text-slate-300 font-medium text-base
               flex items-center gap-2
               transition-all duration-300
-
               hover:-translate-y-1
               hover:border-white/30
               hover:text-white
@@ -82,6 +79,12 @@ export default function CTASection() {
         </p>
 
       </div>
+
+      {/* 🔥 ULTRA-SMOOTH GRADIENT BLEND INTO FOOTER */}
+      <div className="absolute bottom-0 left-0 w-full h-72 bg-gradient-to-b from-transparent via-navy-900/10 via-navy-900/25 via-navy-900/40 to-navy-950 pointer-events-none" />
+
+
+
     </section>
   );
 }

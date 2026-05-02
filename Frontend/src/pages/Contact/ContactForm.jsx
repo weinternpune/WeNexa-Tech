@@ -39,6 +39,7 @@ export default function ContactForm() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')

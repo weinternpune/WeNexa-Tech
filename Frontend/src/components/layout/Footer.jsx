@@ -78,7 +78,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-white/10 bg-navy-950 overflow-hidden">
+    <footer className="relative  bg-navy-950 overflow-hidden">
       {/* Background */}
       <div className="absolute w-80 h-80 bg-cyan-500/5 blur-[120px] -bottom-40 -left-40" />
       <div className="absolute w-64 h-64 bg-blue-500/5 blur-[100px] bottom-0 right-0" />
