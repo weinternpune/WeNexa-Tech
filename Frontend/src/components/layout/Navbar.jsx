@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown, Zap } from "lucide-react";
+import Logo from "../../assets/images/Wenexa-logo.png";
 
 const navLinks = [
   {
@@ -35,6 +36,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handler = () => {
       setScrolled(window.scrollY > 10);
@@ -44,41 +47,52 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // 🔥 Scroll handler (works for both services & products)
-  const handleScroll = (href) => {
-    const id = href.split("#")[1];
+  // 🔥 SINGLE FILE NAV + SCROLL HANDLER
+  const handleNavClick = (href, closeMobile = false) => {
+    const [path, hash] = href.split("#");
 
+    if (closeMobile) setOpen(false);
+
+    // Navigate first
+    navigate(path);
+
+    // Then scroll after DOM render
     setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
+      if (hash) {
+        const el = document.getElementById(hash);
+
+        if (el) {
+          const yOffset = -90; // adjust based on navbar height
+          const y =
+            el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      } else {
+        // If no hash → scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    }, 100);
+    }, 120);
   };
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "backdrop-blur-xl bg-[#020617]/70 border-b border-white/5 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
-          : "bg-transparent py-5"
+          ? "backdrop-blur-xl bg-[#020617]/60 py-0.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+          : "bg-transparent py-1"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-
+        {/* Logo */}
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-electric-500 to-accent-teal flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <div className="text-white font-bold text-lg leading-tight tracking-tight">
-              Wenexa<span className="text-electric-300"> Tech</span>
-            </div>
-            <div className="text-[10px] text-electric-400/60 leading-none tracking-widest uppercase">
-              by WeIntern
-            </div>
-          </div>
+          {/* If you have PNG logo */}
+          <img
+            src={Logo} // 🔁 replace with your actual path
+            alt="Logo"
+            className="h-20 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -87,11 +101,14 @@ export default function Navbar() {
             <div
               key={link.label}
               className="relative"
-              onMouseEnter={() => link.dropdown && setActiveDropdown(link.label)}
+              onMouseEnter={() =>
+                link.dropdown && setActiveDropdown(link.label)
+              }
               onMouseLeave={() => setActiveDropdown(null)}
             >
               <Link
                 to={link.href}
+                onClick={() => handleNavClick(link.href)}
                 className="flex items-center gap-1 px-4 py-2 text-navy-200 hover:text-white text-sm font-medium transition-colors rounded-lg hover:bg-white/5"
               >
                 {link.label}
@@ -104,14 +121,13 @@ export default function Navbar() {
                 <div className="absolute top-full left-0 pt-2 w-56">
                   <div className="backdrop-blur-xl bg-[#020617]/80 rounded-xl p-2 border border-white/10 shadow-2xl">
                     {link.dropdown.map((item) => (
-                      <Link
+                      <button
                         key={item.label}
-                        to={link.href} // ✅ dynamic route
-                        onClick={() => handleScroll(item.href)}
-                        className="block px-4 py-2.5 text-sm text-navy-200 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        onClick={() => handleNavClick(item.href)}
+                        className="w-full text-left px-4 py-2.5 text-sm text-navy-200 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                       >
                         {item.label}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -122,11 +138,17 @@ export default function Navbar() {
 
         {/* CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" className="btn-outline text-sm py-2.5 text-navy-400 rounded-xl px-5">
+          <Link
+            to="/contact"
+            className="btn-outline text-sm py-2.5 text-navy-200 rounded-xl px-5"
+          >
             Get Quote
           </Link>
-          <Link to="/contact" className="btn-primary text-sm py-2.5 px-5">
-            Start Project
+
+          <Link to="/contact">
+            <button className="px-4 py-2 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white  text-base flex  ">
+              Start Project
+            </button>
           </Link>
         </div>
 
@@ -145,28 +167,23 @@ export default function Navbar() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
             {navLinks.map((link) => (
               <div key={link.label}>
-                <Link
-                  to={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block px-4 py-3 text-navy-200 hover:text-white hover:bg-white/5 rounded-lg font-medium transition-colors"
+                <button
+                  onClick={() => handleNavClick(link.href, true)}
+                  className="w-full text-left px-4 py-3 text-navy-200 hover:text-white hover:bg-white/5 rounded-lg font-medium transition-colors"
                 >
                   {link.label}
-                </Link>
+                </button>
 
                 {link.dropdown && (
                   <div className="pl-4 flex flex-col gap-0.5">
                     {link.dropdown.map((item) => (
-                      <Link
+                      <button
                         key={item.label}
-                        to={link.href} // ✅ dynamic route
-                        onClick={() => {
-                          setOpen(false);
-                          handleScroll(item.href);
-                        }}
-                        className="block px-4 py-2 text-sm text-navy-300 hover:text-electric-300 hover:bg-white/5 rounded-lg transition-colors"
+                        onClick={() => handleNavClick(item.href, true)}
+                        className="w-full text-left px-4 py-2 text-sm text-navy-300 hover:text-electric-300 hover:bg-white/5 rounded-lg transition-colors"
                       >
                         {item.label}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -174,10 +191,18 @@ export default function Navbar() {
             ))}
 
             <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-white/5">
-              <Link to="/contact" onClick={() => setOpen(false)} className="btn-outline text-center">
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="btn-outline text-center"
+              >
                 Get Quote
               </Link>
-              <Link to="/contact" onClick={() => setOpen(false)} className="btn-primary text-center justify-center">
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="btn-primary text-center justify-center"
+              >
                 Start Project
               </Link>
             </div>
