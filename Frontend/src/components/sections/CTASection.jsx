@@ -1,89 +1,122 @@
 import React from "react";
 import { ArrowRight, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CTASection() {
   return (
-    <section className="py-28 relative overflow-hidden">
-      
-      {/* CONTENT */}
+    <section className="py-28 pb-60 relative overflow-hidden bg-white">
+
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(2,6,23,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(2,6,23,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
+
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
 
-        {/* LABEL */}
-        <div className="flex items-center justify-center gap-3 mb-6">
-          <div className="w-8 h-[1px] bg-teal-400"></div>
-          <span className="text-[11px] tracking-[0.2em] uppercase text-teal-400 font-medium">
-            GET STARTED
-          </span>
-        </div>
+        {/* Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+          className="text-xs tracking-[0.35em] uppercase text-[#020617]/60 mb-6"
+        >
+          GET STARTED
+        </motion.div>
 
-        {/* HEADING */}
-        <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
-          Ready to Build <br />
-          <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
+        {/* Line */}
+        <motion.span
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 0.5 }}
+          className="block w-16 h-[1px] bg-[#020617]/30 mx-auto mb-6 origin-left"
+        />
+
+        {/* Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-4xl md:text-6xl font-bold text-[#020617] leading-tight mb-6"
+        >
+          Ready to Build
+          <br />
+          <span className="text-gray-400">
             Something Great?
           </span>
-        </h2>
+        </motion.h2>
 
-        {/* DESCRIPTION */}
-        <p className="text-slate-400 text-lg max-w-xl mx-auto mb-12 leading-relaxed">
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="text-gray-500 text-lg max-w-xl mx-auto mb-12 leading-relaxed"
+        >
           Whether it's a website, mobile app, or enterprise software — let's talk.
           First consultation is always free.
-        </p>
+        </motion.p>
 
-        {/* BUTTONS */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-5"
+        >
 
-          {/* PRIMARY */}
-          <a
+          {/* Primary */}
+          <motion.a
             href="/contact"
+            whileHover={{ y: -4, scale: 1.02 }}
+            whileTap={{ scale: 0.96 }}
             className="
-              group relative
-              px-10 py-4 rounded-xl
-              bg-gradient-to-r from-cyan-500 to-teal-500
-              text-white font-medium text-base
               flex items-center gap-2
+              px-10 py-4 rounded-xl
+              bg-[#0B1220] text-white font-medium
               transition-all duration-300
-              hover:-translate-y-1
-              hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]
+              shadow-[0_10px_30px_rgba(2,6,23,0.2)]
             "
           >
             Start Your Project
-            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </a>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </motion.a>
 
-          {/* SECONDARY */}
-          <a
+          {/* Secondary */}
+          <motion.a
             href="/contact"
+            whileHover={{ y: -4, scale: 1.02 }}
+            whileTap={{ scale: 0.96 }}
             className="
-              group
-              px-10 py-4 rounded-xl
-              border border-white/15
-              text-slate-300 font-medium text-base
               flex items-center gap-2
+              px-10 py-4 rounded-xl
+              border border-gray-200 text-gray-600
               transition-all duration-300
-              hover:-translate-y-1
-              hover:border-white/30
-              hover:text-white
-              hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)]
+              hover:text-[#020617]
+              hover:border-[#020617]/30
             "
           >
             <Calendar className="w-5 h-5" />
             Book a Free Call
-          </a>
+          </motion.a>
 
-        </div>
+        </motion.div>
 
-        {/* FOOTER TEXT */}
-        <p className="text-slate-500 text-sm mt-8">
+        {/* Footer text */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-sm mt-8"
+        >
           Response within 24 hours · No commitment required
-        </p>
+        </motion.p>
 
       </div>
 
-      {/* 🔥 ULTRA-SMOOTH GRADIENT BLEND INTO FOOTER */}
-      <div className="absolute bottom-0 left-0 w-full h-72 bg-gradient-to-b from-transparent via-navy-900/10 via-navy-900/25 via-navy-900/40 to-navy-950 pointer-events-none" />
-
-
+      {/* 🔥 Smooth gradient into navy footer */}
 
     </section>
   );

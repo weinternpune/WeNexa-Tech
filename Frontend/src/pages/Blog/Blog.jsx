@@ -68,35 +68,49 @@ export default function BlogPage() {
   const [featured, ...rest] = posts
 
   return (
-    <div className="min-h-screen bg-navy-950 pt-28 pb-24 relative overflow-hidden">
-      
-      {/* Background glow */}
-      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] top-0 right-0" />
-      <div className="absolute w-[400px] h-[400px] bg-blue-500/10 blur-[100px] bottom-0 left-0" />
+    <div className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden "
+    style={{marginTop:"20px"}}>
+
+      {/* GRID BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(2,6,23,0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(2,6,23,0.06) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+
+      {/* Glow */}
+      <div className="absolute w-[500px] h-[500px] bg-cyan-200/30 blur-[140px] -top-32 -right-32 z-0" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* Header */}
-        <div className="mb-16">
-          <div className="text-cyan-400 text-xs tracking-widest uppercase mb-4">
-            Blog
+        {/* HEADER (SAME STYLE AS ABOUT) */}
+        <div className="text-center max-w-4xl mx-auto mb-20">
+          <div className="text-xs tracking-[0.3em] text-gray-500 uppercase mb-6">
+            BLOG
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-[#020617] leading-tight mb-6">
             Insights from the
             <br />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="text-gray-400 font-semibold">
               Wenexa Team
             </span>
           </h1>
 
-          <p className="text-white/60 text-lg max-w-xl">
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Tech guides, product updates, and real insights on building scalable software.
           </p>
         </div>
 
-        {/* Featured */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10 mb-10 grid md:grid-cols-2 gap-8 backdrop-blur-xl hover:bg-white/10 transition">
+        {/* FEATURED */}
+        <div className="relative overflow-hidden bg-[#111827] border border-white/20 rounded-2xl p-8 md:p-10 mb-10 grid md:grid-cols-2 gap-8 backdrop-blur-xl shadow-lg before:absolute before:inset-0 before:rounded-2xl before:bg-white/5 before:opacity-30 before:pointer-events-none">
 
           <div
             className="h-52 md:h-64 rounded-xl flex items-center justify-center text-5xl"
@@ -120,12 +134,12 @@ export default function BlogPage() {
                 {featured.category}
               </span>
 
-              <span className="text-xs text-white/40 flex items-center gap-1">
+              <span className="text-xs text-gray-400 flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 {featured.readTime}
               </span>
 
-              <span className="text-xs text-white/40">
+              <span className="text-xs text-gray-400">
                 {featured.date}
               </span>
             </div>
@@ -134,26 +148,26 @@ export default function BlogPage() {
               {featured.title}
             </h2>
 
-            <p className="text-white/60 text-sm mb-6 leading-relaxed">
+            <p className="text-gray-300 text-sm mb-6 leading-relaxed">
               {featured.excerpt}
             </p>
 
             <Link
               to={`/blog/${featured.slug}`}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-medium hover:opacity-90 transition"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#020617] text-white text-sm font-medium hover:bg-[#020617]/90 transition"
             >
               Read Article <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
 
-        {/* Grid */}
+        {/* GRID */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {rest.map((post) => (
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl hover:bg-white/10 transition group"
+              className="relative overflow-hidden bg-[#111827] border border-white/20 rounded-2xl p-6 backdrop-blur-xl shadow-lg hover:scale-[1.02] transition group before:absolute before:inset-0 before:rounded-2xl before:bg-white/5 before:opacity-30 before:pointer-events-none"
             >
               <div
                 className="h-32 rounded-xl mb-5 flex items-center justify-center text-3xl"
@@ -176,7 +190,7 @@ export default function BlogPage() {
                   {post.category}
                 </span>
 
-                <span className="text-xs text-white/40 flex items-center gap-1">
+                <span className="text-xs text-gray-400 flex items-center gap-1">
                   <Clock className="w-3 h-3" />
                   {post.readTime}
                 </span>
@@ -186,7 +200,7 @@ export default function BlogPage() {
                 {post.title}
               </h3>
 
-              <p className="text-white/60 text-xs mb-4 line-clamp-3">
+              <p className="text-gray-300 text-xs mb-4 line-clamp-3">
                 {post.excerpt}
               </p>
 

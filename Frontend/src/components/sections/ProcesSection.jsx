@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const steps = [
   {
     num: "01",
@@ -39,37 +41,35 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="py-24 relative overflow-hidden bg-[#020617]">
+    <section className="py-24 relative overflow-hidden bg-white">
 
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08),transparent_60%)]" />
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(2,6,23,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(2,6,23,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Header */}
-<div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-20">
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
 
-  {/* Label with left border */}
-  <div className="flex items-center gap-3 mb-4">
-    <span className="w-8 h-[1px] bg-teal-400" />
-    <span className="text-xs tracking-widest uppercase text-teal-400">
-      How We Work
-    </span>
-  </div>
+          <div className="text-xs tracking-[0.35em] uppercase text-[#020617]/60 mb-6">
+            HOW WE WORK
+          </div>
 
-  <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-tight mb-6">
-    A Process Built for<br />
-    <span className="bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 bg-clip-text text-transparent">
-      Zero Surprises
-    </span>
-  </h2>
+          <span className="w-16 h-[1px] bg-[#020617]/30 mb-6" />
 
-  {/* One-line paragraph */}
-  <p className="text-navy-200 text-lg whitespace-nowrap">
-    Transparent, milestone-driven delivery that keeps you in control from day one to go-live.
-  </p>
+          <h2 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight text-[#020617]">
+            A Process Built for
+            <br />
+            <span className="text-gray-400">
+              Zero Surprises
+            </span>
+          </h2>
 
-</div>
+          <p className="mt-6 text-lg text-gray-500 max-w-2xl leading-relaxed">
+            Transparent, milestone-driven delivery that keeps you in control from day one to go-live.
+          </p>
+
+        </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
@@ -79,20 +79,27 @@ export default function ProcessSection() {
 
               {/* Card */}
               <div
-                className="group p-7 rounded-2xl backdrop-blur-xl 
-                bg-white/[0.03] border border-white/10 
-                transition-all duration-300 
-                hover:-translate-y-2 
-                hover:border-blue-500/40 
-                hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                className="group relative p-7 rounded-2xl
+                bg-[#0B1220] border border-white/10
+                shadow-[0_10px_40px_rgba(2,6,23,0.25)]
+                transition-all duration-300
+                hover:-translate-y-2
+                hover:shadow-[0_20px_60px_rgba(2,6,23,0.35)]"
               >
+
+                {/* Glass effect (ONLY on hover) */}
+                <div className="absolute inset-0 rounded-2xl backdrop-blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
+
+                {/* Light glass overlay */}
+                <div className="absolute inset-0 rounded-2xl bg-white/[0.06] opacity-0 group-hover:opacity-100 transition duration-500" />
+
                 {/* Hover glow */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-blue-500/10 via-transparent to-transparent" />
 
                 <div className="relative z-10">
 
                   <div className="flex items-start justify-between mb-5">
-                    <span className="text-5xl font-bold text-blue-500/20 leading-none">
+                    <span className="text-5xl font-bold text-white/10 leading-none">
                       {step.num}
                     </span>
 
@@ -105,16 +112,16 @@ export default function ProcessSection() {
                     {step.title}
                   </h3>
 
-                  <p className="text-gray-400 text-sm leading-relaxed">
+                  <p className="text-white/60 text-sm leading-relaxed">
                     {step.desc}
                   </p>
 
                 </div>
               </div>
 
-              {/* Clean Arrow (FIXED) */}
+              {/* Arrow */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 right-[-28px] -translate-y-1/2 text-blue-400 text-lg z-20 pointer-events-none">
+                <div className="hidden lg:block absolute top-1/2 right-[-28px] -translate-y-1/2 text-[#020617]/100 text-lg z-20 pointer-events-none">
                   →
                 </div>
               )}

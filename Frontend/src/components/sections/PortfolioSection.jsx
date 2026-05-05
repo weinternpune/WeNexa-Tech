@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const categories = ["All", "Web", "Mobile", "SaaS", "AI"];
 
@@ -69,7 +69,6 @@ const projects = [
 export default function PortfolioSection() {
   const [filter, setFilter] = useState("All");
 
-  // ✅ Clean filter logic
   const filteredProjects =
     filter === "All"
       ? projects
@@ -78,43 +77,40 @@ export default function PortfolioSection() {
         );
 
   return (
-    <section className="py-24 bg-[#020617]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-24 relative overflow-hidden bg-white">
 
-        {/* Header */}
-    <div className="flex items-center justify-between mb-16">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(2,6,23,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(2,6,23,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
-  {/* Left Content */}
-  <div>
-    
-    {/* Label with line */}
-    <div className="flex items-center gap-3 mb-4">
-      <span className="w-8 h-[1px] bg-teal-400" />
-      <span className="text-xs tracking-widest uppercase text-teal-400">
-        Our Work
-      </span>
-    </div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-    {/* Heading */}
-    <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] tracking-tight">
-      Real Projects,<br />
-      <span className="bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 bg-clip-text text-transparent">
-        Real Results
-      </span>
-    </h2>
+        {/* Header (UNCHANGED STRUCTURE, just styled) */}
+        <div className="flex items-center justify-between mb-16">
 
-  </div>
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-[1px] bg-[#020617]" />
+              <span className="text-xs tracking-widest uppercase text-[#020617]">
+                Our Work
+              </span>
+            </div>
 
-  {/* Right CTA */}
-  <a
-    href="#"
-    className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:border-white/20 transition"
-  >
-    View All Projects
-    <span className="text-lg">→</span>
-  </a>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#020617] leading-[1.1] tracking-tight">
+              Real Projects,<br />
+              <span className="text-gray-400">
+                Real Results
+              </span>
+            </h2>
+          </div>
 
-</div>
+          <a
+            href="#"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-[#020617] transition"
+          >
+            View All Projects →
+          </a>
+
+        </div>
 
         {/* Filters */}
         <div className="flex gap-2 mb-10 flex-wrap">
@@ -124,8 +120,8 @@ export default function PortfolioSection() {
               onClick={() => setFilter(cat)}
               className={`px-5 py-2 rounded-full text-sm border transition ${
                 filter === cat
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "border-white/10 text-gray-400 hover:text-white hover:border-blue-500/30"
+                  ? "bg-[#020617] text-white border-[#020617]"
+                  : "bg-white border-gray-200 text-gray-500 hover:text-[#020617]"
               }`}
             >
               {cat}
@@ -133,20 +129,25 @@ export default function PortfolioSection() {
           ))}
         </div>
 
-        {/* ✅ FIXED GRID (Original Size) */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group relative p-7 rounded-2xl backdrop-blur-xl 
-              bg-white/[0.03] border border-white/10 
-              transition-all duration-300 
-              hover:-translate-y-2 
-              hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+              className="group relative p-7 rounded-2xl
+              bg-[#0B1220] border border-white/10
+              shadow-[0_10px_40px_rgba(2,6,23,0.25)]
+              transition-all duration-300
+              hover:-translate-y-2
+              hover:shadow-[0_20px_60px_rgba(2,6,23,0.35)]"
             >
-              
-              {/* Glow */}
+
+              {/* Glass on hover ONLY */}
+              <div className="absolute inset-0 rounded-2xl backdrop-blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
+              <div className="absolute inset-0 rounded-2xl bg-white/[0.06] opacity-0 group-hover:opacity-100 transition duration-500" />
+
+              {/* Accent glow */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl"
                 style={{
@@ -164,18 +165,18 @@ export default function PortfolioSection() {
                     {project.category}
                   </span>
 
-                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-white" />
+                  <ExternalLink className="w-4 h-4 text-white/40 group-hover:text-white" />
                 </div>
 
                 <h3 className="text-white font-bold text-lg mb-2">
                   {project.title}
                 </h3>
 
-                <p className="text-gray-400 text-xs mb-3">
+                <p className="text-white/40 text-xs mb-3">
                   {project.client}
                 </p>
 
-                <p className="text-gray-300 text-sm mb-5">
+                <p className="text-white/70 text-sm mb-5">
                   {project.desc}
                 </p>
 
@@ -183,7 +184,7 @@ export default function PortfolioSection() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300"
+                      className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/70"
                     >
                       {tag}
                     </span>
