@@ -1,5 +1,30 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 80,
+      damping: 18,
+      mass: 0.6,
+    },
+  },
+};
+
+const stagger = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
 
 const projects = [
   {
@@ -86,40 +111,77 @@ const projects = [
 
 export default function PortfolioPage() {
   return (
-    <div className="min-h-screen bg-navy-950 pt-28 pb-24 relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] top-0 left-0" />
-      <div className="absolute w-[400px] h-[400px] bg-blue-500/10 blur-[100px] bottom-0 right-0" />
+    <div
+      className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden"
+      style={{ marginTop: "50px" }}
+    >
+      {/* GRID BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(2,6,23,0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(2,6,23,0.06) 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
+
+      {/* Glow */}
+      <div className="absolute w-[500px] h-[500px] bg-cyan-200/30 blur-[140px] top-0 left-0" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="mb-16 max-w-2xl">
-          <div className="text-cyan-400 text-xs tracking-widest uppercase mb-4">
-            Portfolio
+        {/* HEADER */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          className="text-center max-w-4xl mx-auto mb-20"
+        >
+          <div className="text-xs tracking-[0.3em] text-gray-500 uppercase mb-6">
+            PORTFOLIO
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-[#020617] leading-tight mb-6">
             Real Projects,
             <br />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="text-gray-400 font-semibold">
               Measurable Results
             </span>
           </h1>
 
-          <p className="text-white/60 text-lg">
-            Every project we take on delivers real, measurable impact — not just
-            code.
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
+            Every project we take on delivers real, measurable impact — not just code.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* GRID */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {projects.map((project) => (
-            <div
+            <motion.div
+              variants={fadeUp}
               key={project.id}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 group"
+              layout
+              whileHover={{
+                y: -6,
+                scale: 1.015,
+                transition: {
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                },
+              }}
+              className="relative overflow-hidden bg-[#111827] border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-lg will-change-transform group before:absolute before:inset-0 before:rounded-2xl before:bg-white/5 before:opacity-20 before:pointer-events-none"
             >
-              {/* Category */}
               <div className="mb-4">
                 <span
                   className="text-xs font-semibold tracking-wide uppercase"
@@ -129,32 +191,27 @@ export default function PortfolioPage() {
                 </span>
               </div>
 
-              {/* Title */}
               <h3 className="text-white font-semibold text-lg mb-1 group-hover:text-cyan-400 transition">
                 {project.title}
               </h3>
 
-              {/* Client */}
-              <p className="text-white/40 text-xs mb-3">{project.client}</p>
+              <p className="text-gray-400 text-xs mb-3">{project.client}</p>
 
-              {/* Description */}
-              <p className="text-white/60 text-sm leading-relaxed mb-5">
+              <p className="text-gray-300 text-sm leading-relaxed mb-5">
                 {project.desc}
               </p>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-5">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/60"
+                    className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              {/* Result */}
               <div
                 className="text-xs font-medium px-3 py-2 rounded-lg inline-block"
                 style={{
@@ -165,21 +222,37 @@ export default function PortfolioPage() {
               >
                 📈 {project.result}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA */}
-        <div className="text-center mt-20">
-          <p className="text-white/60 mb-6">Ready to add your project here?</p>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center mt-20"
+        >
+          <p className="text-gray-500 mb-6">
+            Ready to add your project here?
+          </p>
 
-          <Link
-            to="/contact"
-            className="btn-primary group inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white text-lg font-medium"
+          <motion.div
+            whileHover={{
+              scale: 1.06,
+              transition: { type: "spring", stiffness: 250, damping: 12 },
+            }}
+            whileTap={{ scale: 0.96 }}
           >
-            Start Your Project <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#020617] text-white text-lg font-medium"
+            >
+              Start Your Project <ArrowRight className="w-5 h-5" />
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
