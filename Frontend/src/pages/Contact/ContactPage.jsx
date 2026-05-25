@@ -1,124 +1,120 @@
+'use client'
+import { motion } from 'framer-motion'
 import ContactForm from './ContactForm'
-import { Mail, Phone, MapPin, Clock } from 'lucide-react'
+import { 
+  Inbox, 
+  PhoneCall, 
+  Navigation, 
+  Briefcase, 
+  ArrowUpRight, 
+  Zap,
+  Globe
+} from 'lucide-react'
 
 const contactInfo = [
   {
-    icon: Mail,
-    label: 'Email Us',
-    value: 'hello@wenexa.tech',
-    href: 'mailto:hello@wenexa.tech',
+    icon: Inbox,
+    label: 'Direct Email',
+    value: 'hello@wenexa.in',
+    href: 'mailto:hello@wenexa.in',
   },
   {
-    icon: Phone,
-    label: 'Call / WhatsApp',
-    value: '+91 7414974582',
-    href: 'tel:+917414974582',
+    icon: PhoneCall,
+    label: 'Support Line',
+    value: '+91 74474 05813',
+    href: 'tel:+917447405813',
   },
   {
-    icon: MapPin,
-    label: 'Office',
+    icon: Navigation,
+    label: 'Headquarters',
     value: 'Pune, Maharashtra, India',
     href: null,
   },
   {
-    icon: Clock,
-    label: 'Working Hours',
-    value: 'Mon–Sat, 9 AM – 7 PM IST',
+    icon: Briefcase,
+    label: 'Business Hours',
+    value: 'Mon–Sat, 10 AM – 7 PM IST',
     href: null,
   },
 ]
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-navy-950 pt-28 pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-[#000b18] pt-32 pb-24 relative overflow-hidden font-sans">
       
-      {/* Background Glow */}
-      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] top-0 right-0" />
-      <div className="absolute w-[400px] h-[400px] bg-blue-500/10 blur-[100px] bottom-0 left-0" />
+      {/* Dynamic Background Glows */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="text-cyan-400 text-xs tracking-widest uppercase mb-4">
-            Contact
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-3xl mb-16"
+        >
+          <div className="flex items-center gap-2 text-emerald-400 mb-4">
+            <div className="h-[1px] w-8 bg-emerald-500" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Contact Us</span>
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Let's Build Something
-            <br />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Together
-            </span>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Let’s scale your <br /> 
+            <span className="text-emerald-400">digital presence.</span>
           </h1>
-
-          <p className="text-white/60 leading-relaxed text-lg">
-            Fill out the form and our team will get back to you within 24 hours.
-            Your first consultation is completely free.
+          <p className="text-gray-400 text-lg">
+            Have a challenge for us? We'd love to hear from you. 
+            Join 800+ businesses growing with WeNexa.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
-          {/* Left Side */}
-          <div className="flex flex-col gap-6">
-
-            {/* Contact Cards */}
-            {contactInfo.map(({ icon: Icon, label, value, href }) => (
-              <div
-                key={label}
-                className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-start gap-4 backdrop-blur-xl hover:bg-white/10 transition"
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Info Cards */}
+          <div className="lg:col-span-4 space-y-4">
+            {contactInfo.map((info, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group p-5 rounded-2xl bg-[#011221] border border-white/5 hover:border-emerald-500/30 transition-all duration-300"
               >
-                <div className="w-11 h-11 rounded-xl bg-cyan-500/15 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-cyan-400" />
-                </div>
-
-                <div>
-                  <div className="text-white/40 text-xs mb-1">
-                    {label}
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-navy-950 transition-colors">
+                    <info.icon size={20} strokeWidth={1.5} />
                   </div>
-
-                  {href ? (
-                    <a
-                      href={href}
-                      className="text-white font-medium text-sm hover:text-cyan-400 transition"
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <div className="text-white font-medium text-sm">
-                      {value}
-                    </div>
-                  )}
+                  <div>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{info.label}</p>
+                    <p className="text-white text-sm font-medium mt-1">{info.value}</p>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
 
-            {/* Process Card */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
-              <div className="text-white font-semibold mb-4 text-sm">
-                What happens next?
-              </div>
-
-              {[
-                'We review your enquiry within 24 hrs',
-                'A discovery call is scheduled (30 min)',
-                'You receive a detailed proposal',
-                'Project starts after agreement',
-              ].map((step, i) => (
-                <div
-                  key={i}
-                  className="text-white/60 text-sm py-2 border-b border-white/5 last:border-0"
-                >
-                  {i + 1}. {step}
+            {/* Impact Banner */}
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               className="mt-6 p-8 rounded-3xl bg-gradient-to-br from-[#00B894] to-[#008060] text-white shadow-xl relative overflow-hidden"
+            >
+              <Zap className="absolute -right-4 -bottom-4 w-32 h-32 text-black/10 rotate-12" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <Globe size={18} />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Global Impact</span>
                 </div>
-              ))}
-            </div>
+                <h3 className="text-xl font-bold mb-2">Talent-Driven Growth</h3>
+                <p className="text-sm text-white/80 leading-relaxed mb-6">
+                  Every project contributes to a mentor-supervised student ecosystem.
+                </p>
+                <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest group">
+                  Learn More <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </button>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Right Side (Form) */}
-          <div className="lg:col-span-2">
+          {/* Right Column: Form */}
+          <div className="lg:col-span-8">
             <ContactForm />
           </div>
 
