@@ -8,18 +8,21 @@ import PortfolioSection from "../../components/sections/PortfolioSection";
 import TechStackSection from "../../components/sections/TechStackSection";
 import TestimonialsSection from "../../components/sections/TestimonialsSection";
 import CTASection from "../../components/sections/CTASection";
+import ImpactSection from "../../components/sections/Impact";
 
 const Home = () => {
   return (
     <>
       <HeroSection />
-      <LogoMarquee />
-      <StatsSection />
+      <ImpactSection/>
       <ServicesSection />
       <SaaSSection />
       <ProcessSection />
       <PortfolioSection />
       <TechStackSection />
+      <StatsSection />
+      <LogoMarquee />
+
       <TestimonialsSection />
       <CTASection />
     </>

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 const categories = ["All", "Web", "Mobile", "SaaS", "AI"];
 
@@ -12,7 +15,6 @@ const projects = [
     desc: "Full-stack e-commerce with inventory management, multi-vendor support, and real-time analytics dashboard.",
     tags: ["Next.js", "Node.js", "PostgreSQL", "AWS"],
     result: "3× revenue increase in 6 months",
-    accent: "#3b82f6",
   },
   {
     id: 2,
@@ -22,7 +24,6 @@ const projects = [
     desc: "Cross-platform mobile app for appointments, reports, and video consultations.",
     tags: ["Flutter", "Firebase", "WebRTC"],
     result: "10K+ downloads",
-    accent: "#10b981",
   },
   {
     id: 3,
@@ -32,7 +33,6 @@ const projects = [
     desc: "GST invoicing and subscription billing SaaS system.",
     tags: ["Node.js", "MongoDB", "Razorpay"],
     result: "200+ businesses onboarded",
-    accent: "#8b5cf6",
   },
   {
     id: 4,
@@ -42,7 +42,6 @@ const projects = [
     desc: "AI-powered document summarization and analysis.",
     tags: ["Python", "OpenAI", "LangChain"],
     result: "80% faster processing",
-    accent: "#f59e0b",
   },
   {
     id: 5,
@@ -52,7 +51,6 @@ const projects = [
     desc: "Industrial analytics dashboard with real-time metrics.",
     tags: ["React", "D3.js"],
     result: "Improved efficiency by 40%",
-    accent: "#06b6d4",
   },
   {
     id: 6,
@@ -62,7 +60,6 @@ const projects = [
     desc: "Fleet tracking and logistics optimization app.",
     tags: ["React Native", "Maps API"],
     result: "Reduced delivery time by 25%",
-    accent: "#ef4444",
   },
 ];
 
@@ -77,128 +74,338 @@ export default function PortfolioSection() {
         );
 
   return (
-    <section className="py-24 relative overflow-hidden bg-white">
+    <section className="relative py-24 overflow-hidden bg-white">
 
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(2,6,23,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(2,6,23,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      {/* PREMIUM BACKGROUND */}
+      <div className="absolute inset-0 overflow-hidden">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
-        {/* Header (UNCHANGED STRUCTURE, just styled) */}
-        <div className="flex items-center justify-between mb-16">
+        {/* grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.025)_1px,transparent_1px)] bg-[size:52px_52px]" />
 
+        {/* glow */}
+        <div className="absolute top-[-120px] left-[-100px] w-[320px] h-[320px] rounded-full bg-[#0E8F6F]/10 blur-3xl" />
+
+        <div className="absolute bottom-[-120px] right-[-100px] w-[320px] h-[320px] rounded-full bg-[#0f172a]/5 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="flex flex-col lg:flex-row justify-between gap-10 mb-16">
+
+          {/* LEFT */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[1px] bg-[#020617]" />
-              <span className="text-xs tracking-widest uppercase text-[#020617]">
-                Our Work
-              </span>
+
+            {/* badge */}
+            <div className="flex items-center gap-3 mb-6">
+
+              <div
+                className="
+                  inline-flex items-center gap-3
+                  px-5 py-2.5
+                  rounded-full
+                  bg-white/90
+                  backdrop-blur-xl
+                  border border-[#e7eaee]
+                  shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+                "
+              >
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute w-3 h-3 rounded-full bg-[#0E8F6F]/30 animate-ping" />
+
+                  <div className="relative w-2.5 h-2.5 rounded-full bg-[#0E8F6F]" />
+                </div>
+
+                <span className="text-[11px] tracking-[0.28em] uppercase font-semibold text-[#0E8F6F]">
+                  OUR PORTFOLIO
+                </span>
+              </div>
+
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-[#020617] leading-[1.1] tracking-tight">
-              Real Projects,<br />
-              <span className="text-gray-400">
-                Real Results
+            {/* heading */}
+            <h2 className="text-4xl md:text-6xl font-bold leading-[1.02] tracking-tight text-[#0f172a]">
+              Real Projects.
+              <br />
+              <span className="text-[#0f172a]/45">
+                Measurable Impact.
               </span>
             </h2>
+
+            {/* desc */}
+            <p className="mt-6 text-lg text-[#0f172a]/60 max-w-2xl leading-relaxed">
+              Enterprise-grade products, SaaS platforms and AI systems crafted
+              for performance, scalability and real business growth.
+            </p>
+
           </div>
 
-          <a
-            href="#"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-[#020617] transition"
+          {/* RIGHT CARD */}
+          <div
+            className="
+              relative overflow-hidden
+              lg:w-[330px]
+              rounded-[30px]
+              bg-[#041b17]
+              border border-white/5
+              shadow-[0_20px_60px_rgba(15,23,42,0.15)]
+              p-7
+            "
           >
-            View All Projects →
-          </a>
 
+            {/* glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,143,111,0.20),transparent_45%)]" />
+
+            <div className="relative z-10">
+
+              <div className="flex items-center gap-3 mb-5">
+
+                <div
+                  className="
+                    w-12 h-12 rounded-2xl
+                    bg-[#0E8F6F]/15
+                    border border-[#0E8F6F]/20
+                    flex items-center justify-center
+                  "
+                >
+                  <Sparkles className="w-5 h-5 text-[#4ade80]" />
+                </div>
+
+                <div>
+                  <div className="text-[#4ade80] text-xs uppercase tracking-[0.2em] font-semibold mb-1">
+                    Enterprise Delivery
+                  </div>
+
+                  <div className="text-white font-semibold">
+                    Production Ready Systems
+                  </div>
+                </div>
+
+              </div>
+
+              <p className="text-white/65 text-sm leading-relaxed mb-6">
+                We build modern digital experiences engineered for growth,
+                performance and long-term scalability.
+              </p>
+
+              <a
+                href="#"
+                className="
+                  inline-flex items-center gap-3
+                  text-white
+                  font-medium
+                  hover:gap-4
+                  transition-all duration-300
+                "
+              >
+                View All Projects
+
+                <ArrowRight className="w-4 h-4" />
+              </a>
+
+            </div>
+          </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-2 mb-10 flex-wrap">
+        {/* FILTERS */}
+        <div className="flex gap-3 mb-12 flex-wrap">
+
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-5 py-2 rounded-full text-sm border transition ${
-                filter === cat
-                  ? "bg-[#020617] text-white border-[#020617]"
-                  : "bg-white border-gray-200 text-gray-500 hover:text-[#020617]"
-              }`}
+              className={`
+                px-5 py-2.5 rounded-full
+                text-sm font-medium
+                border transition-all duration-300
+                ${
+                  filter === cat
+                    ? "bg-[#041b17] text-white border-[#041b17] shadow-[0_10px_30px_rgba(15,23,42,0.10)]"
+                    : "bg-white border-[#e7eaee] text-[#0f172a]/60 hover:border-[#0E8F6F]/20 hover:text-[#0f172a]"
+                }
+              `}
             >
               {cat}
             </button>
           ))}
+
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* PROJECT GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
 
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group relative p-7 rounded-2xl
-              bg-[#0B1220] border border-white/10
-              shadow-[0_10px_40px_rgba(2,6,23,0.25)]
-              transition-all duration-300
-              hover:-translate-y-2
-              hover:shadow-[0_20px_60px_rgba(2,6,23,0.35)]"
+              className="
+                group
+                relative
+                min-h-[500px]
+                overflow-hidden
+                rounded-[32px]
+                bg-white/95
+                backdrop-blur-xl
+                border border-[#e7eaee]
+                shadow-[0_15px_40px_rgba(15,23,42,0.05)]
+                hover:shadow-[0_25px_70px_rgba(15,23,42,0.10)]
+                hover:border-[#0E8F6F]/15
+                transition-all duration-700
+                hover:-translate-y-2
+                flex flex-col
+              "
             >
 
-              {/* Glass on hover ONLY */}
-              <div className="absolute inset-0 rounded-2xl backdrop-blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
-              <div className="absolute inset-0 rounded-2xl bg-white/[0.06] opacity-0 group-hover:opacity-100 transition duration-500" />
+              {/* Hover Glow */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_45%)]" />
 
-              {/* Accent glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl"
-                style={{
-                  background: `radial-gradient(circle at top, ${project.accent}25, transparent 70%)`,
-                }}
-              />
+              {/* Top Border Glow */}
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0E8F6F]/30 to-transparent" />
 
-              <div className="relative z-10">
+              {/* Floating Gradient */}
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-[#0E8F6F]/0 group-hover:bg-[#0E8F6F]/10 blur-3xl transition-all duration-700" />
 
-                <div className="flex justify-between mb-4">
-                  <span
-                    className="text-xs uppercase font-semibold"
-                    style={{ color: project.accent }}
-                  >
-                    {project.category}
-                  </span>
+              {/* CONTENT */}
+              <div className="relative z-10 p-8 flex flex-col h-full">
 
-                  <ExternalLink className="w-4 h-4 text-white/40 group-hover:text-white" />
+                {/* CATEGORY */}
+                <div
+                  className="
+                    inline-flex items-center gap-2
+                    w-fit
+                    px-3 py-1.5
+                    rounded-full
+                    bg-[#0E8F6F]/8
+                    border border-[#0E8F6F]/10
+                    text-[#0E8F6F]
+                    text-[11px]
+                    uppercase
+                    tracking-[0.2em]
+                    font-semibold
+                    mb-7
+                  "
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#0E8F6F]" />
+
+                  {project.category}
                 </div>
 
-                <h3 className="text-white font-bold text-lg mb-2">
+                {/* TITLE */}
+                <h3
+                  className="
+                    text-[#0f172a]
+                    text-[30px]
+                    leading-[1]
+                    font-bold
+                    tracking-tight
+                    mb-4
+                  "
+                >
                   {project.title}
                 </h3>
 
-                <p className="text-white/40 text-xs mb-3">
+                {/* CLIENT */}
+                <p className="text-[#0f172a]/45 text-[15px] mb-6">
                   {project.client}
                 </p>
 
-                <p className="text-white/70 text-sm mb-5">
+                {/* DESCRIPTION */}
+                <p className="text-[#0f172a]/62 text-[15px] leading-relaxed mb-6">
                   {project.desc}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-5">
+                {/* TAGS */}
+                <div className="flex flex-wrap gap-2 mb-8">
+
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/70"
+                      className="
+                        text-xs
+                        px-3 py-1.5
+                        rounded-full
+                        bg-[#f8fafc]
+                        border border-[#e7eaee]
+                        text-[#0f172a]/65
+                        transition-all duration-300
+                        hover:border-[#0E8F6F]/15
+                        hover:text-[#0E8F6F]
+                      "
                     >
                       {tag}
                     </span>
                   ))}
+
                 </div>
 
+                {/* PUSH CTA DOWN */}
+                <div className="flex-1" />
+
+                {/* CTA SECTION */}
                 <div
-                  className="text-xs font-semibold px-3 py-2 rounded-lg"
-                  style={{
-                    background: project.accent + "15",
-                    color: project.accent,
-                  }}
+                  className="
+                    relative
+                    overflow-hidden
+                    rounded-[24px]
+                    bg-[#041b17]
+                    px-5 py-5
+                  "
                 >
-                  📈 {project.result}
+
+                  {/* glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,143,111,0.18),transparent_50%)]" />
+
+                  <div className="relative z-10 flex items-center justify-between">
+
+                    {/* LEFT */}
+                    <div>
+
+                      <div className="text-white/35 text-[11px] uppercase tracking-[0.22em] mb-2">
+                        Result Delivered
+                      </div>
+
+                      <div className="text-[#4ade80] font-semibold text-[15px] leading-tight max-w-[190px]">
+                        {project.result}
+                      </div>
+
+                    </div>
+
+                    {/* ADVANCED CTA BUTTON */}
+                    <button
+                      className="
+                        group/btn
+                        relative
+                        w-14 h-14
+                        rounded-2xl
+                        bg-white/5
+                        border border-white/10
+                        flex items-center justify-center
+                        overflow-hidden
+                        transition-all duration-500
+                        hover:bg-[#0E8F6F]
+                        hover:border-[#0E8F6F]
+                        hover:scale-105
+                      "
+                    >
+
+                      {/* hover shine */}
+                      <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-all duration-500 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),transparent_60%)]" />
+
+                      <ArrowRight
+                        className="
+                          relative z-10
+                          w-5 h-5
+                          text-white
+                          transition-all duration-500
+                          group-hover/btn:translate-x-[2px]
+                        "
+                      />
+                    </button>
+
+                  </div>
+
                 </div>
 
               </div>
@@ -206,6 +413,7 @@ export default function PortfolioSection() {
           ))}
 
         </div>
+
       </div>
     </section>
   );
