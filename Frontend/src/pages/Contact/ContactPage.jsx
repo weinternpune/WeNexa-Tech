@@ -81,6 +81,7 @@ export default function ContactPage() {
             Your first consultation is completely free.
           </p>
         </motion.div>
+        </motion.div>
 
         {/* MAIN GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -130,20 +131,8 @@ export default function ContactPage() {
                   <div className="text-slate-400 text-xs mb-1 tracking-wide uppercase">
                     {label}
                   </div>
-
-                  {href ? (
-                    <a
-                      href={href}
-                      className="text-white font-medium text-sm hover:text-cyan-400 transition"
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <div className="text-white font-medium text-sm">
-                      {value}
-                    </div>
-                  )}
                 </div>
+              </motion.div>
               </motion.div>
             ))}
 
@@ -220,3 +209,4 @@ export default function ContactPage() {
     </div>
   );
 }
+
