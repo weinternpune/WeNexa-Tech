@@ -32,7 +32,7 @@ const contactInfo = [
 export default function ContactPage() {
   return (
     <div
-      className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden "
+      className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden"
       style={{ marginTop: "50px" }}
     >
       {/* GRID BG */}
@@ -77,10 +77,9 @@ export default function ContactPage() {
           </h1>
 
           <p className="text-slate-600 leading-relaxed text-lg max-w-2xl mx-auto">
-            Fill out the form and our team will get back to you within 24 hours.
-            Your first consultation is completely free.
+            Fill out the form and our team will get back to you within 24
+            hours. Your first consultation is completely free.
           </p>
-        </motion.div>
         </motion.div>
 
         {/* MAIN GRID */}
@@ -131,8 +130,18 @@ export default function ContactPage() {
                   <div className="text-slate-400 text-xs mb-1 tracking-wide uppercase">
                     {label}
                   </div>
+
+                  {href ? (
+                    <a
+                      href={href}
+                      className="text-white font-medium hover:text-cyan-400 transition-colors"
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <div className="text-white font-medium">{value}</div>
+                  )}
                 </div>
-              </motion.div>
               </motion.div>
             ))}
 
@@ -198,8 +207,6 @@ export default function ContactPage() {
             transition={{ duration: 0.7 }}
             className="lg:col-span-2"
           >
-            {/* FORM GLOW */}
-
             <div className="relative z-10">
               <ContactForm />
             </div>
@@ -209,4 +216,3 @@ export default function ContactPage() {
     </div>
   );
 }
-

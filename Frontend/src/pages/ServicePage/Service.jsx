@@ -1,23 +1,31 @@
-import { Globe, Smartphone, Bot, Shield, Code2, ArrowRight, Check } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import {
+  Globe,
+  Smartphone,
+  Bot,
+  Shield,
+  Code2,
+  ArrowRight,
+  Check,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
     id: "web",
     icon: Globe,
-    color: '#185FA5',
-    title: 'Web Development',
-    tagline: 'Fast, Beautiful, Scalable Web Solutions',
-    desc: 'From corporate websites to complex web applications and e-commerce platforms — we build web products that rank, convert, and scale. Our full-stack team handles everything from UI design to database architecture.',
+    title: "Web Development",
+    tagline: "Fast, Beautiful, Scalable Web Solutions",
+    desc:
+      "From corporate websites to complex web applications and e-commerce platforms — we build web products that rank, convert, and scale.",
     features: [
       "Corporate & portfolio websites",
-      "E-commerce platforms (B2C & B2B)",
+      "E-commerce platforms",
       "Web applications & dashboards",
       "Customer & vendor portals",
-      "REST & GraphQL API development",
-      "CMS integrations (Sanity, Contentful)",
-      "Website migration & redesign",
-      "Performance optimization (Core Web Vitals)",
+      "REST & GraphQL APIs",
+      "CMS integrations",
+      "Website migration",
+      "Performance optimization",
     ],
     tech: [
       "Next.js",
@@ -36,19 +44,19 @@ const services = [
   {
     id: "mobile",
     icon: Smartphone,
-    color: '#0F6E56',
-    title: 'Mobile App Development',
-    tagline: 'Native & Cross-Platform Apps Users Love',
-    desc: 'We build high-performance mobile applications for Android and iOS — consumer apps, enterprise tools, and everything in between. Our Flutter-first approach means a single codebase, faster delivery, and lower costs.',
+    title: "Mobile App Development",
+    tagline: "Native & Cross-Platform Apps Users Love",
+    desc:
+      "We build high-performance mobile applications for Android and iOS — consumer apps, enterprise tools, and everything in between.",
     features: [
       "Flutter cross-platform apps",
-      "Native Swift & Kotlin development",
+      "Native Swift & Kotlin",
       "Consumer-facing apps",
-      "Enterprise mobility solutions",
-      "App Store & Play Store deployment",
-      "Push notifications & offline mode",
-      "Payment gateway integration",
-      "App performance optimization",
+      "Enterprise mobility",
+      "Store deployment",
+      "Push notifications",
+      "Payment integrations",
+      "Performance optimization",
     ],
     tech: [
       "Flutter",
@@ -57,29 +65,29 @@ const services = [
       "Kotlin",
       "Firebase",
       "Supabase",
-      "Razorpay",
       "Stripe",
+      "Razorpay",
     ],
     timeline: "8–16 weeks",
     startingPrice: "₹1,50,000",
   },
 
   {
-    id: 'ai',
+    id: "ai",
     icon: Bot,
-    color: '#534AB7',
-    title: 'AI Automation',
-    tagline: 'Intelligent Systems That Work While You Sleep',
-    desc: 'We integrate AI into your business workflows — document processing, customer support automation, predictive analytics, and custom LLM applications. Reduce manual work by 60–80% with purpose-built AI solutions.',
+    title: "AI Automation",
+    tagline: "Intelligent Systems That Work While You Sleep",
+    desc:
+      "We integrate AI into your business workflows — document processing, customer support automation, predictive analytics, and custom LLM applications.",
     features: [
-      "LLM integration (OpenAI, Claude)",
-      "Business process automation",
-      "AI chatbots & virtual assistants",
-      "Document extraction & summarization",
-      "Predictive analytics dashboards",
-      "Data pipeline automation",
-      "AI-powered search & recommendations",
-      "Custom ML model development",
+      "LLM integration",
+      "AI chatbots",
+      "Automation pipelines",
+      "Predictive analytics",
+      "Document processing",
+      "Data pipelines",
+      "AI recommendations",
+      "Custom ML systems",
     ],
     tech: [
       "Python",
@@ -96,165 +104,370 @@ const services = [
   },
 
   {
-    id: 'support',
+    id: "support",
     icon: Shield,
-    color: '#D85A30',
-    title: 'IT Support & Managed Services',
-    tagline: '24/7 Infrastructure Management You Can Count On',
-    desc: 'Stop worrying about servers, backups, and security incidents. Our managed IT team handles your entire infrastructure — from cloud setup to cybersecurity monitoring — so you can focus on your business.',
+    title: "IT Support & Managed Services",
+    tagline: "24/7 Infrastructure Management",
+    desc:
+      "Our managed IT team handles your infrastructure — cloud setup, monitoring, cybersecurity, backups, and support.",
     features: [
-      '24/7 helpdesk & ticket support', 'Cloud setup & management (AWS, GCP)', 'Server administration & monitoring',
-      'Network setup & management', 'Cybersecurity audits & monitoring', 'Data backup & disaster recovery',
-      'IT asset management', 'Vendor & license management',
+      "24/7 helpdesk",
+      "Cloud management",
+      "Server monitoring",
+      "Cybersecurity",
+      "Disaster recovery",
+      "Network management",
+      "Asset management",
+      "Vendor management",
     ],
-    tech: ['AWS', 'Google Cloud', 'Azure', 'Docker', 'Kubernetes', 'Datadog', 'Cloudflare', 'Zabbix'],
-    timeline: 'Monthly retainer',
-    startingPrice: '₹25,000/mo',
+    tech: [
+      "AWS",
+      "Google Cloud",
+      "Azure",
+      "Docker",
+      "Kubernetes",
+      "Datadog",
+      "Cloudflare",
+      "Zabbix",
+    ],
+    timeline: "Monthly retainer",
+    startingPrice: "₹25,000/mo",
   },
 
   {
-    id: 'custom',
+    id: "custom",
     icon: Code2,
-    color: '#BA7517',
-    title: 'Custom Software Development',
-    tagline: 'Software Built Exactly for Your Business',
-    desc: 'Off-the-shelf software rarely fits your exact workflow. We build fully custom ERP, CRM, inventory, HR, and industry-specific software that works exactly the way you need — no compromises.',
+    title: "Custom Software Development",
+    tagline: "Software Built for Your Workflow",
+    desc:
+      "We build fully custom ERP, CRM, inventory, HR, and industry-specific platforms tailored exactly to your business.",
     features: [
-      'ERP system development', 'Custom CRM solutions', 'Inventory & supply chain systems',
-      'HR & payroll platforms', 'Industry-specific software', 'Legacy system modernization',
-      'System integrations & APIs', 'Database design & optimization',
+      "ERP systems",
+      "Custom CRM",
+      "Inventory systems",
+      "HR platforms",
+      "Industry software",
+      "Legacy modernization",
+      "API integrations",
+      "Database optimization",
     ],
-    tech: ['React', 'Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'AWS'],
-    timeline: '8–24 weeks',
-    startingPrice: '₹2,00,000',
+    tech: [
+      "React",
+      "Node.js",
+      "Python",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "Docker",
+      "AWS",
+    ],
+    timeline: "8–24 weeks",
+    startingPrice: "₹2,00,000",
   },
 ];
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-navy-950 pt-28 pb-24 relative overflow-hidden">
+    <div className="relative overflow-hidden bg-white pt-28 pb-24">
+      {/* Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
-      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] top-0 right-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Hero */}
+        <div className="max-w-4xl mb-24">
+          <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-6 font-semibold">
+            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
+            Services
+          </div>
 
-       <div className="max-w-4xl mb-24">
+          <h1 className="text-5xl md:text-7xl font-bold text-[#0f172a] leading-[1.05] mb-7">
+            Everything You Need
+            <br />
+            <span className="text-[#0f172a]/45">
+              Under One Roof
+            </span>
+          </h1>
 
-  {/* Section Label */}
-  <div className="flex items-center gap-3 mb-6">
-    <div className="w-10 h-[2px] bg-cyan-400"></div>
-    <span className="text-cyan-400 text-xs tracking-[0.2em] uppercase">
-      Services
-    </span>
-  </div>
+          <p className="text-[#0f172a]/65 text-lg leading-relaxed max-w-2xl">
+            Five core service pillars. One dedicated team. A single point of
+            accountability for your entire tech stack.
+          </p>
+        </div>
 
-  {/* Heading */}
-  <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.05] mb-6">
-    Everything You Need
-    <br />
-    <span className="bg-gradient-to-r from-[#60a5fa] via-[#2dd4bf] to-[#a78bfa] bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(45,212,191,0.2)]">
-      Under One Roof
-    </span>
-  </h1>
-
-  {/* Description */}
-  <p className="text-navy-200 text-lg leading-relaxed max-w-xl">
-    Five core service pillars. One dedicated team. A single point of accountability for your entire tech stack.
-  </p>
-
-</div>
-
+        {/* Services */}
         <div className="flex flex-col gap-20">
           {services.map((svc, i) => {
             const Icon = svc.icon;
 
             return (
-              <div key={svc.id} id={svc.id} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-                {/* LEFT */}
-                <div className={`${i % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="flex items-center gap-4 mb-6">
-                    
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center 
-                      transition-all duration-300 hover:scale-110"
-                      style={{
-                        background: svc.color + '20',
-                        border: `1px solid ${svc.color}40`,
-                      }}
-                    >
-                      <Icon className="w-8 h-8" style={{ color: svc.color }} />
-                    </div>
-
-                    <div>
-                      <h2 className="text-white font-bold text-2xl">
-                        {svc.title}
-                      </h2>
-                      <p className="text-sm" style={{ color: svc.color }}>
-                        {svc.tagline}
-                      </p>
-                    </div>
+              <div
+                key={svc.id}
+                id={svc.id}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-7 lg:gap-8 items-stretch"
+              >
+                {/* LEFT CARD */}
+                <div
+                  className={`
+                    relative overflow-hidden
+                    rounded-[30px]
+                    border border-[#e5e7eb]
+                    bg-white
+                    shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                    transition-all duration-500
+                    hover:-translate-y-1.5
+                    hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]
+                    group
+                    ${i % 2 === 1 ? "lg:order-2" : ""}
+                  `}
+                >
+                  {/* Soft Hover Glow */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#0E8F6F]/[0.04] blur-3xl rounded-full" />
                   </div>
 
-                  <p className="text-navy-200 leading-relaxed mb-6">{svc.desc}</p>
+                  {/* Floating Accent */}
+                  <div className="absolute top-8 right-8 w-24 h-24 rounded-full border border-[#0E8F6F]/10 opacity-60 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" />
 
-                  <div className="grid grid-cols-2 gap-3 mb-8">
-                    {svc.features.map((f) => (
+                  {/* Content */}
+                  <div className="relative z-10 p-7 md:p-8 h-full flex flex-col">
+                    {/* Header */}
+                    <div className="flex items-start gap-4 mb-6">
                       <div
-                        key={f}
-                        className="flex items-start gap-2 text-sm text-navy-200 
-                        transition-transform duration-200 hover:translate-x-1"
+                        className="
+                          relative
+                          w-14 h-14 rounded-2xl
+                          bg-[#0E8F6F]/10
+                          border border-[#0E8F6F]/10
+                          flex items-center justify-center
+                          transition-all duration-500
+                          group-hover:scale-105
+                          group-hover:-translate-y-1
+                        "
                       >
-                        <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: svc.color }} />
-                        {f}
-                      </div>
-                    ))}
-                  </div>
+                        <div className="absolute inset-0 rounded-2xl bg-[#0E8F6F]/10 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
 
-                  <Link
-                    to="/contact"
-                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl 
-                    bg-gradient-to-r from-[#22c55e] to-[#14b8a6] text-white font-medium 
-                    transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
-                  >
-                    Get Quote for {svc.title}
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
-                </div>
-
-                {/* RIGHT */}
-                <div className={`${i % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-7 backdrop-blur-xl 
-                  hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1">
-
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                        <div className="text-xs text-navy-400 mb-1">Typical Timeline</div>
-                        <div className="text-white font-bold">{svc.timeline}</div>
+                        <Icon className="w-7 h-7 text-[#0E8F6F] relative z-10 transition-transform duration-500 group-hover:rotate-3" />
                       </div>
 
-                      <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                        <div className="text-xs text-navy-400 mb-1">Starting From</div>
-                        <div className="text-white font-bold">{svc.startingPrice}</div>
+                      <div>
+                        <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold mb-2">
+                          Premium Service
+                        </div>
+
+                        <h2 className="text-[#0f172a] text-[28px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
+                          {svc.title}
+                        </h2>
+
+                        <p className="text-[#0f172a]/50 text-sm">
+                          {svc.tagline}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="text-xs text-navy-400 mb-3 font-semibold tracking-wider uppercase">
-                      Tech Stack
-                    </div>
+                    {/* Description */}
+                    <p className="text-[#0f172a]/65 leading-relaxed text-[15px] mb-6">
+                      {svc.desc}
+                    </p>
 
-                    <div className="flex flex-wrap gap-2">
-                      {svc.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-navy-200 
-                          transition-all duration-200 hover:bg-white/10 hover:scale-105"
+                    {/* Features */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                      {svc.features.map((f) => (
+                        <div
+                          key={f}
+                          className="
+                            flex items-start gap-3
+                            rounded-2xl
+                            border border-[#eef2f5]
+                            bg-[#fafafa]
+                            p-3.5
+                            transition-all duration-300
+                            hover:border-[#0E8F6F]/15
+                            hover:bg-[#0E8F6F]/[0.03]
+                            hover:-translate-y-[2px]
+                          "
                         >
-                          {t}
-                        </span>
+                          <div className="w-5 h-5 rounded-full bg-[#0E8F6F]/10 flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300 group-hover:scale-110">
+                            <Check className="w-3 h-3 text-[#0E8F6F]" />
+                          </div>
+
+                          <span className="text-sm text-[#0f172a]/75 leading-relaxed">
+                            {f}
+                          </span>
+                        </div>
                       ))}
                     </div>
 
+                    {/* CTA */}
+                    <div className="mt-auto pt-1">
+                      <Link
+                        to="/contact"
+                        className="
+                          relative overflow-hidden
+                          inline-flex items-center gap-2
+                          px-6 py-3 rounded-2xl
+                          bg-[#0f172a]
+                          text-white
+                          font-medium
+                          transition-all duration-300
+                          hover:bg-[#111827]
+                          hover:shadow-[0_12px_30px_rgba(15,23,42,0.18)]
+                          group/btn
+                        "
+                      >
+                        {/* Shine Effect */}
+                        <span
+                          className="
+                            absolute inset-0
+                            -translate-x-[120%]
+                            bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)]
+                            group-hover/btn:translate-x-[120%]
+                            transition-transform duration-1000
+                          "
+                        />
+
+                        <span className="relative z-10">
+                          Get Quote
+                        </span>
+
+                        <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT CARD */}
+                <div
+                  className={`
+                    relative overflow-hidden
+                    rounded-[30px]
+                    bg-[#0f172a]
+                    border border-[#1e293b]
+                    shadow-[0_20px_60px_rgba(15,23,42,0.14)]
+                    transition-all duration-500
+                    hover:-translate-y-1.5
+                    hover:shadow-[0_28px_80px_rgba(15,23,42,0.20)]
+                    group
+                    ${i % 2 === 1 ? "lg:order-1" : ""}
+                  `}
+                >
+                  {/* Elegant Glow */}
+                  <div className="absolute top-0 right-0 w-72 h-72 bg-[#0E8F6F]/10 blur-3xl rounded-full opacity-70 transition-all duration-700 group-hover:scale-110" />
+
+                  {/* Rings */}
+                  <div className="absolute -bottom-24 -right-24 w-72 h-72 border border-[#0E8F6F]/10 rounded-full transition-all duration-700 group-hover:scale-105" />
+
+                  <div className="relative z-10 p-7 md:p-8 h-full flex flex-col">
+                    {/* Label */}
+                    <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[#34d399] font-semibold mb-6">
+                      Service Details
+                    </div>
+
+                    {/* Stats */}
+                    <div className="grid grid-cols-2 gap-3 mb-7">
+                      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/[0.06]">
+                        <div className="text-xs uppercase tracking-wider text-white/45 mb-2 font-semibold">
+                          Timeline
+                        </div>
+
+                        <div className="text-white text-base font-bold">
+                          {svc.timeline}
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/[0.06]">
+                        <div className="text-xs uppercase tracking-wider text-white/45 mb-2 font-semibold">
+                          Starting From
+                        </div>
+
+                        <div className="text-white text-base font-bold">
+                          {svc.startingPrice}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div className="mb-8">
+                      <div className="text-xs tracking-[0.2em] uppercase font-semibold text-white/45 mb-4">
+                        Tech Stack
+                      </div>
+
+                      <div className="flex flex-wrap gap-2.5">
+                        {svc.tech.map((t) => (
+                          <span
+                            key={t}
+                            className="
+                              text-xs
+                              text-white/75
+                              bg-white/[0.04]
+                              border border-white/10
+                              px-3.5 py-2 rounded-full
+                              transition-all duration-300
+                              hover:bg-[#0E8F6F]/10
+                              hover:border-[#0E8F6F]/20
+                              hover:text-white
+                              hover:-translate-y-[2px]
+                            "
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Premium Box */}
+                    <div className="mt-auto">
+                      <div
+                        className="
+                          rounded-[24px]
+                          border border-white/10
+                          bg-gradient-to-br from-white/[0.06] to-white/[0.02]
+                          p-5
+                          backdrop-blur-sm
+                          transition-all duration-500
+                          hover:border-[#0E8F6F]/15
+                        "
+                      >
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <div className="text-white text-base font-semibold mb-1">
+                              Enterprise Ready
+                            </div>
+
+                            <div className="text-white/50 text-sm">
+                              Optimized for scalability
+                            </div>
+                          </div>
+
+                          <div
+  className="
+    w-11 h-11 rounded-2xl
+    bg-[#0E8F6F]/10
+    border border-[#0E8F6F]/15
+    flex items-center justify-center
+    transition-all duration-500
+    group-hover:bg-[#0E8F6F]/15
+  "
+>
+  <div className="relative flex items-center justify-center">
+    {/* Elegant Ring */}
+    <div className="w-4 h-4 rounded-full border border-[#34d399]/50 transition-all duration-500 group-hover:scale-110" />
+
+    {/* Soft Glow */}
+    <div className="absolute w-2 h-2 rounded-full bg-[#34d399]/70 blur-[2px]" />
+  </div>
+</div>
+                        </div>
+
+                        {/* Progress */}
+                        <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                          <div className="w-[85%] h-full rounded-full bg-[#0E8F6F] transition-all duration-700 group-hover:w-[92%]" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -263,29 +476,62 @@ export default function ServicesPage() {
         </div>
 
         {/* CTA */}
-        <div className="mt-28 text-center bg-white/5 border border-white/10 rounded-2xl p-10 md:p-12 backdrop-blur-xl">
+        <div className="mt-28 relative overflow-hidden rounded-[36px] bg-[#0f172a] p-12 md:p-16 text-white shadow-[0_30px_120px_rgba(15,23,42,0.18)]">
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-[#0E8F6F]/10 blur-3xl rounded-full" />
 
-          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 leading-tight">
-            Not sure which service you need?
-          </h2>
+            <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] border border-[#0E8F6F]/10 rounded-full" />
+          </div>
 
-          <p className="text-navy-200 mb-8 max-w-md mx-auto leading-relaxed">
-            Book a free 30-minute discovery call. We'll figure it out together.
-          </p>
+          <div className="relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-[#34d399] font-semibold mb-6">
+              Free Consultation
+            </div>
 
-          <Link
-            to="/contact"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl
-            bg-gradient-to-r from-[#2563eb] to-[#10b981]
-            text-white font-medium
-            transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
-          >
-            Book Free Consultation
-            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+            <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
+              Let’s Build Something
+              <br />
+              Exceptional Together
+            </h2>
 
+            <p className="text-white/65 max-w-2xl mx-auto leading-relaxed text-lg mb-10">
+              Book a free 30-minute strategy session and discover the best
+              solution for your business goals, infrastructure, and growth.
+            </p>
+
+            <Link
+              to="/contact"
+              className="
+                group relative overflow-hidden inline-flex items-center gap-2
+                px-8 py-4 rounded-2xl
+                bg-[#0E8F6F]
+                text-white
+                font-semibold
+                transition-all duration-300
+                hover:bg-[#0c7a5f]
+                hover:scale-[1.02]
+                hover:shadow-[0_18px_40px_rgba(14,143,111,0.28)]
+              "
+            >
+              <span
+                className="
+                  absolute inset-0
+                  -translate-x-[120%]
+                  bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent)]
+                  group-hover:translate-x-[120%]
+                  transition-transform duration-1000
+                "
+              />
+
+              <span className="relative z-10">
+                Book Free Consultation
+              </span>
+
+              <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
