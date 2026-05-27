@@ -1,19 +1,29 @@
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 80, damping: 18, mass: 0.6 },
+    transition: {
+      type: "spring",
+      stiffness: 90,
+      damping: 18,
+      mass: 0.6,
+    },
   },
 };
 
 const stagger = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
+    },
+  },
 };
 
 const projects = [
@@ -22,30 +32,30 @@ const projects = [
     category: "Web",
     title: "RetailPro E-Commerce Platform",
     client: "RetailPro India",
-    desc: "Full-stack e-commerce with inventory management, multi-vendor support, and real-time analytics.",
+    desc:
+      "Full-stack e-commerce with inventory management, multi-vendor support, and real-time analytics.",
     tags: ["Next.js", "Node.js", "PostgreSQL", "AWS"],
     result: "3× revenue in 6 months",
-    color: "#185FA5",
   },
   {
     id: 2,
     category: "Mobile",
     title: "HealthPlus Patient App",
     client: "HealthPlus Clinics",
-    desc: "Cross-platform app for appointment booking, prescriptions, and doctor video consultations.",
+    desc:
+      "Cross-platform app for appointment booking, prescriptions, and doctor video consultations.",
     tags: ["Flutter", "Firebase", "WebRTC"],
     result: "10K+ downloads in 3 months",
-    color: "#0F6E56",
   },
   {
     id: 3,
     category: "SaaS",
     title: "NexaBill for StartupHub",
     client: "StartupHub Network",
-    desc: "Deployed NexaBill for 200+ startups with GST invoicing and payment tracking.",
+    desc:
+      "Deployed NexaBill for 200+ startups with GST invoicing and payment tracking.",
     tags: ["NexaBill", "GST Integration", "Razorpay"],
     result: "₹2Cr+ invoiced through platform",
-    color: "#534AB7",
   },
   {
     id: 4,
@@ -55,37 +65,36 @@ const projects = [
     desc: "AI-powered contract review and summarization.",
     tags: ["Python", "OpenAI", "LangChain", "React"],
     result: "80% reduction in review time",
-    color: "#BA7517",
   },
   {
     id: 5,
     category: "Web",
     title: "AgriSmart Marketplace",
     client: "AgriSmart Technologies",
-    desc: "B2B agricultural marketplace connecting farmers with buyers.",
+    desc:
+      "B2B agricultural marketplace connecting farmers with buyers.",
     tags: ["React", "Django", "Redis"],
     result: "5,000+ active users",
-    color: "#16a34a",
   },
   {
     id: 6,
     category: "Mobile",
     title: "LogiTrack Driver App",
     client: "LogiTrack Logistics",
-    desc: "Fleet tracking with route optimization and analytics.",
+    desc:
+      "Fleet tracking with route optimization and analytics.",
     tags: ["React Native", "Maps API", "Node.js"],
     result: "40% efficiency gain",
-    color: "#D85A30",
   },
   {
     id: 7,
     category: "Custom",
     title: "ManufactX ERP System",
     client: "ManufactX Industries",
-    desc: "Custom ERP with production and compliance workflows.",
+    desc:
+      "Custom ERP with production and compliance workflows.",
     tags: ["React", "Node.js", "PostgreSQL"],
     result: "60% less manual work",
-    color: "#7C3AED",
   },
   {
     id: 8,
@@ -95,7 +104,6 @@ const projects = [
     desc: "AWS migration with zero downtime.",
     tags: ["AWS", "Docker", "Terraform"],
     result: "45% cost reduction",
-    color: "#185FA5",
   },
 ];
 
@@ -106,429 +114,382 @@ const stats = [
   { value: "4.9/5", label: "Client Rating" },
 ];
 
-const categoryColors = {
-  Web: { bg: "#EBF5FF", text: "#185FA5", border: "#bfdbfe" },
-  Mobile: { bg: "#ECFDF5", text: "#0F6E56", border: "#a7f3d0" },
-  SaaS: { bg: "#EDE9FE", text: "#534AB7", border: "#c4b5fd" },
-  AI: { bg: "#FFFBEB", text: "#BA7517", border: "#fde68a" },
-  Custom: { bg: "#F5F3FF", text: "#7C3AED", border: "#ddd6fe" },
-  "IT Support": { bg: "#EFF6FF", text: "#1d4ed8", border: "#bfdbfe" },
-};
-
 export default function PortfolioPage() {
   return (
-    <div
-      className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden"
-      style={{ marginTop: "50px", fontFamily: "'DM Sans', sans-serif" }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+    <div className="relative overflow-hidden bg-white pt-28 pb-24">
+      {/* Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
-        .wenexa-btn-primary {
-          background: #1a7c3e;
-          color: #fff;
-          border: none;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 14px;
-          padding: 11px 24px;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          transition: background 0.18s, box-shadow 0.18s, transform 0.15s;
-          text-decoration: none;
-          letter-spacing: 0.01em;
-        }
-        .wenexa-btn-primary:hover {
-          background: #155f30;
-          box-shadow: 0 4px 18px rgba(26,124,62,0.25);
-          transform: translateY(-1px);
-        }
-        .wenexa-btn-outline {
-          background: #fff;
-          color: #0f172a;
-          border: 1.5px solid #d1d5db;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 14px;
-          padding: 10px 24px;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          transition: border-color 0.18s, color 0.18s, transform 0.15s;
-          text-decoration: none;
-        }
-        .wenexa-btn-outline:hover {
-          border-color: #1a7c3e;
-          color: #1a7c3e;
-          transform: translateY(-1px);
-        }
-
-        .project-card {
-          background: #fff;
-          border: 1.5px solid #e5e7eb;
-          border-radius: 16px;
-          padding: 28px;
-          transition: box-shadow 0.22s, border-color 0.22s, transform 0.22s;
-          position: relative;
-          overflow: hidden;
-        }
-        .project-card:hover {
-          box-shadow: 0 12px 40px rgba(0,0,0,0.10);
-          border-color: #1a7c3e33;
-          transform: translateY(-4px);
-        }
-        .project-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 3px;
-          background: linear-gradient(90deg, #1a7c3e, #34d399);
-          opacity: 0;
-          transition: opacity 0.22s;
-        }
-        .project-card:hover::before {
-          opacity: 1;
-        }
-
-        .section-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #f0fdf4;
-          border: 1px solid #bbf7d0;
-          color: #15803d;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          padding: 5px 14px;
-          border-radius: 100px;
-          margin-bottom: 16px;
-        }
-        .section-badge::before {
-          content: '';
-          width: 6px; height: 6px;
-          background: #22c55e;
-          border-radius: 50%;
-        }
-
-        .stat-card {
-          background: #f8fafc;
-          border: 1.5px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 24px 20px;
-          text-align: center;
-          transition: box-shadow 0.18s;
-        }
-        .stat-card:hover {
-          box-shadow: 0 4px 20px rgba(26,124,62,0.1);
-          border-color: #86efac;
-        }
-
-        .cta-strip {
-          background: linear-gradient(135deg, #0f172a 0%, #1e3a2f 100%);
-          border-radius: 20px;
-          padding: 56px 48px;
-          position: relative;
-          overflow: hidden;
-        }
-        .cta-strip::after {
-          content: '';
-          position: absolute;
-          right: -80px; bottom: -80px;
-          width: 280px; height: 280px;
-          background: radial-gradient(circle, rgba(26,124,62,0.3) 0%, transparent 70%);
-          border-radius: 50%;
-        }
-
-        .result-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          font-size: 12px;
-          font-weight: 600;
-          padding: 6px 12px;
-          border-radius: 8px;
-        }
-      `}</style>
-
-      {/* Subtle dot-grid background — matches WeNexa's grid bg */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-          opacity: 0.35,
-        }}
-      />
-
-      {/* Top green glow */}
-      <div
-        className="absolute top-0 right-0 w-96 h-96 pointer-events-none z-0"
-        style={{
-          background:
-            "radial-gradient(circle at top right, rgba(34,197,94,0.12) 0%, transparent 70%)",
-        }}
-      />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        {/* ── HERO HEADER ─────────────────────────────────────────────── */}
+        {/* HERO */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="text-center max-w-3xl mx-auto mb-14"
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto mb-20"
         >
-          <div className="section-badge">Our Work</div>
+          <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-6 font-semibold">
+            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
+            Portfolio
+          </div>
 
-          <h1
-            style={{
-              fontSize: "clamp(32px, 5vw, 52px)",
-              fontWeight: 800,
-              color: "#0f172a",
-              lineHeight: 1.15,
-              marginBottom: "16px",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Real Projects,{" "}
-            <span style={{ color: "#1a7c3e" }}>Measurable Results</span>
+          <h1 className="text-5xl md:text-7xl font-bold text-[#0f172a] leading-[1.05] mb-7">
+            Real Projects,
+            <br />
+            <span className="text-[#0f172a]/45">
+              Measurable Results
+            </span>
           </h1>
 
-          <p style={{ color: "#64748b", fontSize: "17px", lineHeight: 1.7 }}>
-            Every project we take on delivers real, measurable impact — not just code.
+          <p className="text-[#0f172a]/65 text-lg leading-relaxed">
+            Every project we take on delivers real business impact —
+            not just clean code.
           </p>
         </motion.div>
 
-        {/* ── STATS ROW ────────────────────────────────────────────────── */}
+        {/* STATS */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-20"
         >
           {stats.map((s) => (
-            <motion.div variants={fadeUp} key={s.label} className="stat-card">
-              <div
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 800,
-                  color: "#0f172a",
-                  lineHeight: 1,
-                  marginBottom: "6px",
-                }}
-              >
-                {s.value}
-              </div>
-              <div style={{ fontSize: "13px", color: "#64748b", fontWeight: 500 }}>
-                {s.label}
+            <motion.div
+              key={s.label}
+              variants={fadeUp}
+              whileHover={{ y: -5 }}
+              className="
+                relative overflow-hidden
+                rounded-[26px]
+                border border-[#e7eaee]
+                bg-white
+                p-7
+                text-center
+                shadow-[0_10px_40px_rgba(15,23,42,0.05)]
+                transition-all duration-500
+                hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)]
+                group
+              "
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#0E8F6F]/[0.04] blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700" />
+
+              <div className="relative z-10">
+                <div className="text-4xl font-bold text-[#0f172a] mb-2 transition-transform duration-500 group-hover:scale-105">
+                  {s.value}
+                </div>
+
+                <div className="text-sm text-[#0f172a]/55 font-medium">
+                  {s.label}
+                </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* ── PROJECT GRID ─────────────────────────────────────────────── */}
+        {/* PROJECT GRID */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
+          viewport={{ once: true }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-24"
         >
-          {projects.map((project) => {
-            const cat = categoryColors[project.category] || {
-              bg: "#f1f5f9",
-              text: "#475569",
-              border: "#e2e8f0",
-            };
-            return (
-              <motion.div variants={fadeUp} key={project.id} className="project-card">
+          {projects.map((project) => (
+            <motion.div
+              key={project.id}
+              variants={fadeUp}
+              whileHover={{ y: -6 }}
+              className="
+                relative overflow-hidden
+                rounded-[30px]
+                border border-[#e5e7eb]
+                bg-white
+                shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                transition-all duration-500
+                hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]
+                group
+              "
+            >
+              {/* Hover Glow */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#0E8F6F]/[0.04] blur-3xl rounded-full" />
+              </div>
 
-                {/* Category badge */}
-                <div className="mb-4">
+              {/* Floating Circle */}
+              <div className="absolute top-6 right-6 w-20 h-20 rounded-full border border-[#0E8F6F]/10 opacity-60 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" />
+
+              <div className="relative z-10 p-7 flex flex-col h-full">
+                {/* Category */}
+                <div className="mb-5">
                   <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      background: cat.bg,
-                      color: cat.text,
-                      border: `1px solid ${cat.border}`,
-                      padding: "3px 10px",
-                      borderRadius: "100px",
-                    }}
+                    className="
+                      inline-flex items-center
+                      text-[11px]
+                      font-semibold
+                      tracking-[0.22em]
+                      uppercase
+                      text-[#0E8F6F]
+                      bg-[#0E8F6F]/[0.06]
+                      border border-[#0E8F6F]/10
+                      px-4 py-2 rounded-full
+                    "
                   >
                     {project.category}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: 700,
-                    color: "#0f172a",
-                    marginBottom: "4px",
-                    lineHeight: 1.35,
-                  }}
-                >
+                <h3 className="text-[#0f172a] text-[22px] font-bold leading-snug mb-2 transition-all duration-300 group-hover:text-[#111827]">
                   {project.title}
                 </h3>
 
                 {/* Client */}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#94a3b8",
-                    fontWeight: 500,
-                    marginBottom: "10px",
-                  }}
-                >
+                <p className="text-[#0f172a]/40 text-sm font-medium mb-5">
                   {project.client}
                 </p>
 
                 {/* Divider */}
-                <div
-                  style={{
-                    height: "1px",
-                    background: "#f1f5f9",
-                    marginBottom: "12px",
-                  }}
-                />
+                <div className="h-px bg-[#eef2f5] mb-5" />
 
-                {/* Description */}
-                <p
-                  style={{
-                    fontSize: "13.5px",
-                    color: "#475569",
-                    lineHeight: 1.65,
-                    marginBottom: "16px",
-                  }}
-                >
+                {/* Desc */}
+                <p className="text-[#0f172a]/65 leading-relaxed text-[15px] mb-6">
                   {project.desc}
                 </p>
 
                 {/* Tags */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "6px",
-                    marginBottom: "18px",
-                  }}
-                >
+                <div className="flex flex-wrap gap-2.5 mb-7">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 500,
-                        padding: "3px 10px",
-                        borderRadius: "6px",
-                        background: "#f8fafc",
-                        border: "1px solid #e2e8f0",
-                        color: "#64748b",
-                      }}
+                      className="
+                        text-xs
+                        text-[#0f172a]/75
+                        bg-[#f8fafc]
+                        border border-[#e5e7eb]
+                        px-3.5 py-2 rounded-full
+                        transition-all duration-300
+                        hover:bg-[#0E8F6F]/[0.04]
+                        hover:border-[#0E8F6F]/15
+                        hover:text-[#0E8F6F]
+                        hover:-translate-y-[2px]
+                      "
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                {/* Result badge */}
-                <div
-                  className="result-badge"
-                  style={{
-                    background: project.color + "12",
-                    color: project.color,
-                    border: `1px solid ${project.color}25`,
-                  }}
-                >
-                  <span style={{ fontSize: "13px" }}>📈</span>
-                  {project.result}
+                {/* Bottom */}
+                <div className="mt-auto flex items-center justify-between gap-5">
+                  
+                  {/* Result Badge */}
+                  <div
+                    className="
+                      inline-flex items-center gap-2.5
+                      rounded-[18px]
+                      bg-[#0E8F6F]/[0.06]
+                      border border-[#0E8F6F]/10
+                      px-5 py-3
+                      transition-all duration-500
+                      group-hover:border-[#0E8F6F]/20
+                      group-hover:bg-[#0E8F6F]/[0.08]
+                      group-hover:-translate-y-[2px]
+                    "
+                  >
+                    {/* Elegant Animated Dot */}
+                    <div className="relative flex items-center justify-center">
+                      <div className="absolute w-4 h-4 rounded-full bg-[#0E8F6F]/10 animate-pulse" />
+
+                      <div className="relative w-2 h-2 rounded-full bg-[#0E8F6F]" />
+                    </div>
+
+                    <span className="text-[#0E8F6F] text-[15px] font-semibold tracking-[-0.01em]">
+                      {project.result}
+                    </span>
+                  </div>
+
+                  {/* CTA BUTTON */}
+                  {/* CTA BUTTON */}
+<button
+  className="
+    relative overflow-hidden
+    w-[58px]
+    h-[56px]
+    rounded-[20px]
+    bg-[#0f172a]
+    text-white
+    flex items-center justify-center
+    transition-all duration-500
+    hover:bg-[#111827]
+    hover:shadow-[0_16px_40px_rgba(15,23,42,0.22)]
+    hover:-translate-y-[2px]
+    group/btn
+  "
+>
+  {/* Shine */}
+  <span
+    className="
+      absolute inset-0
+      -translate-x-[120%]
+      bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)]
+      group-hover/btn:translate-x-[120%]
+      transition-transform duration-1000
+    "
+  />
+
+  {/* Glow Layer */}
+  <div
+    className="
+      absolute inset-0 opacity-0
+      group-hover/btn:opacity-100
+      transition-all duration-500
+    "
+  >
+    <div className="absolute inset-0 bg-[#ffffff]/[0.03]" />
+  </div>
+
+  {/* Arrow */}
+  <ArrowRight
+    className="
+      relative z-10 w-4 h-4
+      transition-all duration-500
+      group-hover/btn:translate-x-1
+    "
+  />
+</button>
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* ── CTA STRIP ────────────────────────────────────────────────── */}
+        {/* CTA */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="cta-strip"
+          whileHover={{ y: -4 }}
+          className="
+            relative overflow-hidden
+            rounded-[34px]
+            bg-[#0f172a]
+            p-12 md:p-14
+            text-white
+            shadow-[0_30px_120px_rgba(15,23,42,0.18)]
+          "
         >
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "24px",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <div>
-              <div className="section-badge" style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.15)", color: "#86efac" }}>
+          {/* Glow */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-[#0E8F6F]/10 blur-3xl rounded-full" />
+
+            <div className="absolute -bottom-28 -right-28 w-[420px] h-[420px] border border-[#0E8F6F]/10 rounded-full" />
+          </div>
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
+            {/* LEFT */}
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-[#34d399] font-semibold mb-6">
                 Work With Us
               </div>
-              <h2
-                style={{
-                  fontSize: "clamp(22px, 3vw, 34px)",
-                  fontWeight: 800,
-                  color: "#fff",
-                  lineHeight: 1.2,
-                  marginBottom: "10px",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Grow Your Business.{" "}
-                <span style={{ color: "#4ade80" }}>Create Impact.</span>
+
+              <h2 className="text-3xl md:text-5xl font-bold leading-[1.12] mb-5 tracking-[-0.03em]">
+                Grow Your Business.
+                <br />
+                <span className="text-white/72">
+                  Create Impact.
+                </span>
               </h2>
-              <p style={{ color: "#94a3b8", fontSize: "15px", maxWidth: "440px" }}>
+
+              <p className="text-white/65 text-[15px] leading-relaxed max-w-[520px]">
                 Get high-quality digital solutions while empowering the next generation
                 of talent. Together, let's build a better future.
               </p>
             </div>
 
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <Link to="/contact" className="wenexa-btn-primary">
-                Start a Project <ArrowRight size={16} />
-              </Link>
+            {/* RIGHT */}
+            <div className="flex items-center flex-nowrap gap-4">
+              {/* Primary CTA */}
               <Link
                 to="/contact"
-                style={{
-                  background: "transparent",
-                  color: "#fff",
-                  border: "1.5px solid rgba(255,255,255,0.6)",
-                  borderRadius: "8px",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  padding: "11px 24px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  textDecoration: "none",
-                  letterSpacing: "0.01em",
-                }}
+                className="
+                  relative overflow-hidden
+                  group inline-flex items-center justify-center gap-2
+                  whitespace-nowrap
+                  px-8 h-[58px]
+                  rounded-[18px]
+                  bg-[#0E8F6F]
+                  text-white
+                  font-semibold
+                  transition-all duration-500
+                  hover:bg-[#0c7a5f]
+                  hover:shadow-[0_20px_45px_rgba(14,143,111,0.28)]
+                  hover:-translate-y-[2px]
+                "
               >
-                Schedule a Call <ArrowRight size={16} />
+                {/* Shine */}
+                <span
+                  className="
+                    absolute inset-0
+                    -translate-x-[120%]
+                    bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent)]
+                    group-hover:translate-x-[120%]
+                    transition-transform duration-1000
+                  "
+                />
+
+                <span className="relative z-10">
+                  Start a Project
+                </span>
+
+                <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+
+              {/* Secondary CTA */}
+              <Link
+                to="/contact"
+                className="
+                  relative overflow-hidden
+                  group inline-flex items-center justify-center gap-2
+                  whitespace-nowrap
+                  px-8 h-[58px]
+                  rounded-[18px]
+                  border border-white/15
+                  bg-white/[0.04]
+                  text-white
+                  font-semibold
+                  transition-all duration-500
+                  hover:bg-white/[0.08]
+                  hover:border-white/25
+                  hover:-translate-y-[2px]
+                "
+              >
+                <span
+                  className="
+                    absolute inset-0
+                    -translate-x-[120%]
+                    bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.12),transparent)]
+                    group-hover:translate-x-[120%]
+                    transition-transform duration-1000
+                  "
+                />
+
+                <span className="relative z-10">
+                  Schedule a Call
+                </span>
+
+                <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
         </motion.div>
-
       </div>
     </div>
   );

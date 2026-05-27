@@ -38,13 +38,9 @@ const navLinks = [
   },
 
   {
-    label: "Resources",
-    href: "/resources",
-    dropdown: [
-      { label: "Blog", href: "/blog" },
-      { label: "Case Studies", href: "/case-studies" },
-      { label: "Documentation", href: "/docs" },
-    ],
+    label: "Blog",
+    href: "/blog",
+    
   },
 ];
 
