@@ -40,14 +40,14 @@ const navLinks = [
   {
     label: "Blog",
     href: "/blog",
-    
   },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeDropdown, setActiveDropdown] =
+    useState(null);
 
   const navigate = useNavigate();
 
@@ -58,10 +58,17 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handler);
 
-    return () => window.removeEventListener("scroll", handler);
+    return () =>
+      window.removeEventListener(
+        "scroll",
+        handler
+      );
   }, []);
 
-  const handleNavClick = (href, closeMobile = false) => {
+  const handleNavClick = (
+    href,
+    closeMobile = false
+  ) => {
     const [path, hash] = href.split("#");
 
     if (closeMobile) setOpen(false);
@@ -109,11 +116,11 @@ export default function Navbar() {
         ${
           scrolled
             ? `
-              bg-white/95
-              backdrop-blur-md
-              shadow-[0_8px_30px_rgba(15,92,77,0.08)]
+              bg-[#fff]/70
+              backdrop-blur-xl
+              shadow-[0_8px_30px_rgba(15,92,77,0.12)]
               border-b
-              border-[#E2E8F0]
+              border-white/20
               py-3
             `
             : `
@@ -122,6 +129,15 @@ export default function Navbar() {
             `
         }
       `}
+      style={
+        scrolled
+          ? {
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter:
+                "blur(18px)",
+            }
+          : {}
+      }
     >
       <div
         className="
@@ -271,15 +287,19 @@ export default function Navbar() {
                   >
                     <div
                       className="
-                        bg-white/90
-                        backdrop-blur-lg
+                        bg-gradient-to-br
+                        from-[#10243F]/95
+                        via-[#132C4D]/95
+                        to-[#0B1F3A]/95
+
+                        backdrop-blur-xl
 
                         rounded-3xl
 
                         border
-                        border-[#E2E8F0]
+                        border-[#1E3A5F]
 
-                        shadow-[0_20px_60px_rgba(2,6,23,0.10)]
+                        shadow-[0_20px_60px_rgba(2,6,23,0.35)]
 
                         p-3
                       "
@@ -311,10 +331,10 @@ export default function Navbar() {
                               text-sm
                               font-medium
 
-                              text-[#334155]
+                              text-[#E2E8F0]
 
-                              hover:bg-[#F0FDF4]
-                              hover:text-[#0F5C4D]
+                              hover:bg-[#1A365D]
+                              hover:text-[#86EFAC]
 
                               transition-all
                               duration-300
@@ -471,7 +491,8 @@ export default function Navbar() {
           className="
             lg:hidden
 
-            bg-white
+            bg-white/95
+            backdrop-blur-xl
 
             border-t
             border-[#E2E8F0]

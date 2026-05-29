@@ -1,4 +1,6 @@
 import React from "react";
+import foot_logo from "../../assets/images/Wenexa-footer-logo.png"
+
 
 import {
   FaLinkedinIn,
@@ -43,25 +45,11 @@ export default function Footer() {
           "
         >
           {/* Brand */}
-          <div className="max-w-[280px]">
+          <div className="max-w-[200px]">
             {/* Logo */}
             <div className="mb-5">
-              <h2
-                className="
-                  text-4xl
-                  font-black
-                  tracking-tight
-                  leading-none
-                "
-              >
-                <span className="text-[#0E8F6F]">
-                  We
-                </span>
-
-                <span className="text-white">
-                  Nexa
-                </span>
-              </h2>
+              
+              <img src={foot_logo} alt="" srcset="" style={{position:"relative", right:"27px"}} />
 
               <p className="text-white/50 text-sm mt-1">
                 Your Digital. Our Expertise.
