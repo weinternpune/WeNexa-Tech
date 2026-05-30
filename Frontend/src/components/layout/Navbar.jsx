@@ -11,6 +11,11 @@ import Logo from "../../assets/images/Wenexa-Navbar-logo.png";
 
 const navLinks = [
   {
+    label: "Home",
+    href: "/",
+  },
+
+  {
     label: "Services",
     href: "/services",
     dropdown: [
@@ -42,6 +47,7 @@ const navLinks = [
     href: "/blog",
   },
 ];
+
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
