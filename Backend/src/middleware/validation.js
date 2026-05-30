@@ -17,9 +17,13 @@ export const validateContact = [
     .normalizeEmail(),
   
   body("phone")
-    .optional()
+    .optional({ values: "falsy" })
     .trim()
-    .matches(/^[+]?[0-9]{10,15}$/)
+    .customSanitizer((value) => (value ? String(value).replace(/\s/g, "") : ""))
+    .custom((value) => {
+      if (!value) return true;
+      return /^[+]?[0-9]{10,15}$/.test(value);
+    })
     .withMessage("Please enter a valid phone number"),
   
   body("service")
