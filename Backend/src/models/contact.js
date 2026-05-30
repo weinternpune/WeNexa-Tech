@@ -40,20 +40,38 @@ const contactSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "read", "replied"],
+    enum: ["pending", "read", "replied", "spam"],
     default: "pending"
   },
   ipAddress: {
     type: String,
     default: null
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  userAgent: {
+    type: String,
+    default: null
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verifiedAt: {
+    type: Date
+  },
+  verificationAttempts: {
+    type: Number,
+    default: 0
+  },
+  lastUpdatedAt: {
+    type: Date
   }
 }, {
   timestamps: true
 });
+
+contactSchema.index({ email: 1, createdAt: -1 });
+contactSchema.index({ createdAt: -1 });
+contactSchema.index({ status: 1 });
 
 const Contact = mongoose.model("Contact", contactSchema);
 export default Contact;
