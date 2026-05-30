@@ -1,6 +1,6 @@
 import React from "react";
-import foot_logo from "../../assets/images/Wenexa-footer-logo.png"
-
+import { Link } from "react-router-dom";
+import foot_logo from "../../assets/images/Wenexa-footer-logo.png";
 
 import {
   FaLinkedinIn,
@@ -12,116 +12,54 @@ import {
 import {
   HiOutlineMail,
   HiOutlinePhone,
+  HiArrowRight
 } from "react-icons/hi";
 
 import { IoLocationOutline } from "react-icons/io5";
 
 export default function Footer() {
   return (
-    <footer
-      className="
-        relative overflow-hidden
-        bg-[#020817]
-        border-t border-white/[0.04]
-      "
-    >
-      {/* Background */}
-      <div className="absolute inset-0">
-        {/* Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:48px_48px]" />
+    <footer className="relative bg-[#020817] pt-10 lg:pt-12 pb-4 lg:pb-6 overflow-hidden">
+      {/* Background Subtle Glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#0F5C4D]/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#0B1F3A]/30 blur-[100px] rounded-full pointer-events-none" />
 
-        {/* Glow */}
-        <div className="absolute top-0 left-0 w-[450px] h-[450px] bg-[#0E8F6F]/8 blur-3xl rounded-full" />
-      </div>
-
-      <div className="relative z-10 max-w-[1500px] mx-auto px-4 lg:px-8">
-        {/* Single Row */}
-        <div
-          className="
-            flex flex-wrap
-            items-start justify-between
-            gap-x-10 gap-y-12
-            py-14
-          "
-        >
-          {/* Brand */}
-          <div className="max-w-[200px]">
-            {/* Logo */}
-            <div className="mb-5">
-              
-              <img src={foot_logo} alt="" srcset="" style={{position:"relative", right:"27px"}} />
-
-              <p className="text-white/50 text-sm mt-1">
-                Your Digital. Our Expertise.
-              </p>
-            </div>
-
-            {/* Description */}
-            <p
-              className="
-                text-white/40
-                text-sm
-                leading-relaxed
-                mb-6
-              "
-            >
-              WeNexa delivers scalable, high-quality digital
-              solutions for modern businesses.
+      <div className="relative z-10 max-w-7xl mx-auto px-6 xl:px-0">
+        
+        {/* Main Footer Links Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-10 lg:gap-8 mb-8 lg:mb-10">
+          
+          {/* Brand Info */}
+          <div className="col-span-2 md:col-span-4 lg:col-span-2 pr-0 lg:pr-16">
+            <img src={foot_logo} alt="WeNexa Logo" className="h-10 sm:h-12 md:h-14 w-auto object-contain mb-6 -ml-1 md:-ml-2 transition-all duration-300" />
+            <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-sm lg:max-w-none">
+              WeNexa is a premium digital agency specializing in turning complex problems into elegant, high-performance solutions.
             </p>
-
-            {/* Social */}
-            <div className="flex items-center gap-3">
-              {[
-                FaLinkedinIn,
-                FaTwitter,
-                FaInstagram,
-                FaYoutube,
-              ].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="
-                    w-10 h-10
-                    rounded-xl
-                    border border-white/[0.06]
-                    flex items-center justify-center
-                    text-white/45
-                    transition-all duration-300
-                    hover:text-white
-                    hover:border-[#0E8F6F]/30
-                    hover:bg-[#0E8F6F]/10
-                  "
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+            <div className="flex flex-col gap-4">
+              <a href="mailto:partnership@wenexa.in" className="flex items-center gap-3 text-white/50 hover:text-white transition-colors group w-max">
+                <HiOutlineMail className="w-5 h-5 text-[#0F5C4D]" />
+                <span className="text-sm">partnership@wenexa.in</span>
+              </a>
+              <a href="tel:+917414974582" className="flex items-center gap-3 text-white/50 hover:text-white transition-colors group w-max">
+                <HiOutlinePhone className="w-5 h-5 text-[#0F5C4D]" />
+                <span className="text-sm">+91 7414974582</span>
+              </a>
+              <div className="flex items-start gap-3 text-white/50 cursor-default">
+                <IoLocationOutline className="w-5 h-5 text-[#0F5C4D] shrink-0 mt-0.5" />
+                <span className="text-sm leading-relaxed">Pune, Maharashtra, India</span>
+              </div>
             </div>
           </div>
 
           {/* Services */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-5">
+          <div className="col-span-1">
+            <h4 className="text-white font-semibold text-sm tracking-widest uppercase mb-6 opacity-90">
               Services
             </h4>
-
-            <ul className="space-y-3">
-              {[
-                "Web Development",
-                "Mobile Apps",
-                "AI & Automation",
-                "UI/UX Design",
-                "Cloud & DevOps",
-              ].map((item) => (
+            <ul className="space-y-4">
+              {["Web Development", "Mobile Apps", "AI & Automation", "UI/UX Design", "Cloud & DevOps"].map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
-                    className="
-                      text-white/40
-                      text-sm
-                      hover:text-white
-                      transition-all duration-300
-                    "
-                  >
+                  <a href="#" className="text-white/40 text-sm hover:text-white transition-colors duration-300">
                     {item}
                   </a>
                 </li>
@@ -130,29 +68,14 @@ export default function Footer() {
           </div>
 
           {/* Industries */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-5">
+          <div className="col-span-1">
+            <h4 className="text-white font-semibold text-sm tracking-widest uppercase mb-6 opacity-90">
               Industries
             </h4>
-
-            <ul className="space-y-3">
-              {[
-                "E-Commerce",
-                "Fintech",
-                "Education",
-                "Healthcare",
-                "Real Estate",
-              ].map((item) => (
+            <ul className="space-y-4">
+              {["E-Commerce", "Fintech", "Education", "Healthcare", "Real Estate"].map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
-                    className="
-                      text-white/40
-                      text-sm
-                      hover:text-white
-                      transition-all duration-300
-                    "
-                  >
+                  <a href="#" className="text-white/40 text-sm hover:text-white transition-colors duration-300">
                     {item}
                   </a>
                 </li>
@@ -161,135 +84,45 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-5">
+          <div className="col-span-2 md:col-span-2 lg:col-span-1 mt-2 md:mt-0">
+            <h4 className="text-white font-semibold text-sm tracking-widest uppercase mb-6 opacity-90">
               Company
             </h4>
-
-            <ul className="space-y-3">
-              {[
-                "About Us",
-                "Careers",
-                "Blog",
-                "Contact Us",
-              ].map((item) => (
+            <ul className="space-y-4 grid grid-cols-2 md:grid-cols-1 gap-x-4 md:gap-x-0">
+              {["About Us", "Careers", "Blog", "Contact Us"].map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
-                    className="
-                      text-white/40
-                      text-sm
-                      hover:text-white
-                      transition-all duration-300
-                    "
-                  >
+                  <a href="#" className="text-white/40 text-sm hover:text-white transition-colors duration-300">
                     {item}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-5">
-              Resources
-            </h4>
-
-            <ul className="space-y-3">
-              {[
-                "Case Studies",
-                "Blogs",
-                "FAQs",
-                "Privacy Policy",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="
-                      text-white/40
-                      text-sm
-                      hover:text-white
-                      transition-all duration-300
-                    "
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div className="max-w-[240px]">
-            <h4 className="text-white font-semibold text-sm mb-5">
-              Contact Us
-            </h4>
-
-            <div className="flex flex-col gap-5">
-              <a
-                href="mailto:hello@wenexa.in"
-                className="
-                  flex items-start gap-3
-                  text-white/40
-                  hover:text-white
-                  transition-all duration-300
-                "
-              >
-                <HiOutlineMail className="w-5 h-5 mt-0.5 shrink-0" />
-
-                <span className="text-sm">
-                  hello@wenexa.in
-                </span>
-              </a>
-
-              <a
-                href="tel:+917447405813"
-                className="
-                  flex items-start gap-3
-                  text-white/40
-                  hover:text-white
-                  transition-all duration-300
-                "
-              >
-                <HiOutlinePhone className="w-5 h-5 mt-0.5 shrink-0" />
-
-                <span className="text-sm">
-                  +91 74474 05813
-                </span>
-              </a>
-
-              <div className="flex items-start gap-3 text-white/40">
-                <IoLocationOutline className="w-5 h-5 mt-0.5 shrink-0" />
-
-                <span className="text-sm leading-relaxed">
-                  Pune, Maharashtra, India
-                </span>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div
-          className="
-            border-t border-white/[0.05]
-            py-5
-            flex flex-col md:flex-row
-            items-center justify-between
-            gap-4
-          "
-        >
-          <p className="text-white/30 text-sm">
-            © 2026 WeNexa Technologies Pvt. Ltd.
+        {/* Bottom Bar */}
+        <div className="pt-5 border-t border-white/[0.06] flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:pr-24">
+          <p className="text-white/30 text-sm text-center md:text-left">
+            © {new Date().getFullYear()} WeNexa Technologies Pvt. Ltd.<br className="md:hidden" /> All rights reserved.
           </p>
-
-          <div className="flex items-center gap-5 text-sm text-white/30">
-            <span>Part of We® Group</span>
-
-            <span className="w-px h-4 bg-white/[0.08]" />
-
-            <span>Made with ❤️ in India</span>
+          
+          <div className="flex items-center gap-1 md:gap-2 relative z-50">
+            {[
+              { Icon: FaLinkedinIn, url: "https://www.linkedin.com/company/wenexatech/", hoverColor: "hover:text-[#0A66C2]" },
+              { Icon: FaTwitter, url: "https://twitter.com/wenexa.in", hoverColor: "hover:text-[#1DA1F2]" },
+              { Icon: FaInstagram, url: "https://www.instagram.com/wenexa.in", hoverColor: "hover:text-[#E1306C]" },
+              { Icon: FaYoutube, url: "https://www.youtube.com/wenexa.in", hoverColor: "hover:text-[#FF0000]" }
+            ].map(({ Icon, url, hoverColor }, i) => (
+              <a
+                key={i}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center justify-center p-3 text-white/30 ${hoverColor} hover:scale-125 transition-all duration-300 rounded-full`}
+              >
+                <Icon className="w-[18px] h-[18px] md:w-5 md:h-5" />
+              </a>
+            ))}
           </div>
         </div>
       </div>
