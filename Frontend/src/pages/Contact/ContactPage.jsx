@@ -393,7 +393,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="text-slate-500 text-[13px] sm:text-sm leading-relaxed">
-                    Let’s discuss your idea and requirements.
+                    Let's discuss your idea and requirements.
                   </div>
                 </div>
 
