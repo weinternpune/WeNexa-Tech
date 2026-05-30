@@ -46,15 +46,21 @@ export default function ContactForm() {
         className="
           relative
           overflow-hidden
-          rounded-[36px]
+          rounded-[26px]
+          sm:rounded-[30px]
+          md:rounded-[36px]
           border
           border-emerald-500/10
           bg-gradient-to-br
           from-[#081018]
           via-[#0b1623]
           to-[#081018]
-          p-16
-          min-h-[580px]
+          p-6
+          sm:p-10
+          md:p-16
+          min-h-[460px]
+          sm:min-h-[520px]
+          md:min-h-[580px]
           flex
           flex-col
           items-center
@@ -64,17 +70,19 @@ export default function ContactForm() {
         "
       >
         {/* GLOW */}
-        <div className="absolute top-[-80px] right-[-80px] w-[240px] h-[240px] bg-emerald-500/10 blur-[100px] rounded-full" />
+        <div className="absolute top-[-80px] right-[-80px] w-[220px] sm:w-[240px] h-[220px] sm:h-[240px] bg-emerald-500/10 blur-[100px] rounded-full" />
 
-        <div className="absolute bottom-[-120px] left-[-120px] w-[280px] h-[280px] bg-cyan-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-120px] left-[-120px] w-[240px] sm:w-[280px] h-[240px] sm:h-[280px] bg-cyan-500/10 blur-[120px] rounded-full" />
 
         {/* ICON */}
         <div
           className="
             relative
             z-10
-            w-24
-            h-24
+            w-20
+            h-20
+            sm:w-24
+            sm:h-24
             rounded-full
             bg-emerald-500/10
             border
@@ -82,17 +90,21 @@ export default function ContactForm() {
             flex
             items-center
             justify-center
-            mb-8
+            mb-6
+            sm:mb-8
           "
         >
-          <CheckCircle2 size={46} className="text-emerald-400" />
+          <CheckCircle2
+            size={36}
+            className="text-emerald-400 sm:w-[46px] sm:h-[46px]"
+          />
         </div>
 
-        <h2 className="relative z-10 text-4xl font-black text-white mb-5 tracking-[-0.04em]">
+        <h2 className="relative z-10 text-[28px] sm:text-3xl md:text-4xl font-black text-white mb-4 sm:mb-5 tracking-[-0.04em]">
           Consultation Booked
         </h2>
 
-        <p className="relative z-10 text-slate-400 leading-[1.9] max-w-md mb-10">
+        <p className="relative z-10 text-slate-400 text-[14px] sm:text-base leading-[1.8] max-w-md mb-8 sm:mb-10 px-2">
           Our team will analyze your requirements and connect with
           you within 24 hours with the right strategy and roadmap.
         </p>
@@ -105,6 +117,8 @@ export default function ContactForm() {
             inline-flex
             items-center
             gap-2
+            text-sm
+            sm:text-base
             text-emerald-400
             font-semibold
             hover:text-emerald-300
@@ -127,22 +141,25 @@ export default function ContactForm() {
       className="
         relative
         overflow-hidden
-        rounded-[36px]
+        rounded-[26px]
+        sm:rounded-[30px]
+        md:rounded-[36px]
         border
         border-slate-200/70
         bg-white/90
         backdrop-blur-xl
-        p-8
+        p-4
+        sm:p-6
         md:p-10
       "
     >
       {/* GLOW */}
-      <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
+      <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
 
-      <div className="absolute bottom-[-120px] left-[-120px] w-[260px] h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
+      <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
 
       {/* FORM GRID */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <FormInput
           icon={User}
           label="Full Name"
@@ -207,14 +224,15 @@ export default function ContactForm() {
       </div>
 
       {/* MESSAGE */}
-      <div className="relative z-10 mb-8">
+      <div className="relative z-10 mb-6 sm:mb-8">
         <label
           className="
-            text-[11px]
+            text-[10px]
+            sm:text-[11px]
             font-bold
             text-slate-400
             uppercase
-            tracking-[0.18em]
+            tracking-[0.16em]
             mb-3
             block
             ml-1
@@ -224,7 +242,7 @@ export default function ContactForm() {
         </label>
 
         <div className="relative group">
-          <div className="absolute top-5 left-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+          <div className="absolute top-4 sm:top-5 left-4 sm:left-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
             <MessageSquareText size={18} />
           </div>
 
@@ -233,18 +251,24 @@ export default function ContactForm() {
             placeholder="Tell us about your project, goals and requirements..."
             className="
               w-full
-              rounded-[28px]
+              rounded-[22px]
+              sm:rounded-[28px]
               border
               border-slate-200
               bg-[#f8fafc]
               text-[#081028]
               placeholder:text-slate-400
-              pl-14
-              pr-6
-              py-5
-              min-h-[180px]
+              pl-12
+              sm:pl-14
+              pr-4
+              sm:pr-6
+              py-4
+              sm:py-5
+              min-h-[160px]
+              sm:min-h-[180px]
               resize-none
-              text-sm
+              text-[14px]
+              sm:text-sm
               leading-relaxed
               focus:outline-none
               focus:border-emerald-500/30
@@ -268,14 +292,17 @@ export default function ContactForm() {
           relative
           z-10
           w-full
-          h-[64px]
+          h-[56px]
+          sm:h-[64px]
           rounded-2xl
           bg-[#081028]
           text-white
           font-bold
           uppercase
-          tracking-[0.18em]
-          text-sm
+          tracking-[0.14em]
+          sm:tracking-[0.18em]
+          text-[12px]
+          sm:text-sm
           flex
           items-center
           justify-center
@@ -292,7 +319,7 @@ export default function ContactForm() {
           <>
             Submit Request
 
-            <SendHorizontal size={18} />
+            <SendHorizontal size={17} />
           </>
         )}
       </motion.button>
@@ -306,14 +333,16 @@ function FormInput({
   ...props
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 sm:space-y-3">
       <label
         className="
-          text-[11px]
+          text-[10px]
+          sm:text-[11px]
           font-bold
           text-slate-400
           uppercase
-          tracking-[0.18em]
+          tracking-[0.16em]
+          sm:tracking-[0.18em]
           ml-1
         "
       >
@@ -321,24 +350,28 @@ function FormInput({
       </label>
 
       <div className="relative group">
-        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-          <Icon size={18} />
+        <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+          <Icon size={17} />
         </div>
 
         <input
           {...props}
           className="
             w-full
-            h-[62px]
+            h-[56px]
+            sm:h-[62px]
             rounded-2xl
             border
             border-slate-200
             bg-[#f8fafc]
             text-[#081028]
             placeholder:text-slate-400
-            pl-14
-            pr-5
-            text-sm
+            pl-12
+            sm:pl-14
+            pr-4
+            sm:pr-5
+            text-[14px]
+            sm:text-sm
             focus:outline-none
             focus:border-emerald-500/30
             focus:bg-white
@@ -356,14 +389,16 @@ function FormSelect({
   options
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 sm:space-y-3">
       <label
         className="
-          text-[11px]
+          text-[10px]
+          sm:text-[11px]
           font-bold
           text-slate-400
           uppercase
-          tracking-[0.18em]
+          tracking-[0.16em]
+          sm:tracking-[0.18em]
           ml-1
         "
       >
@@ -371,22 +406,25 @@ function FormSelect({
       </label>
 
       <div className="relative group">
-        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors z-10">
-          <Icon size={18} />
+        <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors z-10">
+          <Icon size={17} />
         </div>
 
         <select
           className="
             w-full
-            h-[62px]
+            h-[56px]
+            sm:h-[62px]
             rounded-2xl
             border
             border-slate-200
             bg-[#f8fafc]
             text-[#081028]
-            pl-14
+            pl-12
+            sm:pl-14
             pr-5
-            text-sm
+            text-[14px]
+            sm:text-sm
             appearance-none
             cursor-pointer
             focus:outline-none

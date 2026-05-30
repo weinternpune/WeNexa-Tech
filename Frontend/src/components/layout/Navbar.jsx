@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
-import Logo from "../../assets/images/Wenexa-logo.jpeg";
+import Logo from "../../assets/images/Wenexa-Navbar-logo.png";
 
 const navLinks = [
   {

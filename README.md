@@ -98,11 +98,3 @@ node server.js        // If you don't have nodemon
 ## 5. Run the Frontend
 npm run dev
 
-
-If you want, I can next upgrade this into a **premium GitHub README** with:
-- Shields.io badges  
-- Live demo section  
-- Animated GIF preview  
-- API documentation section  
-
-Just say 👍

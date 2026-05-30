@@ -257,7 +257,7 @@ export default function SaaSSection() {
                     rounded-3xl
                     border
                     transition-all duration-500
-                    p-2
+                    p-3
                     ${
                       isActive
                         ? "bg-[#041b17] border-[#0E8F6F]/20 shadow-[0_20px_40px_rgba(15,23,42,0.12)]"

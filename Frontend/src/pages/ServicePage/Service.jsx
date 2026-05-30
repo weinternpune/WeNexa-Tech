@@ -7,7 +7,9 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -166,9 +168,40 @@ const services = [
   },
 ];
 
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: (i = 1) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.08,
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
+
+const scaleIn = {
+  hidden: {
+    opacity: 0,
+    scale: 0.96,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 export default function ServicesPage() {
   return (
-    <div className="relative overflow-hidden bg-white pt-28 pb-24">
+    <div className="relative overflow-hidden bg-white pt-24 sm:pt-28 pb-16 sm:pb-24">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
@@ -176,15 +209,20 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Hero */}
-        <div className="max-w-4xl mb-24">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl mb-16 sm:mb-20 lg:mb-24"
+        >
           <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-6 font-semibold">
             <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
             Services
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-[#0f172a] leading-[1.05] mb-7">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#0f172a] leading-[1.05] mb-5 sm:mb-7">
             Everything You Need
             <br />
             <span className="text-[#0f172a]/45">
@@ -192,33 +230,39 @@ export default function ServicesPage() {
             </span>
           </h1>
 
-          <p className="text-[#0f172a]/65 text-lg leading-relaxed max-w-2xl">
+          <p className="text-[#0f172a]/65 text-base sm:text-lg leading-relaxed max-w-2xl">
             Five core service pillars. One dedicated team. A single point of
             accountability for your entire tech stack.
           </p>
-        </div>
+        </motion.div>
 
         {/* Services */}
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-12 sm:gap-16 lg:gap-20">
           {services.map((svc, i) => {
             const Icon = svc.icon;
 
             return (
-              <div
+              <motion.div
                 key={svc.id}
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
                 id={svc.id}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-7 lg:gap-8 items-stretch"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 lg:gap-8 items-stretch"
               >
                 {/* LEFT CARD */}
                 <div
                   className={`
                     relative overflow-hidden
-                    rounded-[30px]
+                    rounded-[24px] sm:rounded-[30px]
                     border border-[#e5e7eb]
                     bg-white
                     shadow-[0_12px_40px_rgba(15,23,42,0.05)]
                     transition-all duration-500
-                    hover:-translate-y-1.5
+                    hover:-translate-y-2
+                    hover:scale-[1.01]
                     hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]
                     group
                     ${i % 2 === 1 ? "lg:order-2" : ""}
@@ -230,16 +274,25 @@ export default function ServicesPage() {
                   </div>
 
                   {/* Floating Accent */}
-                  <div className="absolute top-8 right-8 w-24 h-24 rounded-full border border-[#0E8F6F]/10 opacity-60 transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" />
+                  <div className="absolute top-8 right-8 w-24 h-24 rounded-full border border-[#0E8F6F]/10 opacity-60 transition-all duration-700 group-hover:scale-125 group-hover:rotate-6" />
 
                   {/* Content */}
-                  <div className="relative z-10 p-7 md:p-8 h-full flex flex-col">
+                  <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex flex-col">
                     {/* Header */}
-                    <div className="flex items-start gap-4 mb-6">
-                      <div
+                    <div className="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-6">
+                      <motion.div
+                        animate={{
+                          y: [0, -4, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
                         className="
                           relative
-                          w-14 h-14 rounded-2xl
+                          w-12 h-12 sm:w-14 sm:h-14
+                          rounded-2xl
                           bg-[#0E8F6F]/10
                           border border-[#0E8F6F]/10
                           flex items-center justify-center
@@ -250,15 +303,15 @@ export default function ServicesPage() {
                       >
                         <div className="absolute inset-0 rounded-2xl bg-[#0E8F6F]/10 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
 
-                        <Icon className="w-7 h-7 text-[#0E8F6F] relative z-10 transition-transform duration-500 group-hover:rotate-3" />
-                      </div>
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#0E8F6F] relative z-10 transition-transform duration-500 group-hover:rotate-3" />
+                      </motion.div>
 
                       <div>
                         <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold mb-2">
                           Premium Service
                         </div>
 
-                        <h2 className="text-[#0f172a] text-[28px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
+                        <h2 className="text-2xl sm:text-[28px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
                           {svc.title}
                         </h2>
 
@@ -269,12 +322,12 @@ export default function ServicesPage() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-[#0f172a]/65 leading-relaxed text-[15px] mb-6">
+                    <p className="text-[#0f172a]/65 leading-relaxed text-sm sm:text-[15px] mb-6">
                       {svc.desc}
                     </p>
 
                     {/* Features */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
                       {svc.features.map((f) => (
                         <div
                           key={f}
@@ -283,14 +336,14 @@ export default function ServicesPage() {
                             rounded-2xl
                             border border-[#eef2f5]
                             bg-[#fafafa]
-                            p-3.5
+                            p-3 sm:p-3.5
                             transition-all duration-300
                             hover:border-[#0E8F6F]/15
                             hover:bg-[#0E8F6F]/[0.03]
                             hover:-translate-y-[2px]
                           "
                         >
-                          <div className="w-5 h-5 rounded-full bg-[#0E8F6F]/10 flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300 group-hover:scale-110">
+                          <div className="w-5 h-5 rounded-full bg-[#0E8F6F]/10 flex items-center justify-center shrink-0 mt-0.5">
                             <Check className="w-3 h-3 text-[#0E8F6F]" />
                           </div>
 
@@ -308,7 +361,8 @@ export default function ServicesPage() {
                         className="
                           relative overflow-hidden
                           inline-flex items-center gap-2
-                          px-6 py-3 rounded-2xl
+                          px-5 sm:px-6 py-3
+                          rounded-xl sm:rounded-2xl
                           bg-[#0f172a]
                           text-white
                           font-medium
@@ -318,7 +372,6 @@ export default function ServicesPage() {
                           group/btn
                         "
                       >
-                        {/* Shine Effect */}
                         <span
                           className="
                             absolute inset-0
@@ -343,31 +396,32 @@ export default function ServicesPage() {
                 <div
                   className={`
                     relative overflow-hidden
-                    rounded-[30px]
+                    rounded-[24px] sm:rounded-[30px]
                     bg-[#0f172a]
                     border border-[#1e293b]
                     shadow-[0_20px_60px_rgba(15,23,42,0.14)]
                     transition-all duration-500
-                    hover:-translate-y-1.5
+                    hover:-translate-y-2
+                    hover:scale-[1.01]
                     hover:shadow-[0_28px_80px_rgba(15,23,42,0.20)]
                     group
                     ${i % 2 === 1 ? "lg:order-1" : ""}
                   `}
                 >
                   {/* Elegant Glow */}
-                  <div className="absolute top-0 right-0 w-72 h-72 bg-[#0E8F6F]/10 blur-3xl rounded-full opacity-70 transition-all duration-700 group-hover:scale-110" />
+                  <div className="absolute top-0 right-0 w-72 h-72 bg-[#0E8F6F]/10 blur-3xl rounded-full opacity-70 transition-all duration-700 group-hover:scale-125" />
 
                   {/* Rings */}
                   <div className="absolute -bottom-24 -right-24 w-72 h-72 border border-[#0E8F6F]/10 rounded-full transition-all duration-700 group-hover:scale-105" />
 
-                  <div className="relative z-10 p-7 md:p-8 h-full flex flex-col">
+                  <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex flex-col">
                     {/* Label */}
                     <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[#34d399] font-semibold mb-6">
                       Service Details
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-2 gap-3 mb-7">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 sm:mb-7">
                       <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/[0.06]">
                         <div className="text-xs uppercase tracking-wider text-white/45 mb-2 font-semibold">
                           Timeline
@@ -397,23 +451,31 @@ export default function ServicesPage() {
 
                       <div className="flex flex-wrap gap-2.5">
                         {svc.tech.map((t) => (
-                          <span
+                          <motion.span
                             key={t}
+                            whileHover={{
+                              y: -3,
+                              scale: 1.04,
+                            }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                            }}
                             className="
                               text-xs
                               text-white/75
                               bg-white/[0.04]
                               border border-white/10
-                              px-3.5 py-2 rounded-full
+                              px-3 py-1.5 sm:px-3.5 sm:py-2
+                              rounded-full
                               transition-all duration-300
                               hover:bg-[#0E8F6F]/10
                               hover:border-[#0E8F6F]/20
                               hover:text-white
-                              hover:-translate-y-[2px]
                             "
                           >
                             {t}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
                     </div>
@@ -443,23 +505,21 @@ export default function ServicesPage() {
                           </div>
 
                           <div
-  className="
-    w-11 h-11 rounded-2xl
-    bg-[#0E8F6F]/10
-    border border-[#0E8F6F]/15
-    flex items-center justify-center
-    transition-all duration-500
-    group-hover:bg-[#0E8F6F]/15
-  "
->
-  <div className="relative flex items-center justify-center">
-    {/* Elegant Ring */}
-    <div className="w-4 h-4 rounded-full border border-[#34d399]/50 transition-all duration-500 group-hover:scale-110" />
+                            className="
+                              w-11 h-11 rounded-2xl
+                              bg-[#0E8F6F]/10
+                              border border-[#0E8F6F]/15
+                              flex items-center justify-center
+                              transition-all duration-500
+                              group-hover:bg-[#0E8F6F]/15
+                            "
+                          >
+                            <div className="relative flex items-center justify-center">
+                              <div className="w-4 h-4 rounded-full border border-[#34d399]/50 transition-all duration-500 group-hover:scale-110" />
 
-    {/* Soft Glow */}
-    <div className="absolute w-2 h-2 rounded-full bg-[#34d399]/70 blur-[2px]" />
-  </div>
-</div>
+                              <div className="absolute w-2 h-2 rounded-full bg-[#34d399]/70 blur-[2px]" />
+                            </div>
+                          </div>
                         </div>
 
                         {/* Progress */}
@@ -470,15 +530,32 @@ export default function ServicesPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* CTA */}
-        <div className="mt-28 relative overflow-hidden rounded-[36px] bg-[#0f172a] p-12 md:p-16 text-white shadow-[0_30px_120px_rgba(15,23,42,0.18)]">
+        <motion.div
+          variants={scaleIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-16 sm:mt-20 lg:mt-28 relative overflow-hidden rounded-[24px] sm:rounded-[36px] bg-[#0f172a] p-6 sm:p-10 md:p-16 text-white shadow-[0_30px_120px_rgba(15,23,42,0.18)]"
+        >
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-0 w-96 h-96 bg-[#0E8F6F]/10 blur-3xl rounded-full" />
+            <motion.div
+              animate={{
+                x: [0, 20, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute top-0 left-0 w-96 h-96 bg-[#0E8F6F]/10 blur-3xl rounded-full"
+            />
 
             <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] border border-[#0E8F6F]/10 rounded-full" />
           </div>
@@ -488,13 +565,13 @@ export default function ServicesPage() {
               Free Consultation
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold leading-tight mb-6">
               Let’s Build Something
               <br />
               Exceptional Together
             </h2>
 
-            <p className="text-white/65 max-w-2xl mx-auto leading-relaxed text-lg mb-10">
+            <p className="text-white/65 max-w-2xl mx-auto leading-relaxed text-base sm:text-lg mb-8 sm:mb-10">
               Book a free 30-minute strategy session and discover the best
               solution for your business goals, infrastructure, and growth.
             </p>
@@ -503,7 +580,8 @@ export default function ServicesPage() {
               to="/contact"
               className="
                 group relative overflow-hidden inline-flex items-center gap-2
-                px-8 py-4 rounded-2xl
+                px-6 sm:px-8 py-3.5 sm:py-4
+                rounded-xl sm:rounded-2xl
                 bg-[#0E8F6F]
                 text-white
                 font-semibold
@@ -530,7 +608,7 @@ export default function ServicesPage() {
               <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
