@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const connectDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Wenexa Database Connected Successfully");
+    console.log("MongoDB Connected Successfully");
   } catch (error) {
-    console.log(error);
+    console.error("MongoDB Connection Error:", error);
     process.exit(1);
   }
 };
