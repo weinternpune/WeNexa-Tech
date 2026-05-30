@@ -6,7 +6,11 @@ const posts = [
   {
     slug: "why-indian-smes-need-gst-ready-billing",
     category: "SaaS",
-    date: "Apr 20, 2026",
+    date: new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
     readTime: "5 min",
     title: "Why Every Indian SME Needs a GST-Ready Billing System in 2026",
     excerpt:
