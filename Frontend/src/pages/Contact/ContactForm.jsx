@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   ArrowRight,
   Loader2,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_URL || "/api";
@@ -38,11 +38,55 @@ const BUDGETS = [
 const initialForm = {
   name: "",
   email: "",
+  countryCode: "+91",
   phone: "",
   company: "",
   service: "",
   budget: "",
   message: "",
+};
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const phoneRegexMap = {
+  "+91": /^[6-9]\d{9}$/,
+  "+1": /^\d{10}$/,
+  "+44": /^\d{10}$/,
+};
+
+const validateField = (field, value, formData = {}) => {
+  switch (field) {
+    case "name":
+      if (!value.trim()) return "Full name is required";
+      if (value.trim().length < 3)
+        return "Name must be at least 3 characters";
+      return "";
+
+    case "email":
+      if (!value.trim()) return "Email is required";
+      if (!emailRegex.test(value.trim()))
+        return "Please enter a valid email address";
+      return "";
+
+    case "phone":
+      if (!value.trim()) return "Phone number is required";
+
+      const regex =
+        phoneRegexMap[formData.countryCode] || /^[0-9]{10,15}$/;
+
+      if (!regex.test(value.trim()))
+        return "Please enter a valid phone number";
+
+      return "";
+
+    case "message":
+      if (value.trim().length < 10)
+        return "Message must contain at least 10 characters";
+      return "";
+
+    default:
+      return "";
+  }
 };
 
 async function apiPost(path, body) {
@@ -66,15 +110,55 @@ export default function ContactForm() {
   const [step, setStep] = useState("form");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: null, message: "" });
 
   const update = (field) => (e) => {
-    setForm((prev) => ({ ...prev, [field]: e.target.value }));
-    if (status.type === "error") setStatus({ type: null, message: "" });
+    const value = e.target.value;
+
+    setForm((prev) => {
+      const updated = {
+        ...prev,
+        [field]: value,
+      };
+
+      const error = validateField(field, value, updated);
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: error,
+      }));
+
+      return updated;
+    });
+
+    if (status.type === "error") {
+      setStatus({ type: null, message: "" });
+    }
   };
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+
+    const validationErrors = {
+      name: validateField("name", form.name, form),
+      email: validateField("email", form.email, form),
+      phone: validateField("phone", form.phone, form),
+      message: validateField("message", form.message, form),
+    };
+
+    setErrors(validationErrors);
+
+    const hasErrors = Object.values(validationErrors).some(Boolean);
+
+    if (hasErrors) {
+      setStatus({
+        type: "error",
+        message: "Please correct the highlighted fields.",
+      });
+      return;
+    }
+
     setLoading(true);
     setStatus({ type: null, message: "" });
 
@@ -94,8 +178,12 @@ export default function ContactForm() {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+
     if (!otp.trim() || otp.trim().length !== 6) {
-      setStatus({ type: "error", message: "Please enter the 6-digit verification code." });
+      setStatus({
+        type: "error",
+        message: "Please enter the 6-digit verification code.",
+      });
       return;
     }
 
@@ -107,6 +195,7 @@ export default function ContactForm() {
         email: form.email.trim(),
         otp: otp.trim(),
       });
+
       setStep("done");
       setStatus({ type: "success", message: data.message });
     } catch (err) {
@@ -124,6 +213,7 @@ export default function ContactForm() {
       const data = await apiPost("/contact/resend-otp", {
         email: form.email.trim(),
       });
+
       setStatus({ type: "success", message: data.message });
     } finally {
       setLoading(false);
@@ -133,6 +223,7 @@ export default function ContactForm() {
   const resetForm = () => {
     setForm(initialForm);
     setOtp("");
+    setErrors({});
     setStep("form");
     setStatus({ type: null, message: "" });
   };
@@ -168,13 +259,14 @@ export default function ContactForm() {
           shadow-[0_30px_100px_rgba(15,23,42,0.35)]
         "
       >
-        {/* GLOW */}
         <div className="absolute top-[-80px] right-[-80px] w-[220px] sm:w-[240px] h-[220px] sm:h-[240px] bg-emerald-500/10 blur-[100px] rounded-full" />
         <div className="absolute bottom-[-120px] left-[-120px] w-[240px] sm:w-[280px] h-[240px] sm:h-[280px] bg-cyan-500/10 blur-[120px] rounded-full" />
 
-        {/* ICON */}
         <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center mb-6 sm:mb-8">
-          <CheckCircle2 size={36} className="text-emerald-400 sm:w-[46px] sm:h-[46px]" />
+          <CheckCircle2
+            size={36}
+            className="text-emerald-400 sm:w-[46px] sm:h-[46px]"
+          />
         </div>
 
         <h2 className="relative z-10 text-[28px] sm:text-3xl md:text-4xl font-black text-white mb-4 sm:mb-5 tracking-[-0.04em]">
@@ -182,7 +274,8 @@ export default function ContactForm() {
         </h2>
 
         <p className="relative z-10 text-slate-400 text-[14px] sm:text-base leading-[1.8] max-w-md mb-8 sm:mb-10 px-2">
-          {status.message || "Our team will analyze your requirements and connect with you within 24 hours."}
+          {status.message ||
+            "Our team will analyze your requirements and connect with you within 24 hours."}
         </p>
 
         <button
@@ -229,7 +322,6 @@ export default function ContactForm() {
           md:p-10
         "
       >
-        {/* GLOW */}
         <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
         <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
 
@@ -240,13 +332,14 @@ export default function ContactForm() {
 
           <p className="text-sm leading-relaxed text-slate-600">
             Enter the 6-digit code we sent to{" "}
-            <strong className="text-[#081028]">{form.email}</strong>. You have up to 3 attempts.
+            <strong className="text-[#081028]">{form.email}</strong>.
           </p>
 
           <div>
             <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] mb-3 block ml-1">
               Verification Code
             </label>
+
             <input
               type="text"
               inputMode="numeric"
@@ -334,18 +427,6 @@ export default function ContactForm() {
               Resend Code
             </button>
           </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              setStep("form");
-              setOtp("");
-              setStatus({ type: null, message: "" });
-            }}
-            className="text-sm text-slate-500 underline-offset-2 hover:text-emerald-600 hover:underline transition-colors"
-          >
-            Edit form details
-          </button>
         </div>
       </motion.form>
     );
@@ -371,14 +452,14 @@ export default function ContactForm() {
         md:p-10
       "
     >
-      {/* GLOW */}
       <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
       <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
 
       <div className="relative z-10 space-y-6 sm:space-y-8">
-        {status.message && <StatusBanner type={status.type} message={status.message} />}
+        {status.message && (
+          <StatusBanner type={status.type} message={status.message} />
+        )}
 
-        {/* FORM GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
           <FormInput
             icon={User}
@@ -387,6 +468,8 @@ export default function ContactForm() {
             required
             value={form.name}
             onChange={update("name")}
+            error={errors.name}
+            helperText="Enter your full professional name."
           />
 
           <FormInput
@@ -397,15 +480,93 @@ export default function ContactForm() {
             required
             value={form.email}
             onChange={update("email")}
+            error={errors.email}
+            helperText="Use an active email to receive OTP verification."
           />
 
-          <FormInput
-            icon={Phone}
-            label="Phone"
-            placeholder="+91 9876543210"
-            value={form.phone}
-            onChange={update("phone")}
-          />
+          <div className="space-y-2 sm:space-y-3">
+            <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1">
+              Phone Number *
+            </label>
+
+            <div className="flex gap-3">
+              <select
+                value={form.countryCode}
+                onChange={update("countryCode")}
+                className="
+                  h-[56px]
+                  sm:h-[62px]
+                  rounded-2xl
+                  border
+                  border-slate-200
+                  bg-[#f8fafc]
+                  px-4
+                  text-sm
+                  focus:outline-none
+                  focus:border-emerald-500/30
+                "
+              >
+                <option value="+91">🇮🇳 +91</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+              </select>
+
+              <div className="relative group flex-1">
+                <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                  <Phone size={17} />
+                </div>
+
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={15}
+                  value={form.phone}
+                  onChange={(e) => {
+                    const cleaned = e.target.value.replace(/\D/g, "");
+
+                    update("phone")({
+                      target: { value: cleaned },
+                    });
+                  }}
+                  placeholder="9876543210"
+                  className={`
+                    w-full
+                    h-[56px]
+                    sm:h-[62px]
+                    rounded-2xl
+                    border
+                    bg-[#f8fafc]
+                    text-[#081028]
+                    placeholder:text-slate-400
+                    pl-12
+                    sm:pl-14
+                    pr-4
+                    sm:pr-5
+                    text-[14px]
+                    sm:text-sm
+                    focus:outline-none
+                    focus:bg-white
+                    transition-all
+                    ${
+                      errors.phone
+                        ? "border-red-300 focus:border-red-400"
+                        : "border-slate-200 focus:border-emerald-500/30"
+                    }
+                  `}
+                />
+              </div>
+            </div>
+
+            <p
+              className={`text-xs ml-1 ${
+                errors.phone ? "text-red-500" : "text-slate-500"
+              }`}
+            >
+              {errors.phone
+                ? errors.phone
+                : "Include your active WhatsApp/contact number with country code."}
+            </p>
+          </div>
 
           <FormInput
             icon={Building2}
@@ -413,6 +574,7 @@ export default function ContactForm() {
             placeholder="Company name (optional)"
             value={form.company}
             onChange={update("company")}
+            helperText="Your startup or business name."
           />
 
           <FormSelect
@@ -433,7 +595,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* MESSAGE */}
         <div>
           <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] mb-3 block ml-1">
             Message *
@@ -452,12 +613,11 @@ export default function ContactForm() {
               value={form.message}
               onChange={update("message")}
               placeholder="Tell us about your project, timeline, and goals..."
-              className="
+              className={`
                 w-full
                 rounded-[22px]
                 sm:rounded-[28px]
                 border
-                border-slate-200
                 bg-[#f8fafc]
                 text-[#081028]
                 placeholder:text-slate-400
@@ -474,15 +634,28 @@ export default function ContactForm() {
                 sm:text-sm
                 leading-relaxed
                 focus:outline-none
-                focus:border-emerald-500/30
                 focus:bg-white
                 transition-all
-              "
+                ${
+                  errors.message
+                    ? "border-red-300 focus:border-red-400"
+                    : "border-slate-200 focus:border-emerald-500/30"
+                }
+              `}
             />
           </div>
+
+          <p
+            className={`text-xs mt-2 ml-1 ${
+              errors.message ? "text-red-500" : "text-slate-500"
+            }`}
+          >
+            {errors.message
+              ? errors.message
+              : "Briefly explain your project goals, timeline, and expectations."}
+          </p>
         </div>
 
-        {/* SUBMIT */}
         <motion.button
           whileHover={{ scale: 1.01, y: -2 }}
           whileTap={{ scale: 0.99 }}
@@ -515,7 +688,7 @@ export default function ContactForm() {
           "
         >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Send Verification Code
+          Submit
           <SendHorizontal size={17} />
         </motion.button>
       </div>
@@ -523,7 +696,13 @@ export default function ContactForm() {
   );
 }
 
-function FormInput({ icon: Icon, label, ...props }) {
+function FormInput({
+  icon: Icon,
+  label,
+  error,
+  helperText,
+  ...props
+}) {
   return (
     <div className="space-y-2 sm:space-y-3">
       <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1">
@@ -537,13 +716,12 @@ function FormInput({ icon: Icon, label, ...props }) {
 
         <input
           {...props}
-          className="
+          className={`
             w-full
             h-[56px]
             sm:h-[62px]
             rounded-2xl
             border
-            border-slate-200
             bg-[#f8fafc]
             text-[#081028]
             placeholder:text-slate-400
@@ -554,12 +732,24 @@ function FormInput({ icon: Icon, label, ...props }) {
             text-[14px]
             sm:text-sm
             focus:outline-none
-            focus:border-emerald-500/30
             focus:bg-white
             transition-all
-          "
+            ${
+              error
+                ? "border-red-300 focus:border-red-400"
+                : "border-slate-200 focus:border-emerald-500/30"
+            }
+          `}
         />
       </div>
+
+      <p
+        className={`text-xs ml-1 ${
+          error ? "text-red-500" : "text-slate-500"
+        }`}
+      >
+        {error || helperText}
+      </p>
     </div>
   );
 }
@@ -601,6 +791,7 @@ function FormSelect({ icon: Icon, label, options, ...props }) {
           "
         >
           <option value="">Select Option</option>
+
           {options.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -614,13 +805,15 @@ function FormSelect({ icon: Icon, label, options, ...props }) {
 
 function StatusBanner({ type, message }) {
   const isError = type === "error";
+
   return (
     <div
       className={`
         flex items-start gap-3 rounded-2xl border p-4 text-sm
-        ${isError 
-          ? "border-red-200 bg-red-50 text-red-800" 
-          : "border-emerald-200 bg-emerald-50 text-emerald-800"
+        ${
+          isError
+            ? "border-red-200 bg-red-50 text-red-800"
+            : "border-emerald-200 bg-emerald-50 text-emerald-800"
         }
       `}
       role="alert"
@@ -630,6 +823,7 @@ function StatusBanner({ type, message }) {
       ) : (
         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
       )}
+
       <span>{message}</span>
     </div>
   );
