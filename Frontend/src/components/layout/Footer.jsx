@@ -312,7 +312,6 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Careers Popup Modal - Without Email Section */}
       {showCareerPopup && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative bg-gradient-to-br from-[#0f172a] to-[#020817] rounded-xl sm:rounded-2xl max-w-[90%] sm:max-w-lg md:max-w-xl w-full shadow-2xl border border-white/10 animate-in zoom-in duration-300 max-h-[90vh] overflow-y-auto">
