@@ -6,6 +6,7 @@ import {
   Code2,
   ArrowRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -281,12 +282,15 @@ export default function ServicesSection() {
               </p>
             </div>
 
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="
-                relative z-10
-                mt-6 inline-flex items-center justify-center gap-2
-                px-5 py-3 rounded-xl
+                relative overflow-hidden
+                group inline-flex items-center justify-center gap-2
+                whitespace-nowrap
+                px-8 h-[58px]
+                rounded-[18px]
+                border border-white/15
                 bg-[#0E8F6F]
                 text-white
                 font-medium
@@ -298,7 +302,7 @@ export default function ServicesSection() {
               Book Free Consultation
 
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

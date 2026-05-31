@@ -12,8 +12,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email Us",
-    value: "hello@wenexa.tech",
-    href: "mailto:hello@wenexa.tech",
+    value: " partnership@wenexa.in",
+    href: "mailto:partnership@wenexa.in",
   },
   {
     icon: Phone,

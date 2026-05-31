@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import foot_logo from "../../assets/images/Wenexa-footer-logo.png";
-
 import {
   FaLinkedinIn,
   FaTwitter,
@@ -17,7 +16,53 @@ import {
 
 import { IoLocationOutline } from "react-icons/io5";
 
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    
+    if (!email) {
+      setStatus({ type: "error", message: "Please enter your email address" });
+      setTimeout(() => setStatus({ type: "", message: "" }), 5000);
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ type: "", message: "" });
+
+    try {
+      const response = await fetch(`${API_BASE}/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.success) {
+        setStatus({ type: "success", message: data.message });
+        setEmail("");
+        setTimeout(() => setStatus({ type: "", message: "" }), 5000);
+      } else {
+        setStatus({
+          type: "error",
+          message: data.message || "Subscription failed. Please try again.",
+        });
+        setTimeout(() => setStatus({ type: "", message: "" }), 5000);
+      }
+    } catch (error) {
+      setStatus({ type: "error", message: "Subscription failed. Please try again." });
+      setTimeout(() => setStatus({ type: "", message: "" }), 5000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="relative bg-[#020817] pt-10 lg:pt-12 pb-4 lg:pb-6 overflow-hidden">
       {/* Background Subtle Glows */}
@@ -41,6 +86,39 @@ export default function Footer() {
               WeNexa is a premium digital agency specializing in turning
               complex problems into elegant, high-performance solutions.
             </p>
+            
+            {/* Newsletter Subscription */}
+            <div className="mb-8">
+              <h4 className="text-white font-semibold text-sm tracking-widest uppercase mb-4 opacity-90">
+                Subscribe to Newsletter
+              </h4>
+              <form onSubmit={handleSubscribe} className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white/80 text-sm placeholder-white/30 focus:outline-none focus:border-[#0F5C4D] focus:ring-1 focus:ring-[#0F5C4D] transition-all"
+                  disabled={loading}
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#0F5C4D] hover:bg-[#0A473B] text-white p-2 rounded-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <HiArrowRight className="w-5 h-5" />
+                  )}
+                </button>
+              </form>
+              {status.message && (
+                <div className={`mt-3 text-xs ${status.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                  {status.message}
+                </div>
+              )}
+            </div>
 
             <div className="flex flex-col gap-4">
               <a
@@ -75,22 +153,19 @@ export default function Footer() {
             </h4>
 
             <ul className="space-y-4">
-              {[
-                "Web Development",
-                "Mobile Apps",
-                "AI & Automation",
-                "UI/UX Design",
-                "Cloud & DevOps",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-white/40 text-sm hover:text-white transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+                {[
+                  { label: "Web Development", href: "/services" },
+                  { label: "Mobile Apps", href: "/services" },
+                  { label: "AI & Automation", href: "/services" },
+                  { label: "UI/UX Design", href: "/services" },
+                  { label: "Cloud & DevOps", href: "/services" }
+                ].map((item) => (
+                  <li key={item.label}>
+                    <Link to={item.href} className="text-white/40 text-sm hover:text-white transition-colors duration-300">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
 

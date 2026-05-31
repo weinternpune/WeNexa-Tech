@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDb from "./src/config/database.js";
 import { verifyEmailTransport } from "./src/config/emailConfig.js";
 import contactRoutes from "./src/routes/contactRoutes.js";
+import subscriberRoutes from "./src/routes/subscriberRoutes.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", contactRoutes);
+app.use("/api", subscriberRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK", timestamp: new Date() });
