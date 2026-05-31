@@ -30,6 +30,10 @@ const navLinks = [
     href: "/portfolio",
   },
   {
+    label: "Products",
+    href: "/products",
+  },
+  {
     label: "Hire Talent",
     href: "/hire-talent",
   },

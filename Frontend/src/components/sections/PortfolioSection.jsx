@@ -191,20 +191,7 @@ export default function PortfolioSection() {
                 performance and long-term scalability.
               </p>
 
-              <a
-                href="#"
-                className="
-                  inline-flex items-center gap-3
-                  text-white
-                  font-medium
-                  hover:gap-4
-                  transition-all duration-300
-                "
-              >
-                View All Projects
-
-                <ArrowRight className="w-4 h-4" />
-              </a>
+              
 
             </div>
           </div>
