@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Menu,
   X,
@@ -14,7 +14,6 @@ const navLinks = [
     label: "Home",
     href: "/",
   },
-
   {
     label: "Services",
     href: "/services",
@@ -26,85 +25,92 @@ const navLinks = [
       { label: "Custom Software", href: "/services#custom" },
     ],
   },
-
   {
     label: "Our Work",
     href: "/portfolio",
   },
-
   {
     label: "Hire Talent",
     href: "/hire-talent",
   },
-
   {
     label: "About Us",
     href: "/about",
   },
-
   {
     label: "Blog",
     href: "/blog",
   },
 ];
 
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] =
-    useState(null);
-
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const mobileMenuRef = useRef(null);
 
+  const phoneNumber = "+917414974582";
+
+  // Close menu on route change
   useEffect(() => {
-    const handler = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    if (open) setOpen(false);
+  }, [location.pathname]);
 
+  // Scroll effect
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handler);
-
-    return () =>
-      window.removeEventListener(
-        "scroll",
-        handler
-      );
+    return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const handleNavClick = (
-    href,
-    closeMobile = false
-  ) => {
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target) && open) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [open]);
+
+  const handleNavClick = (href, closeMobile = false) => {
     const [path, hash] = href.split("#");
-
     if (closeMobile) setOpen(false);
-
     navigate(path);
-
     setTimeout(() => {
       if (hash) {
         const el = document.getElementById(hash);
-
         if (el) {
           const yOffset = -90;
-
-          const y =
-            el.getBoundingClientRect().top +
-            window.pageYOffset +
-            yOffset;
-
-          window.scrollTo({
-            top: y,
-            behavior: "smooth",
-          });
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
         }
       } else {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }, 120);
+  };
+
+  // Direct handlers for mobile buttons (bypass React Router issues)
+  const handleScheduleCall = () => {
+    setOpen(false);
+    // Force dialer to open using native browser API
+    window.location.href = `tel:${phoneNumber}`;
+  };
+
+  const handleStartProject = () => {
+    setOpen(false);
+    // Use direct navigation (full page reload) to ensure contact page loads
+    setTimeout(() => {
+      window.location.href = "/contact";
+    }, 50);
   };
 
   return (
@@ -139,8 +145,7 @@ export default function Navbar() {
         scrolled
           ? {
               backdropFilter: "blur(18px)",
-              WebkitBackdropFilter:
-                "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
             }
           : {}
       }
@@ -233,7 +238,6 @@ export default function Navbar() {
                   duration-300
                 "
               >
-                {/* Hover Effect */}
                 <span
                   className="
                     absolute
@@ -278,7 +282,6 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Premium Minimal Dropdown */}
               {link.dropdown &&
                 activeDropdown ===
                   link.label && (
@@ -375,7 +378,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* Desktop CTA Buttons */}
         <div
           className="
             hidden
@@ -385,69 +388,84 @@ export default function Navbar() {
             gap-4
           "
         >
-          {/* Secondary Button */}
-          <a href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer"
+          <a
+            href={`tel:${phoneNumber}`}
             className="
-              inline-flex
-              items-center
-              justify-center
               px-6
               py-3
+
               rounded-xl
+
               border
               border-[#CDEEE4]
+
               bg-[#F8FFFC]
+
               text-[#0F5C4D]
               font-semibold
+
               hover:bg-[#EEFDF6]
+
               transition-all
               duration-300
+
+              inline-block
+              text-center
+              no-underline
             "
           >
             Schedule a Call
           </a>
 
-          {/* Primary Button */}
-          <Link to="/contact"
-            className="
-              group
-              relative
-              overflow-hidden
-              inline-flex
-              items-center
-              justify-center
-              px-7
-              py-3
-              rounded-xl
-              bg-gradient-to-r
-              from-[#0F5C4D]
-              to-[#0B1F3A]
-              text-white
-              font-semibold
-              shadow-[0_10px_30px_rgba(15,92,77,0.20)]
-              hover:scale-[1.02]
-              hover:shadow-[0_14px_35px_rgba(15,92,77,0.28)]
-              transition-all
-              duration-300
-            "
-          >
-            {/* Shine Effect */}
-            <span
+          <Link to="/contact">
+            <button
               className="
-                absolute
-                inset-0
-                bg-white/10
-                translate-x-[-120%]
-                skew-x-12
-                group-hover:translate-x-[220%]
-                transition-transform
-                duration-1000
-              "
-            />
+                group
+                relative
+                overflow-hidden
 
-            <span className="relative z-10">
-              Start a Project
-            </span>
+                px-7
+                py-3
+
+                rounded-xl
+
+                bg-gradient-to-r
+                from-[#0F5C4D]
+                to-[#0B1F3A]
+
+                text-white
+                font-semibold
+
+                shadow-[0_10px_30px_rgba(15,92,77,0.20)]
+
+                hover:scale-[1.02]
+                hover:shadow-[0_14px_35px_rgba(15,92,77,0.28)]
+
+                transition-all
+                duration-300
+              "
+            >
+              <span
+                className="
+                  absolute
+                  inset-0
+
+                  bg-white/10
+
+                  translate-x-[-120%]
+                  skew-x-12
+
+                  group-hover:translate-x-[220%]
+
+                  transition-transform
+                  duration-1000
+                "
+              />
+
+              <span className="relative z-10">
+                Start a Project
+              </span>
+            </button>
           </Link>
         </div>
 
@@ -479,6 +497,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div
+          ref={mobileMenuRef}
           className="
             lg:hidden
 
@@ -591,7 +610,7 @@ export default function Navbar() {
               </div>
             ))}
 
-            {/* Mobile CTA */}
+            {/* Mobile CTA Buttons - FINAL FIX */}
             <div
               className="
                 flex
@@ -605,17 +624,11 @@ export default function Navbar() {
                 border-[#E2E8F0]
               "
             >
-              <a
-                href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project."
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  setOpen(false)
-                }
+              {/* Schedule a Call - direct handler */}
+              <button
+                onClick={handleScheduleCall}
                 className="
-                  block
                   w-full
-                  text-center
 
                   py-3
 
@@ -628,20 +641,18 @@ export default function Navbar() {
 
                   text-[#0F5C4D]
                   font-semibold
+
+                  cursor-pointer
                 "
               >
                 Schedule a Call
-              </a>
+              </button>
 
-              <Link
-                to="/contact"
-                onClick={() =>
-                  setOpen(false)
-                }
+              {/* Start a Project - direct handler */}
+              <button
+                onClick={handleStartProject}
                 className="
-                  block
                   w-full
-                  text-center
 
                   py-3
 
@@ -653,10 +664,12 @@ export default function Navbar() {
 
                   text-white
                   font-semibold
+
+                  cursor-pointer
                 "
               >
                 Start a Project
-              </Link>
+              </button>
             </div>
           </div>
         </div>
