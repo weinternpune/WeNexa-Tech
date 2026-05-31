@@ -386,83 +386,68 @@ export default function Navbar() {
           "
         >
           {/* Secondary Button */}
-          <Link to="/contact">
-            <button
-              className="
-                px-6
-                py-3
-
-                rounded-xl
-
-                border
-                border-[#CDEEE4]
-
-                bg-[#F8FFFC]
-
-                text-[#0F5C4D]
-                font-semibold
-
-                hover:bg-[#EEFDF6]
-
-                transition-all
-                duration-300
-              "
-            >
-              Schedule a Call
-            </button>
-          </Link>
+          <a href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer"
+            className="
+              inline-flex
+              items-center
+              justify-center
+              px-6
+              py-3
+              rounded-xl
+              border
+              border-[#CDEEE4]
+              bg-[#F8FFFC]
+              text-[#0F5C4D]
+              font-semibold
+              hover:bg-[#EEFDF6]
+              transition-all
+              duration-300
+            "
+          >
+            Schedule a Call
+          </a>
 
           {/* Primary Button */}
-          <Link to="/contact">
-            <button
+          <Link to="/contact"
+            className="
+              group
+              relative
+              overflow-hidden
+              inline-flex
+              items-center
+              justify-center
+              px-7
+              py-3
+              rounded-xl
+              bg-gradient-to-r
+              from-[#0F5C4D]
+              to-[#0B1F3A]
+              text-white
+              font-semibold
+              shadow-[0_10px_30px_rgba(15,92,77,0.20)]
+              hover:scale-[1.02]
+              hover:shadow-[0_14px_35px_rgba(15,92,77,0.28)]
+              transition-all
+              duration-300
+            "
+          >
+            {/* Shine Effect */}
+            <span
               className="
-                group
-                relative
-                overflow-hidden
-
-                px-7
-                py-3
-
-                rounded-xl
-
-                bg-gradient-to-r
-                from-[#0F5C4D]
-                to-[#0B1F3A]
-
-                text-white
-                font-semibold
-
-                shadow-[0_10px_30px_rgba(15,92,77,0.20)]
-
-                hover:scale-[1.02]
-                hover:shadow-[0_14px_35px_rgba(15,92,77,0.28)]
-
-                transition-all
-                duration-300
+                absolute
+                inset-0
+                bg-white/10
+                translate-x-[-120%]
+                skew-x-12
+                group-hover:translate-x-[220%]
+                transition-transform
+                duration-1000
               "
-            >
-              {/* Shine Effect */}
-              <span
-                className="
-                  absolute
-                  inset-0
+            />
 
-                  bg-white/10
-
-                  translate-x-[-120%]
-                  skew-x-12
-
-                  group-hover:translate-x-[220%]
-
-                  transition-transform
-                  duration-1000
-                "
-              />
-
-              <span className="relative z-10">
-                Start a Project
-              </span>
-            </button>
+            <span className="relative z-10">
+              Start a Project
+            </span>
           </Link>
         </div>
 
@@ -620,57 +605,57 @@ export default function Navbar() {
                 border-[#E2E8F0]
               "
             >
+              <a
+                href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project."
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  setOpen(false)
+                }
+                className="
+                  block
+                  w-full
+                  text-center
+
+                  py-3
+
+                  rounded-xl
+
+                  border
+                  border-[#B7E4D7]
+
+                  bg-[#F8FFFC]
+
+                  text-[#0F5C4D]
+                  font-semibold
+                "
+              >
+                Schedule a Call
+              </a>
+
               <Link
                 to="/contact"
                 onClick={() =>
                   setOpen(false)
                 }
+                className="
+                  block
+                  w-full
+                  text-center
+
+                  py-3
+
+                  rounded-xl
+
+                  bg-gradient-to-r
+                  from-[#0F5C4D]
+                  to-[#0B1F3A]
+
+                  text-white
+                  font-semibold
+                "
               >
-                <button
-                  className="
-                    w-full
-
-                    py-3
-
-                    rounded-xl
-
-                    border
-                    border-[#B7E4D7]
-
-                    bg-[#F8FFFC]
-
-                    text-[#0F5C4D]
-                    font-semibold
-                  "
-                >
-                  Schedule a Call
-                </button>
-              </Link>
-
-              <Link
-                to="/contact"
-                onClick={() =>
-                  setOpen(false)
-                }
-              >
-                <button
-                  className="
-                    w-full
-
-                    py-3
-
-                    rounded-xl
-
-                    bg-gradient-to-r
-                    from-[#0F5C4D]
-                    to-[#0B1F3A]
-
-                    text-white
-                    font-semibold
-                  "
-                >
-                  Start a Project
-                </button>
+                Start a Project
               </Link>
             </div>
           </div>

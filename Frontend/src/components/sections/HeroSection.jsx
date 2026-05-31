@@ -1,5 +1,6 @@
 import heroBg from "../../assets/images/hero-bg.png";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { PhoneCall } from "lucide-react";
 import {
   CircleDollarSign,
@@ -53,7 +54,7 @@ const HeroSection = () => {
         />
 
         {/* Content */}
-        <div className="relative z-10
+        <div className="relative z-10 w-full max-w-7xl mx-auto
           px-4 sm:px-6 lg:px-8 xl:px-12
           pt-24 pb-6
           sm:pt-28 sm:pb-8
@@ -94,21 +95,23 @@ const HeroSection = () => {
 
               {/* Buttons */}
               <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
-                <button className="group relative overflow-hidden w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-2xl bg-[#149978] text-white font-semibold text-sm transition-all duration-300 active:scale-95 touch-manipulation hover:-translate-y-[2px]">
-                  <span className="absolute top-0 left-[-120%] h-full w-[120%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] transition-all duration-1000 group-hover:left-[130%]" />
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    Book Free Consultation
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </span>
-                </button>
+                  <Link to="/contact" className="w-full sm:w-auto">
+                    <button className="group relative overflow-hidden w-full sm:w-auto px-5 py-2.5 sm:py-3 rounded-2xl bg-[#149978] text-white font-semibold text-sm transition-all duration-300 active:scale-95 touch-manipulation hover:-translate-y-[2px]">
+                      <span className="absolute top-0 left-[-120%] h-full w-[120%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[25deg] transition-all duration-1000 group-hover:left-[130%]" />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        Book Free Consultation
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </span>
+                    </button>
+                  </Link>
 
-                <button className="group relative overflow-hidden w-full sm:w-auto py-2.5 sm:py-3 px-4 rounded-2xl border border-white/10 bg-white/[0.03] flex items-center justify-center gap-2 text-white font-medium text-sm backdrop-blur-xl transition-all duration-300 active:scale-95 touch-manipulation hover:-translate-y-[2px] hover:border-[#00C97B]/20">
+                <a href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden w-full sm:w-auto py-2.5 sm:py-3 px-4 rounded-2xl border border-white/10 bg-white/[0.03] flex items-center justify-center gap-2 text-white font-medium text-sm backdrop-blur-xl transition-all duration-300 active:scale-95 touch-manipulation hover:-translate-y-[2px] hover:border-[#00C97B]/20">
                   <span className="relative z-10 w-7 h-7 rounded-xl bg-[#00C97B]/10 flex items-center justify-center shrink-0">
                     <PhoneCall className="w-3.5 h-3.5 text-[#00C97B]" />
                   </span>
                   <span className="relative z-10">Schedule a Call</span>
                   <span className="absolute top-0 left-[-120%] h-full w-[120%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-all duration-700 group-hover:left-[120%]" />
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -119,7 +122,7 @@ const HeroSection = () => {
       <div className="relative z-20 w-full bg-[#07111F] border-t border-white/[0.08] shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
 
         {/* MOBILE < sm */}
-        <div className="sm:hidden px-3 py-2 space-y-1.5">
+        <div className="sm:hidden px-3 py-2 space-y-1.5 w-full mx-auto">
           {/* Feature cards — 3 cols */}
           <div className="grid grid-cols-3 gap-1.5">
             {features.map((item, index) => {
@@ -158,7 +161,7 @@ const HeroSection = () => {
         </div>
 
         {/* TABLET sm–lg */}
-        <div className="hidden sm:block lg:hidden px-5 py-3 space-y-2">
+        <div className="hidden sm:block lg:hidden px-5 py-3 space-y-2 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-5 gap-2">
             {features.map((item, index) => {
               const Icon = item.icon;
@@ -195,7 +198,7 @@ const HeroSection = () => {
         </div>
 
         {/* DESKTOP lg+ */}
-        <div className="hidden lg:grid grid-cols-10 gap-2 px-6 xl:px-10 py-3">
+        <div className="hidden lg:grid grid-cols-10 gap-2 px-6 xl:px-10 py-3 max-w-7xl mx-auto w-full">
           {/* Feature cards — 5 cols */}
           {features.map((item, index) => {
             const Icon = item.icon;

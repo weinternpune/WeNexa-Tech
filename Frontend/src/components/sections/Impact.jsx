@@ -7,7 +7,7 @@ import {
 
 export default function ImpactSection() {
   return (
-    <section className="py-10 bg-white">
+    <section className="py-10 bg-white px-4 sm:px-6 lg:px-8">
       {/* Animation */}
       <style>
         {`

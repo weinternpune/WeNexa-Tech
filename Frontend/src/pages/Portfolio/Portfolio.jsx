@@ -453,8 +453,10 @@ export default function PortfolioPage() {
               </Link>
 
               {/* Secondary CTA */}
-              <Link
-                to="/contact"
+              <a
+                href="https://wa.me/+917414974582?text=Hi%20Wenexa%20Tech!%20I'd%20like%20to%20discuss%20a%20project."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
                   relative overflow-hidden
                   group inline-flex items-center justify-center gap-2
@@ -486,7 +488,7 @@ export default function PortfolioPage() {
                 </span>
 
                 <ArrowRight className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              </a>
             </div>
           </div>
         </motion.div>
