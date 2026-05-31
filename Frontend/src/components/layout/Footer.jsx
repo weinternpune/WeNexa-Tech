@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import foot_logo from "../../assets/images/Wenexa-footer-logo.png";
 import {
   FaLinkedinIn,
@@ -7,8 +7,6 @@ import {
   FaInstagram,
   FaYoutube,
   FaTimes,
-  FaEnvelope,
-  FaMapMarkerAlt,
   FaBriefcase,
   FaPaperPlane,
 } from "react-icons/fa";
@@ -70,7 +68,6 @@ export default function Footer() {
     }
   };
 
-  // Function to handle navigation with section scroll
   const handleNavigation = (path, sectionId = null) => {
     if (sectionId) {
       if (window.location.pathname === path) {
@@ -93,7 +90,6 @@ export default function Footer() {
     }
   };
 
-  // Handle Careers click
   const handleCareersClick = () => {
     setShowCareerPopup(true);
   };
@@ -101,16 +97,13 @@ export default function Footer() {
   return (
     <>
       <footer className="relative bg-[#020817] pt-10 lg:pt-12 pb-4 lg:pb-6 overflow-hidden">
-        {/* Background Subtle Glows */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#0F5C4D]/10 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#0B1F3A]/30 blur-[100px] rounded-full pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-0">
           
-          {/* Main Footer Links Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-10 lg:gap-8 mb-8 lg:mb-10">
             
-            {/* Brand Info */}
             <div className="col-span-2 md:col-span-4 lg:col-span-2 pr-0 lg:pr-8 xl:pr-16">
               <button onClick={() => handleNavigation("/")} className="cursor-pointer">
                 <img
@@ -125,7 +118,6 @@ export default function Footer() {
                 complex problems into elegant, high-performance solutions.
               </p>
               
-              {/* Newsletter Subscription */}
               <div className="mb-6 sm:mb-8">
                 <h4 className="text-white font-semibold text-xs sm:text-sm tracking-widest uppercase mb-3 sm:mb-4 opacity-90">
                   Subscribe to Newsletter
@@ -184,7 +176,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Services */}
             <div className="col-span-1">
               <h4 className="text-white font-semibold text-xs sm:text-sm tracking-widest uppercase mb-4 sm:mb-6 opacity-90">
                 Services
@@ -210,7 +201,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Industries */}
             <div className="col-span-1">
               <h4 className="text-white font-semibold text-xs sm:text-sm tracking-widest uppercase mb-4 sm:mb-6 opacity-90">
                 Industries
@@ -236,7 +226,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Company */}
             <div className="col-span-2 md:col-span-2 lg:col-span-1 mt-2 md:mt-0">
               <h4 className="text-white font-semibold text-xs sm:text-sm tracking-widest uppercase mb-4 sm:mb-6 opacity-90">
                 Company
@@ -279,7 +268,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Bottom Bar */}
           <div className="pt-4 sm:pt-5 border-t border-white/[0.06] flex flex-col-reverse md:flex-row items-center justify-between gap-4 sm:gap-6 md:pr-24">
             <p className="text-white/30 text-xs sm:text-sm text-center md:text-left">
               © {new Date().getFullYear()} WeNexa Technologies Pvt. Ltd.
@@ -324,12 +312,11 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Careers Popup Modal - Fully Responsive */}
+      {/* Careers Popup Modal - Without Email Section */}
       {showCareerPopup && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative bg-gradient-to-br from-[#0f172a] to-[#020817] rounded-xl sm:rounded-2xl max-w-[90%] sm:max-w-lg md:max-w-xl w-full shadow-2xl border border-white/10 animate-in zoom-in duration-300 max-h-[90vh] overflow-y-auto">
             
-            {/* Close Button */}
             <button
               onClick={() => setShowCareerPopup(false)}
               className="absolute top-3 sm:top-4 right-3 sm:right-4 text-white/50 hover:text-white transition-colors z-10 p-1 sm:p-0"
@@ -337,7 +324,6 @@ export default function Footer() {
               <FaTimes className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
-            {/* Content */}
             <div className="p-4 sm:p-6 md:p-8">
               <div className="text-center mb-4 sm:mb-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-[#0E8F6F]/10 mb-3 sm:mb-4">
@@ -356,27 +342,6 @@ export default function Footer() {
               <div className="space-y-3 sm:space-y-4 mb-5 sm:mb-6">
                 <div className="bg-white/5 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10">
                   <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                    <FaEnvelope className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E8F6F]" />
-                    <h4 className="text-white font-semibold text-sm sm:text-base">Send your resume</h4>
-                  </div>
-                  <a 
-                    href="mailto:careers@wenexa.in?subject=Job Application - [Position Name]"
-                    className="text-[#0E8F6F] hover:text-[#0c7a5f] transition-colors break-all text-xs sm:text-sm ml-6 sm:ml-8"
-                  >
-                    careers@wenexa.in
-                  </a>
-                </div>
-
-                <div className="bg-white/5 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                    <FaMapMarkerAlt className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E8F6F]" />
-                    <h4 className="text-white font-semibold text-sm sm:text-base">Location</h4>
-                  </div>
-                  <p className="text-white/60 text-xs sm:text-sm ml-6 sm:ml-8">Pune, Maharashtra, India (Remote options available)</p>
-                </div>
-
-                <div className="bg-white/5 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-2">
                     <FaBriefcase className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E8F6F]" />
                     <h4 className="text-white font-semibold text-sm sm:text-base">Open Positions</h4>
                   </div>
@@ -391,7 +356,7 @@ export default function Footer() {
 
               <button
                 onClick={() => {
-                  window.location.href = "mailto:careers@wenexa.in";
+                  window.location.href = "mailto:partnership@wenexa.in";
                   setShowCareerPopup(false);
                 }}
                 className="w-full bg-[#0E8F6F] hover:bg-[#0c7a5f] text-white font-semibold py-2.5 sm:py-3 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
@@ -399,16 +364,11 @@ export default function Footer() {
                 <FaPaperPlane className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span className="text-sm sm:text-base">Apply Now</span>
               </button>
-
-              <p className="text-center text-white/40 text-[10px] sm:text-xs mt-3 sm:mt-4">
-                Send your resume and portfolio to careers@wenexa.in
-              </p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Add animation styles if not already in your CSS */}
       <style jsx>{`
         @keyframes fade-in {
           from {
