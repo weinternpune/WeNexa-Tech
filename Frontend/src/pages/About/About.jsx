@@ -2,6 +2,9 @@ import { ArrowRight, Target, Zap, Heart, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import founderImage1 from "../../assets/images/Founder_WeIntern.png";
+
+
 const values = [
   {
     icon: Target,
@@ -29,18 +32,22 @@ const team = [
   {
     name: "Founder, WeIntern",
     role: "CEO & Strategy",
+    image: founderImage1,
   },
   {
     name: "Head of Engineering",
     role: "Technology Lead",
+    image: founderImage1,
   },
   {
     name: "Head of Design",
     role: "Creative Director",
+    image: founderImage1,
   },
   {
     name: "Head of Sales",
     role: "Business Growth",
+    image: founderImage1,
   },
 ];
 
@@ -83,7 +90,10 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10" style={{marginTop:"10px"}}>
+      <div
+        className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10"
+        style={{ marginTop: "10px" }}
+      >
         {/* HERO */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center mb-16 md:mb-28">
           {/* LEFT */}
@@ -183,7 +193,6 @@ export default function AboutPage() {
                   group
                 "
               >
-                {/* Glow */}
                 <div className="absolute top-0 right-0 w-40 h-40 bg-[#0E8F6F]/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700" />
 
                 <div className="relative z-10">
@@ -215,7 +224,6 @@ export default function AboutPage() {
             shadow-[0_30px_120px_rgba(15,23,42,0.16)]
           "
         >
-          {/* Background Effects */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-[260px] sm:w-[420px] h-[260px] sm:h-[420px] bg-[#0E8F6F]/10 blur-3xl rounded-full" />
 
@@ -294,7 +302,6 @@ export default function AboutPage() {
                   group
                 "
               >
-                {/* Glow */}
                 <div className="absolute top-0 right-0 w-52 h-52 bg-[#0E8F6F]/[0.04] blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700" />
 
                 <div className="relative z-10 flex gap-4">
@@ -305,9 +312,6 @@ export default function AboutPage() {
                       border border-[#0E8F6F]/10
                       flex items-center justify-center
                       shrink-0
-                      transition-all duration-500
-                      group-hover:scale-105
-                      group-hover:-translate-y-1
                     "
                   >
                     <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#0E8F6F]" />
@@ -330,12 +334,10 @@ export default function AboutPage() {
 
         {/* TEAM */}
         <div className="mb-16 md:mb-28 relative">
-          {/* Glow */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] bg-[#0E8F6F]/[0.05] blur-[140px]" />
           </div>
 
-          {/* Heading */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -360,7 +362,6 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          {/* Team Grid */}
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -368,7 +369,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="relative z-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5"
           >
-            {team.map((member, index) => (
+            {team.map((member) => (
               <motion.div
                 key={member.name}
                 variants={fadeUp}
@@ -379,22 +380,11 @@ export default function AboutPage() {
                   border border-[#e5e7eb]
                   bg-white
                   shadow-[0_12px_40px_rgba(15,23,42,0.05)]
-                  transition-all duration-700
-                  hover:shadow-[0_28px_80px_rgba(15,23,42,0.10)]
                 "
               >
-                {/* Glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#0E8F6F]/[0.05] blur-3xl rounded-full" />
-                </div>
-
-                {/* Floating Ring */}
-                <div className="absolute top-5 right-5 w-16 sm:w-20 h-16 sm:h-20 rounded-full border border-[#0E8F6F]/10 transition-all duration-700 group-hover:scale-110 group-hover:rotate-12" />
-
-                {/* IMAGE */}
                 <div className="relative h-[300px] sm:h-[360px] overflow-hidden">
                   <img
-                    src={`https://picsum.photos/700/900?random=${index + 12}`}
+                    src={member.image}
                     alt={member.name}
                     className="
                       w-full h-full object-cover
@@ -403,10 +393,8 @@ export default function AboutPage() {
                     "
                   />
 
-                  {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/20 to-transparent opacity-95" />
 
-                  {/* Top Badge */}
                   <div
                     className="
                       absolute top-4 sm:top-5 left-4 sm:left-5
@@ -422,7 +410,6 @@ export default function AboutPage() {
                     Wenexa Team
                   </div>
 
-                  {/* Bottom */}
                   <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
                     <div className="w-12 h-[2px] bg-[#0E8F6F] rounded-full mb-4 transition-all duration-500 group-hover:w-20" />
 
@@ -433,179 +420,12 @@ export default function AboutPage() {
                     <p className="text-white/65 text-[13px] sm:text-sm mb-5">
                       {member.role}
                     </p>
-
-                    <div className="flex items-center justify-between gap-3">
-                      {/* Status */}
-                      <div
-                        className="
-                          inline-flex items-center gap-2
-                          rounded-full
-                          border border-white/10
-                          bg-white/[0.06]
-                          backdrop-blur-xl
-                          px-3 py-2
-                        "
-                      >
-                        <div className="relative flex items-center justify-center">
-                          <div className="absolute w-3 h-3 rounded-full bg-[#34d399]/20 animate-pulse" />
-
-                          <div className="relative w-2 h-2 rounded-full bg-[#34d399]" />
-                        </div>
-
-                        <span className="text-white/80 text-[11px] sm:text-xs font-medium">
-                          Active
-                        </span>
-                      </div>
-
-                      {/* CTA */}
-                      <button
-                        className="
-                          relative overflow-hidden
-                          w-10 sm:w-11 h-10 sm:h-11 rounded-2xl
-                          bg-white/10
-                          backdrop-blur-xl
-                          border border-white/10
-                          text-white
-                          flex items-center justify-center
-                          transition-all duration-500
-                          hover:bg-[#0E8F6F]
-                          hover:border-[#0E8F6F]
-                          hover:shadow-[0_10px_30px_rgba(14,143,111,0.35)]
-                          group/btn
-                        "
-                      >
-                        <span
-                          className="
-                            absolute inset-0
-                            -translate-x-[120%]
-                            bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent)]
-                            group-hover/btn:translate-x-[120%]
-                            transition-transform duration-1000
-                          "
-                        />
-
-                        <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                      </button>
-                    </div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-
-        {/* CTA */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="
-            relative overflow-hidden
-            rounded-[28px] md:rounded-[40px]
-            bg-[#0f172a]
-            p-6 sm:p-10 md:p-16
-            text-white
-            shadow-[0_30px_120px_rgba(15,23,42,0.18)]
-          "
-        >
-          {/* Glow */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-0 w-[260px] sm:w-[420px] h-[260px] sm:h-[420px] bg-[#0E8F6F]/10 blur-3xl rounded-full" />
-
-            <div className="absolute -bottom-24 -right-24 w-[260px] sm:w-[420px] h-[260px] sm:h-[420px] border border-[#0E8F6F]/10 rounded-full" />
-          </div>
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 md:gap-10">
-            {/* LEFT */}
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs tracking-[0.22em] uppercase text-[#34d399] font-semibold mb-5">
-                Join Our Journey
-              </div>
-
-              <h2 className="text-[28px] sm:text-4xl md:text-5xl font-bold leading-tight mb-5">
-                Let’s Build Something
-                <br />
-                Extraordinary Together
-              </h2>
-
-              <p className="text-white/65 text-[15px] sm:text-lg leading-relaxed">
-                Whether you're a startup, enterprise, or innovation partner —
-                let's create systems that drive long-term growth.
-              </p>
-            </div>
-
-            {/* RIGHT */}
-            <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4">
-              <Link
-                to="/contact"
-                className="
-                  relative overflow-hidden
-                  group inline-flex items-center justify-center gap-2
-                  whitespace-nowrap
-                  px-6 sm:px-8 h-[52px] sm:h-[58px]
-                  rounded-[18px]
-                  bg-[#0E8F6F]
-                  text-white
-                  text-sm sm:text-base
-                  font-semibold
-                  transition-all duration-500
-                  hover:bg-[#0c7a5f]
-                  hover:shadow-[0_20px_45px_rgba(14,143,111,0.28)]
-                  hover:-translate-y-[2px]
-                "
-              >
-                <span
-                  className="
-                    absolute inset-0
-                    -translate-x-[120%]
-                    bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent)]
-                    group-hover:translate-x-[120%]
-                    transition-transform duration-1000
-                  "
-                />
-
-                <span className="relative z-10">Start a Project</span>
-
-                <ArrowRight className="relative z-10 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-
-              <Link
-                to="/careers"
-                className="
-                  relative overflow-hidden
-                  group inline-flex items-center justify-center gap-2
-                  whitespace-nowrap
-                  px-6 sm:px-8 h-[52px] sm:h-[58px]
-                  rounded-[18px]
-                  border border-white/15
-                  bg-white/[0.04]
-                  text-white
-                  text-sm sm:text-base
-                  font-semibold
-                  transition-all duration-500
-                  hover:bg-white/[0.08]
-                  hover:border-white/25
-                  hover:-translate-y-[2px]
-                "
-              >
-                <span
-                  className="
-                    absolute inset-0
-                    -translate-x-[120%]
-                    bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.12),transparent)]
-                    group-hover:translate-x-[120%]
-                    transition-transform duration-1000
-                  "
-                />
-
-                <span className="relative z-10">View Careers</span>
-
-                <ArrowRight className="relative z-10 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
