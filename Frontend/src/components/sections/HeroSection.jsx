@@ -40,26 +40,26 @@ const HeroSection = () => {
           <img
             src={heroBg}
             alt="hero background"
-            className="w-full h-full object-cover object-[75%_center] sm:object-[65%_center] md:object-right"
+            className="w-full h-full object-cover object-center"
           />
         </div>
 
         {/* Overlay */}
         <div className="absolute inset-0 z-0
           bg-gradient-to-r
-          from-[#020617]/95 via-[#020617]/75 to-[#020617]/40
-          sm:from-[#020617] sm:via-[#020617]/90 sm:to-[#020617]/55
-          md:from-[#020617] md:via-[#020617]/90 md:to-transparent"
+          from-[#020617]/90 via-[#020617]/60 to-[#020617]/20
+          sm:from-[#020617]/95 sm:via-[#020617]/70 sm:to-[#020617]/25
+          md:from-[#020617]/90 md:via-[#020617]/55 md:to-[#020617]/10"
         />
 
-        {/* Content — padding drives height */}
+        {/* Content */}
         <div className="relative z-10
           px-4 sm:px-6 lg:px-8 xl:px-12
-          pt-24 pb-10
-          sm:pt-28 sm:pb-14
-          md:pt-32 md:pb-20
-          lg:pt-32 lg:pb-20
-          xl:pt-36 xl:pb-28
+          pt-24 pb-6
+          sm:pt-28 sm:pb-8
+          md:pt-32 md:pb-10
+          lg:pt-32 lg:pb-10
+          xl:pt-36 xl:pb-12
         ">
           <div className="w-full max-w-[500px] md:max-w-xl">
             <div
@@ -115,39 +115,40 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* ── BOTTOM BAR ── */}
-      <div className="w-full bg-[#07111F] border-t border-white/[0.08]">
+      {/* ── BOTTOM BAR — square cards ── */}
+      <div className="relative z-20 w-full bg-[#07111F] border-t border-white/[0.08] shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
 
         {/* MOBILE < sm */}
-        <div className="sm:hidden">
-          {/* Features — 2x3 grid on mobile */}
-          <div className="grid grid-cols-3 gap-x-2 gap-y-2 px-3 py-2.5 border-b border-white/[0.06]">
+        <div className="sm:hidden px-3 py-2 space-y-1.5">
+          {/* Feature cards — 3 cols */}
+          <div className="grid grid-cols-3 gap-1.5">
             {features.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={index} className="flex items-center gap-1.5">
-                  <div className="w-5 h-5 rounded-md border border-[#00C97B]/20 bg-[#00C97B]/5 flex items-center justify-center shrink-0">
-                    <Icon className="w-2.5 h-2.5 text-[#00C97B]" />
+                <div key={index} className="relative flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-xl bg-white/[0.03] border border-white/[0.07] overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/60 to-transparent" />
+                  <div className="w-7 h-7 rounded-lg bg-[#00C97B]/10 border border-[#00C97B]/20 flex items-center justify-center">
+                    <Icon className="w-3.5 h-3.5 text-[#00C97B]" />
                   </div>
-                  <div className="leading-none">
-                    <div className="text-white text-[9px] font-semibold whitespace-nowrap">{item.title}</div>
-                    <div className="text-white/50 text-[8px] whitespace-nowrap mt-0.5">{item.subtitle}</div>
+                  <div className="text-center leading-none">
+                    <div className="text-white text-[9px] font-bold">{item.title}</div>
+                    <div className="text-white/45 text-[8px] mt-0.5">{item.subtitle}</div>
                   </div>
                 </div>
               );
             })}
           </div>
-
-          <div className="grid grid-cols-4">
+          {/* Stat cards — 4 cols */}
+          <div className="grid grid-cols-4 gap-1.5">
             {stats.map((item, index) => (
-              <div key={index} className="relative flex flex-col items-center justify-center text-center py-2.5 border-r border-white/[0.06] last:border-r-0">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-[1px] bg-[#00C97B]/40" />
-                <h3 className="text-white text-[13px] leading-none font-black">{item.value}</h3>
-                <p className="mt-[3px] text-[7.5px] font-medium text-white/55 leading-tight text-center px-0.5">{item.label}</p>
+              <div key={index} className="relative flex flex-col items-center justify-center gap-0.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.07] overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/60 to-transparent" />
+                <h3 className="text-white text-[13px] font-black leading-none tracking-tight">{item.value}</h3>
+                <p className="text-white/50 text-[7px] font-medium text-center px-1 leading-tight">{item.label}</p>
                 {item.stars && (
-                  <div className="flex gap-px mt-[2px]">
+                  <div className="flex gap-px mt-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="text-[#FFC83D] text-[7px]">★</span>
+                      <span key={i} className="text-[#FFC83D] text-[6px]">★</span>
                     ))}
                   </div>
                 )}
@@ -157,34 +158,32 @@ const HeroSection = () => {
         </div>
 
         {/* TABLET sm–lg */}
-        <div className="hidden sm:block lg:hidden">
-          <div
-            className="flex items-center gap-5 px-6 py-3 border-b border-white/[0.06]"
-            style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
+        <div className="hidden sm:block lg:hidden px-5 py-3 space-y-2">
+          <div className="grid grid-cols-5 gap-2">
             {features.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={index} className="flex items-center gap-2 shrink-0">
-                  <div className="w-7 h-7 rounded-lg border border-[#00C97B]/15 bg-[#00C97B]/5 flex items-center justify-center shrink-0">
-                    <Icon className="w-3.5 h-3.5 text-[#00C97B]" />
+                <div key={index} className="relative flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.07] overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/60 to-transparent" />
+                  <div className="w-9 h-9 rounded-xl bg-[#00C97B]/10 border border-[#00C97B]/20 flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-[#00C97B]" />
                   </div>
-                  <div className="leading-tight">
-                    <div className="text-white text-[12px] font-semibold whitespace-nowrap">{item.title}</div>
-                    <div className="text-white/50 text-[10px] whitespace-nowrap">{item.subtitle}</div>
+                  <div className="text-center leading-none">
+                    <div className="text-white text-[11px] font-bold">{item.title}</div>
+                    <div className="text-white/45 text-[10px] mt-0.5">{item.subtitle}</div>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div className="grid grid-cols-4 divide-x divide-white/[0.06]">
+          <div className="grid grid-cols-4 gap-2">
             {stats.map((item, index) => (
-              <div key={index} className="relative flex flex-col items-center justify-center text-center py-3">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-[1px] bg-[#00C97B]/30" />
-                <h3 className="text-white text-[20px] leading-none font-black">{item.value}</h3>
-                <p className="mt-1 text-[10px] font-medium text-white/55 leading-tight">{item.label}</p>
+              <div key={index} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.07] overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/60 to-transparent" />
+                <h3 className="text-white text-[22px] font-black leading-none tracking-tight">{item.value}</h3>
+                <p className="text-white/50 text-[10px] font-medium">{item.label}</p>
                 {item.stars && (
-                  <div className="flex items-center gap-0.5 mt-1">
+                  <div className="flex gap-0.5 mt-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i} className="text-[#FFC83D] text-[9px]">★</span>
                     ))}
@@ -196,40 +195,44 @@ const HeroSection = () => {
         </div>
 
         {/* DESKTOP lg+ */}
-        <div className="hidden lg:flex items-stretch min-h-[68px] xl:min-h-[72px] px-6 xl:px-12">
-          <div className="flex items-center gap-4 xl:gap-5 flex-1 py-3 pr-4">
-            {features.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div key={index} className="flex items-center gap-2 shrink-0">
-                  <div className="w-8 h-8 rounded-xl border border-[#00C97B]/15 bg-[#00C97B]/5 flex items-center justify-center shrink-0">
-                    <Icon className="w-4 h-4 text-[#00C97B]" />
-                  </div>
-                  <div className="leading-tight">
-                    <div className="text-white text-[12px] font-semibold whitespace-nowrap">{item.title}</div>
-                    <div className="text-white/55 text-[11px] whitespace-nowrap">{item.subtitle}</div>
-                  </div>
+        <div className="hidden lg:grid grid-cols-10 gap-2 px-6 xl:px-10 py-3">
+          {/* Feature cards — 5 cols */}
+          {features.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div key={index} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-xl bg-white/[0.03] border border-white/[0.07] overflow-hidden group hover:border-[#00C97B]/25 hover:bg-[#00C97B]/[0.04] transition-all duration-300">
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/50 to-transparent" />
+                <div className="w-8 h-8 rounded-lg bg-[#00C97B]/10 border border-[#00C97B]/20 flex items-center justify-center group-hover:bg-[#00C97B]/15 transition-colors duration-300">
+                  <Icon className="w-4 h-4 text-[#00C97B]" />
                 </div>
-              );
-            })}
-          </div>
-          <div className="w-px bg-white/[0.08] my-3 mx-3 shrink-0" />
-          <div className="flex items-stretch shrink-0">
-            {stats.map((item, index) => (
-              <div key={index} className="relative px-2 xl:px-5 flex flex-col items-center justify-center text-center border-l border-white/[0.08] first:border-l-0">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60px] h-[1px] bg-[#00C97B]/30" />
-                <h3 className="text-white text-[17px] xl:text-[22px] leading-none font-black tracking-[-0.03em]">{item.value}</h3>
-                <p className="mt-1 text-[10px] xl:text-[12px] font-medium text-white/60 whitespace-nowrap">{item.label}</p>
-                {item.stars && (
-                  <div className="flex items-center gap-0.5 xl:gap-1 mt-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="text-[#FFC83D] text-[9px] xl:text-[10px]">★</span>
-                    ))}
-                  </div>
-                )}
+                <div className="text-center leading-none px-1">
+                  <div className="text-white text-[10px] xl:text-[11px] font-bold">{item.title}</div>
+                  <div className="text-white/45 text-[9px] xl:text-[10px] mt-0.5">{item.subtitle}</div>
+                </div>
               </div>
-            ))}
+            );
+          })}
+
+          {/* Divider — 1 col */}
+          <div className="flex items-center justify-center">
+            <div className="w-px h-10 bg-white/[0.08]" />
           </div>
+
+          {/* Stat cards — 4 cols */}
+          {stats.map((item, index) => (
+            <div key={index} className="relative flex flex-col items-center justify-center gap-0.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.07] overflow-hidden group hover:border-[#00C97B]/25 hover:bg-[#00C97B]/[0.04] transition-all duration-300">
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00C97B]/50 to-transparent" />
+              <h3 className="text-white text-[16px] xl:text-[20px] font-black leading-none tracking-[-0.03em]">{item.value}</h3>
+              <p className="text-white/55 text-[9px] xl:text-[10px] font-medium text-center px-1">{item.label}</p>
+              {item.stars && (
+                <div className="flex gap-px mt-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} className="text-[#FFC83D] text-[8px]">★</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
       </div>
