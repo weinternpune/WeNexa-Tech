@@ -6,8 +6,11 @@ import {
   getAllSubscribers,
 } from "../controllers/subscriberController.js";
 import { validateSubscription } from "../middleware/validation.js";
+import { globalLimiter } from "../middleware/rateLimit.js";
 
 const router = express.Router();
+
+router.use(globalLimiter);
 
 router.post("/subscribe", validateSubscription, subscribe);
 router.post("/unsubscribe", unsubscribe);
