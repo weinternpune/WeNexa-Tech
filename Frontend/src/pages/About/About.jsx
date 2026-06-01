@@ -37,17 +37,17 @@ const team = [
   {
     name: "Head of Engineering",
     role: "Technology Lead",
-    image: founderImage1,
+    // image: founderImage1,
   },
   {
     name: "Head of Design",
     role: "Creative Director",
-    image: founderImage1,
+    // image: founderImage1,
   },
   {
     name: "Head of Sales",
     role: "Business Growth",
-    image: founderImage1,
+    // image: founderImage1,
   },
 ];
 

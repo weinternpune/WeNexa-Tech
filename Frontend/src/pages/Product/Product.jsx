@@ -14,7 +14,7 @@ const products = [
   {
     id: "nexabill",
     icon: Receipt,
-    color: "#185FA5",
+    color: "#10B981",
     phase: "Live",
     title: "NexaBill",
     tagline: "GST-Ready Billing & Invoicing",
@@ -71,7 +71,7 @@ const products = [
   {
     id: "nexahr",
     icon: Users,
-    color: "#0F6E56",
+    color: "#10B981",
     phase: "Coming Soon",
     title: "NexaHR",
     tagline: "Complete HR Management Suite",
@@ -126,7 +126,7 @@ const products = [
   {
     id: "nexacrm",
     icon: BarChart3,
-    color: "#534AB7",
+    color: "#10B981",
     phase: "Coming Soon",
     title: "NexaCRM",
     tagline: "Sales-Focused CRM",
@@ -182,85 +182,95 @@ const products = [
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-white pt-28 pb-24 relative overflow-hidden"
-    style={{marginTop:"50px"}}>
-      {/* CHECK BACKGROUND */}
-      <div className="absolute inset-0 bg-white" />
-
+    <div
+      className="min-h-screen bg-[#F8FCFF] relative overflow-hidden pt-32 pb-28"
+      style={{ marginTop: "50px" }}
+    >
+      {/* GRID BACKGROUND */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: `
-            linear-gradient(#0f172a 1px, transparent 1px),
-            linear-gradient(to right, #0f172a 1px, transparent 1px)
+            linear-gradient(#94a3b8 1px, transparent 1px),
+            linear-gradient(to right, #94a3b8 1px, transparent 1px)
           `,
-          backgroundSize: "40px 40px",
+          backgroundSize: "48px 48px",
         }}
       />
 
-      {/* GLOW */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0f172a]/10 blur-[120px] rounded-full" />
+      {/* GLOW EFFECTS */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-200/30 blur-[120px] rounded-full" />
 
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-sky-200/30 blur-[120px] rounded-full" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-24">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-10 h-[2px] bg-cyan-500"></div>
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+        {/* HEADER */}
+        <div className="text-center max-w-4xl mx-auto mb-28">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-emerald-200 bg-white shadow-sm mb-7">
+            <div className="w-2 h-2 rounded-full bg-emerald-500" />
 
-            <span className="text-cyan-600 text-xs tracking-[0.25em] uppercase font-medium">
+            <span className="text-emerald-700 text-xs tracking-[0.28em] uppercase font-semibold">
               SaaS Products
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-navy-950 mb-6 leading-[1.05]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight text-slate-900">
             Software Built for
             <br />
-            <span className="text-gray-400 font-semibold ">
-              Indian Businesses
-            </span>
+            <span className="text-slate-400">Modern Businesses</span>
           </h1>
 
-          <p className="text-slate-600 text-lg leading-relaxed max-w-xl mx-auto">
-            Proprietary SaaS products designed from the ground up for the Indian
-            market — GST-ready, affordable, and backed by local support.
+          <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mt-8">
+            Enterprise-grade SaaS platforms crafted with simplicity,
+            automation, and scalability at the core.
           </p>
         </div>
 
         {/* PRODUCTS */}
-        <div className="flex flex-col gap-28">
+        <div className="flex flex-col gap-24">
           {products.map((product, i) => {
             const Icon = product.icon;
 
             return (
               <div key={product.id} id={product.id} className="scroll-mt-28">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start mb-12">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 items-start">
                   {/* LEFT */}
-                  <div>
-                    <div className="flex items-center gap-4 mb-6">
-                      {/* ICON */}
+                  <div
+                    className="
+                      relative
+                      bg-white/80
+                      border
+                      border-[#DCEAF7]
+                      rounded-[32px]
+                      p-6
+                      sm:p-8
+                      lg:p-10
+                      backdrop-blur-xl
+                      shadow-[0_10px_50px_rgba(15,23,42,0.05)]
+                    "
+                  >
+                    <div className="flex items-start gap-5 mb-8">
                       <div
-                        className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0"
                         style={{
                           background: `${product.color}15`,
                           border: `1px solid ${product.color}30`,
                         }}
                       >
                         <Icon
-                          className="w-7 h-7"
+                          className="w-7 h-7 sm:w-8 sm:h-8"
                           style={{ color: product.color }}
                         />
                       </div>
 
                       <div>
-                        <div className="flex items-center gap-2">
-                          <h2 className="text-navy-950 font-bold text-3xl">
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
                             {product.title}
                           </h2>
 
                           <span
-                            className="text-xs px-2.5 py-1 rounded-full font-semibold backdrop-blur-md"
+                            className="px-3 py-1 rounded-full text-xs font-semibold"
                             style={{
                               background: `${product.color}15`,
                               color: product.color,
@@ -271,29 +281,27 @@ export default function ProductsPage() {
                         </div>
 
                         <p
+                          className="font-medium text-sm sm:text-base"
                           style={{ color: product.color }}
-                          className="text-sm font-medium"
                         >
                           {product.tagline}
                         </p>
                       </div>
                     </div>
 
-                    <p className="text-slate-600 leading-relaxed mb-6">
+                    <p className="text-slate-600 leading-relaxed text-base sm:text-lg mb-8">
                       {product.desc}
                     </p>
 
-                    {/* FEATURES */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {product.features.map((f) => (
                         <div
                           key={f}
-                          className="flex items-center gap-2 text-sm text-slate-700 transition-transform duration-200 hover:translate-x-1"
+                          className="flex items-start gap-3 text-sm text-slate-600 leading-relaxed"
                         >
-                          <Check
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: product.color }}
-                          />
+                          <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
+                            <Check className="w-3 h-3 text-emerald-600" />
+                          </div>
 
                           {f}
                         </div>
@@ -302,74 +310,71 @@ export default function ProductsPage() {
                   </div>
 
                   {/* RIGHT */}
-                  <div className="grid grid-cols-1 gap-5">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-5">
                     {product.pricing.map((plan) => (
                       <div
                         key={plan.tier}
                         className={`
                           relative
-                          bg-white/70
+                          bg-white/80
                           border
-                          border-slate-200
-                          rounded-3xl
-                          p-6
+                          border-[#DCEAF7]
+                          rounded-[24px]
+                          px-5
+                          sm:px-6
+                          lg:px-7
+                          py-5
+                          sm:py-5
+                          lg:py-6
+                          min-h-[170px]
+                          sm:min-h-[180px]
+                          lg:min-h-[190px]
                           backdrop-blur-xl
-                          shadow-[0_10px_40px_rgba(15,23,42,0.06)]
+                          shadow-[0_10px_50px_rgba(15,23,42,0.05)]
                           transition-all
-                          duration-300
-                          hover:shadow-[0_20px_60px_rgba(15,23,42,0.12)]
-                          hover:border-slate-300
+                          duration-500
                           hover:-translate-y-1
-                          ${plan.popular ? "ring-2 ring-cyan-500/20" : ""}
+                          hover:shadow-[0_20px_80px_rgba(16,185,129,0.10)]
+                          ${plan.popular ? "ring-2 ring-emerald-200" : ""}
                         `}
                       >
-                        {/* CHECK BG */}
-                        <div
-                          className="absolute inset-0 rounded-3xl opacity-[0.03]"
-                          style={{
-                            backgroundImage: `
-                              linear-gradient(#0f172a 1px, transparent 1px),
-                              linear-gradient(to right, #0f172a 1px, transparent 1px)
-                            `,
-                            backgroundSize: "30px 30px",
-                          }}
-                        />
-
                         {plan.popular && (
-                          <div className="absolute -top-3 left-5 text-xs bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full font-semibold shadow-lg">
+                          <div className="absolute -top-3 left-5 sm:left-6 bg-emerald-500 text-white text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
                             Most Popular
                           </div>
                         )}
 
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="text-navy-950 font-bold">
+                        {/* TOP */}
+                        <div className="flex items-start justify-between gap-4 mb-4">
+                          <div>
+                            <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-tight">
                               {plan.tier}
-                            </div>
-
-                            <div className="text-right">
-                              <span className="text-3xl font-bold text-navy-950">
-                                {plan.price}
-                              </span>
-
-                              <span className="text-slate-500 text-sm">
-                                {plan.period}
-                              </span>
-                            </div>
+                            </h3>
                           </div>
 
-                          <div className="flex flex-wrap gap-x-4 gap-y-2">
-                            {plan.features.map((f) => (
-                              <span
-                                key={f}
-                                className="text-xs text-slate-600 flex items-center gap-1 transition-opacity hover:opacity-100 opacity-80"
-                              >
-                                <Check className="w-3 h-3 text-teal-500" />
+                          <div className="text-right shrink-0">
+                            <div className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">
+                              {plan.price}
+                            </div>
 
-                                {f}
-                              </span>
-                            ))}
+                            <div className="text-xs sm:text-sm text-slate-500 mt-1">
+                              {plan.period}
+                            </div>
                           </div>
+                        </div>
+
+                        {/* FEATURES */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2">
+                          {plan.features.map((f) => (
+                            <div
+                              key={f}
+                              className="flex items-start gap-2 text-[13px] sm:text-sm text-slate-600 leading-relaxed"
+                            >
+                              <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+
+                              <span>{f}</span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     ))}
@@ -379,7 +384,6 @@ export default function ProductsPage() {
                       to="/contact"
                       className="
                         group
-                        relative
                         inline-flex
                         items-center
                         justify-center
@@ -387,117 +391,109 @@ export default function ProductsPage() {
                         px-6
                         py-3.5
                         rounded-2xl
-                        font-medium
+                        bg-emerald-500
                         text-white
-                        mt-2
-                        overflow-hidden
-                     bg-navy-900
+                        font-semibold
                         transition-all
                         duration-300
-                        hover:-translate-y-0.5
-                        hover:shadow-[0_20px_50px_rgba(24,95,165,0.35)]
-                        active:scale-[0.98]
+                        hover:bg-emerald-600
+                        hover:shadow-[0_15px_40px_rgba(16,185,129,0.35)]
                       "
                     >
-                      <span className="relative z-10 flex items-center gap-2">
-                        Get Started with {product.title}
-                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
+                      Get Started with {product.title}
+
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>
 
                 {i < products.length - 1 && (
-                  <hr className="border-slate-200 opacity-70" />
+                  <div className="flex justify-center mt-20">
+                    <div className="w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+                  </div>
                 )}
               </div>
             );
           })}
         </div>
 
-        {/* COMING SOON */}
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: Package,
-              title: "NexaInventory",
-              desc: "Smart inventory for retail & wholesale",
-              phase: "Phase 3",
-              color: "#BA7517",
-            },
-            {
-              icon: Headphones,
-              title: "NexaDesk",
-              desc: "IT helpdesk & asset management",
-              phase: "Phase 3",
-              color: "#D85A30",
-            },
-            {
-              icon: Sparkles,
-              title: "NexaAI Suite",
-              desc: "AI-powered business tools",
-              phase: "Phase 4",
-              color: "#7C3AED",
-            },
-          ].map(({ icon: Icon, title, desc, phase, color }) => (
-            <div
-              key={title}
-              className="
-                relative
-                bg-white/70
-                border
-                border-slate-200
-                rounded-3xl
-                p-6
-                flex
-                items-center
-                gap-4
-                backdrop-blur-xl
-                shadow-[0_10px_40px_rgba(15,23,42,0.06)]
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)]
-              "
-            >
-              {/* CHECK BG */}
-              <div
-                className="absolute inset-0 rounded-3xl opacity-[0.03]"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(#0f172a 1px, transparent 1px),
-                    linear-gradient(to right, #0f172a 1px, transparent 1px)
-                  `,
-                  backgroundSize: "30px 30px",
-                }}
-              />
+        {/* UPCOMING PRODUCTS */}
+        <div className="mt-28">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-5">
+              <Sparkles className="w-4 h-4 text-emerald-500" />
 
+              <span className="text-xs tracking-[0.2em] uppercase font-semibold text-slate-600">
+                Upcoming Products
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              More Tools Coming Soon
+            </h2>
+
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+              We are building an ecosystem of SaaS tools designed for growing
+              businesses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Package,
+                title: "NexaInventory",
+                desc: "Smart inventory for retail & wholesale",
+                phase: "Phase 3",
+              },
+              {
+                icon: Headphones,
+                title: "NexaDesk",
+                desc: "IT helpdesk & asset management",
+                phase: "Phase 3",
+              },
+              {
+                icon: Sparkles,
+                title: "NexaAI Suite",
+                desc: "AI-powered business tools",
+                phase: "Phase 4",
+              },
+            ].map(({ icon: Icon, title, desc, phase }) => (
               <div
-                className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110"
-                style={{
-                  background: `${color}15`,
-                }}
+                key={title}
+                className="
+                  bg-white/80
+                  border
+                  border-[#DCEAF7]
+                  rounded-[28px]
+                  p-6
+                  sm:p-7
+                  backdrop-blur-xl
+                  shadow-[0_10px_40px_rgba(15,23,42,0.05)]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-2
+                  hover:shadow-[0_20px_60px_rgba(16,185,129,0.08)]
+                "
               >
-                <Icon className="w-6 h-6" style={{ color }} />
-              </div>
+                <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center mb-5">
+                  <Icon className="w-7 h-7 text-emerald-600" />
+                </div>
 
-              <div className="relative z-10">
-                <div className="text-navy-950 font-semibold">{title}</div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                  {title}
+                </h3>
 
-                <div className="text-slate-600 text-xs mb-1">{desc}</div>
+                <p className="text-slate-500 mb-5 leading-relaxed">
+                  {desc}
+                </p>
 
-                <span
-                  className="text-xs px-2 py-0.5 rounded-full backdrop-blur-sm"
-                  style={{
-                    background: `${color}15`,
-                    color,
-                  }}
-                >
+                <span className="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">
                   {phase}
                 </span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
