@@ -6,7 +6,6 @@ import Portfolio from "../pages/Portfolio/Portfolio";
 import Product from "../pages/Product/Product";
 import ContactPage from "../pages/Contact/ContactPage";
 import Blog from "../pages/Blog/Blog";
-import HireTalentPage from "../pages/HireTalent/Hiretalent";
 
 const routes = [
   {
@@ -67,14 +66,7 @@ const routes = [
     </MainLayout>
   ),
 },
-{
-  path: "/hire-talent",
-  element: (
-    <MainLayout>
-      <HireTalentPage/>
-    </MainLayout>
-  ),
-}
+
 ];
 
 export default routes;
