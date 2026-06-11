@@ -1,4 +1,41 @@
-# ========================
+# dependencies
+node_modules
+**/node_modules
+
+# env files
+.env
+.env.*
+Backend/.env
+Frontend/.env
+
+# build
+dist
+build
+.next
+.vite
+
+# logs
+*.log
+npm-debug.log*
+
+# mac
+.DS_Store
+
+# cache
+.cache
+node_modules
+.env
+.env.local
+Backend/.env
+Frontend/.env
+dist
+build
+.next
+.DS_Store#
+
+
+
+ ========================
 
 # ROOT LEVEL (MERN SETUP)
 
