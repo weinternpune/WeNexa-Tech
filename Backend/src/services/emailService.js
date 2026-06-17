@@ -1,6 +1,8 @@
-import { createMailTransporter, getEmailCredentials } from "../config/emailConfig.js";
+import { getEmailCredentials, getMailTransporter, sendMailWithFallback } from "../config/emailConfig.js";
+import { buildOtpEmailContent } from "../utils/otpEmailTemplate.js";
+import { sendViaResend } from "./resendEmail.js";
 
-const createTransporter = () => createMailTransporter();
+const createTransporter = () => getMailTransporter();
 
 const getEmailStyles = () => `
   <style>
@@ -323,77 +325,41 @@ export const sendWelcomeEmail = async (email) => {
 export const sendOTPEmail = async (email, otp, name) => {
   try {
     const creds = getEmailCredentials();
-    
+
     if (!creds) {
       console.warn("Email credentials missing");
-      return false;
+      return { success: false, error: "Email credentials missing" };
     }
 
-    const transporter = createTransporter();
+    const { subject, text, html } = buildOtpEmailContent({ otp, name });
 
-    const mailOptions = {
-      from: `"WeNexa Technologies" <${creds.user}>`,
-      to: email,
-      subject: "Verify Your Email - WeNexa Technologies",
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Email Verification</title>
-          ${getEmailStyles()}
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">WeNexa <span>Technologies</span></div>
-              <div class="badge">VERIFICATION</div>
-            </div>
-            
-            <div class="content">
-              <div class="greeting">Hello, ${name || 'Valued Customer'}!</div>
-              
-              <p>Thank you for contacting WeNexa Technologies. Please use the verification code below to complete your submission.</p>
-              
-              <div style="background: rgba(15, 92, 77, 0.1); border-radius: 16px; padding: 24px; text-align: center; margin: 24px 0; border: 1px solid rgba(15, 92, 77, 0.3);">
-                <div style="color: rgba(255, 255, 255, 0.5); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Your Verification Code</div>
-                <div style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #0F5C4D; background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 12px; font-family: 'Courier New', monospace; margin: 12px 0;">${otp}</div>
-                <div class="text-muted">Valid for 10 minutes</div>
-              </div>
-              
-              <div style="background: rgba(245, 158, 11, 0.1); border-radius: 16px; padding: 16px; margin: 20px 0; border-left: 4px solid #f59e0b;">
-                <div style="color: #f59e0b; font-weight: 600; font-size: 13px; margin-bottom: 8px;">⚠️ Important Security Information</div>
-                <p style="margin: 0; font-size: 12px;">• You have only 3 attempts to enter the correct code</p>
-                <p style="margin: 0; font-size: 12px;">• Each failed attempt counts toward your limit</p>
-                <p style="margin: 0; font-size: 12px;">• Never share this code with anyone</p>
-              </div>
-              
-              <p class="text-muted">If you didn't request this code, please ignore this email.</p>
-            </div>
-            
-            <div class="footer">
-              <div class="social-links">
-                <a href="https://www.linkedin.com/company/wenexatech/" class="social-link">LinkedIn</a>
-                <a href="https://twitter.com/wenexa.in" class="social-link">Twitter</a>
-                <a href="https://www.instagram.com/wenexa.in" class="social-link">Instagram</a>
-                <a href="https://www.youtube.com/wenexa.in" class="social-link">YouTube</a>
-              </div>
-              <div class="footer-text">© 2026 WeNexa Technologies Pvt. Ltd. All rights reserved.</div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-    };
+    let info = null;
 
-    await transporter.sendMail(mailOptions);
-    console.log("OTP email sent to:", email);
-    return true;
-    
+    if (process.env.RESEND_API_KEY?.trim()) {
+      try {
+        info = await sendViaResend({ to: email, subject, html, text });
+        console.log(`[OTP via Resend] ${email} => ${otp} | ${info.messageId}`);
+      } catch (resendError) {
+        console.warn("Resend failed, falling back to Gmail SMTP:", resendError.message);
+      }
+    }
+
+    if (!info) {
+      info = await sendMailWithFallback({
+        from: `"WeNexa" <${creds.user}>`,
+        to: email,
+        replyTo: creds.user,
+        subject,
+        text,
+        html,
+      });
+      console.log(`[OTP via Gmail] ${email} => ${otp} (valid 10 min) | messageId: ${info.messageId}`);
+    }
+
+    return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("OTP email error:", error.message);
-    return false;
+    console.error("OTP email error:", error.code || error.responseCode, "-", error.message);
+    return { success: false, error: error.message };
   }
 };
 
@@ -488,7 +454,7 @@ export const sendAdminEmail = async (formData) => {
     return true;
     
   } catch (error) {
-    console.error("Admin email error:", error.message);
+    console.error("Admin email error:", error.code || error.responseCode, "-", error.message);
     return false;
   }
 };
@@ -583,7 +549,7 @@ export const sendUserAutoReply = async (formData) => {
     return true;
     
   } catch (error) {
-    console.error("Auto-reply error:", error.message);
+    console.error("Auto-reply error:", error.code || error.responseCode, "-", error.message);
     return false;
   }
 };
@@ -591,65 +557,33 @@ export const sendUserAutoReply = async (formData) => {
 export const sendResendOTPEmail = async (email, otp, attemptsLeft) => {
   try {
     const creds = getEmailCredentials();
-    
+
     if (!creds) {
       console.warn("Email credentials missing");
-      return false;
+      return { success: false, error: "Email credentials missing" };
     }
 
-    const transporter = createTransporter();
+    const { subject, text, html } = buildOtpEmailContent({
+      otp,
+      isResend: true,
+      attemptsLeft,
+    });
 
-    const mailOptions = {
-      from: `"WeNexa Technologies" <${creds.user}>`,
+    const info = await sendMailWithFallback({
+      from: `"WeNexa" <${creds.user}>`,
       to: email,
-      subject: "New Verification Code - WeNexa Technologies",
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>New Verification Code</title>
-          ${getEmailStyles()}
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">WeNexa <span>Technologies</span></div>
-              <div class="badge">NEW CODE</div>
-            </div>
-            
-            <div class="content">
-              <h1>New Verification Code</h1>
-              
-              <div style="background: rgba(15, 92, 77, 0.1); border-radius: 16px; padding: 24px; text-align: center; margin: 24px 0; border: 1px solid rgba(15, 92, 77, 0.3);">
-                <div style="color: rgba(255, 255, 255, 0.5); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Your New Verification Code</div>
-                <div style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #0F5C4D; background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 12px; font-family: 'Courier New', monospace; margin: 12px 0;">${otp}</div>
-                <div class="text-muted">Valid for 10 minutes</div>
-              </div>
-              
-              <div style="background: rgba(245, 158, 11, 0.1); border-radius: 16px; padding: 16px; margin: 20px 0; border-left: 4px solid #f59e0b;">
-                <div style="color: #f59e0b; font-weight: 600; font-size: 13px; margin-bottom: 8px;">⚠️ Remaining Attempts: ${attemptsLeft}</div>
-                <p style="margin: 0;">You have ${attemptsLeft} attempt(s) left. Please enter the code carefully.</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <div class="footer-text">© 2026 WeNexa Technologies Pvt. Ltd. All rights reserved.</div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-    };
+      replyTo: creds.user,
+      subject,
+      text,
+      html,
+    });
 
-    await transporter.sendMail(mailOptions);
-    console.log("Resend OTP email sent to:", email);
-    return true;
-    
+    console.log(`[OTP RESEND] ${email} => ${otp} | messageId: ${info.messageId}`);
+
+    return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("Resend OTP email error:", error.message);
-    return false;
+    console.error("Resend OTP email error:", error.code || error.responseCode, "-", error.message);
+    return { success: false, error: error.message };
   }
 };
 
