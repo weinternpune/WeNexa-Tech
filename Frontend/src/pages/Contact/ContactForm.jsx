@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -13,6 +13,8 @@ import {
   ArrowRight,
   Loader2,
   AlertCircle,
+  Pencil,
+  ChevronDown,
 } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_URL || "/api";
@@ -79,6 +81,10 @@ const validateField = (field, value, formData = {}) => {
 
       return "";
 
+    case "service":
+      if (!value.trim()) return "Please select a service";
+      return "";
+
     case "message":
       if (value.trim().length < 10)
         return "Message must contain at least 10 characters";
@@ -88,6 +94,40 @@ const validateField = (field, value, formData = {}) => {
       return "";
   }
 };
+
+const RESEND_COOLDOWN_MS = 60 * 1000;
+
+function useRetryCountdown(retryUntil) {
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (!retryUntil) return undefined;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [retryUntil]);
+
+  if (!retryUntil) return 0;
+  return Math.max(0, new Date(retryUntil).getTime() - now);
+}
+
+function formatCountdown(ms) {
+  const totalSec = Math.ceil(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+class ApiError extends Error {
+  constructor(message, { code, retryAfter, remainingAttempts, remainingMs } = {}) {
+    super(message);
+    this.name = "ApiError";
+    this.code = code;
+    this.retryAfter = retryAfter;
+    this.remainingAttempts = remainingAttempts;
+    this.remainingMs = remainingMs;
+  }
+}
 
 async function apiPost(path, body) {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -99,7 +139,12 @@ async function apiPost(path, body) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(data.message || "Something went wrong. Please try again.");
+    throw new ApiError(data.message || "Something went wrong. Please try again.", {
+      code: data.code,
+      retryAfter: data.retryAfter,
+      remainingAttempts: data.remainingAttempts,
+      remainingMs: data.remainingMs,
+    });
   }
 
   return data;
@@ -110,26 +155,45 @@ export default function ContactForm() {
   const [step, setStep] = useState("form");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: null, message: "" });
+  const [popup, setPopup] = useState(null);
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [draftEmail, setDraftEmail] = useState("");
+  const [remainingAttempts, setRemainingAttempts] = useState(3);
+  const [resendCooldownUntil, setResendCooldownUntil] = useState(null);
+
+  const resendWaitMs = useRetryCountdown(resendCooldownUntil);
+  const popupWaitMs = useRetryCountdown(popup?.retryUntil);
+  const canResend = !loading && !resendLoading && resendWaitMs === 0;
+
+  const startResendCooldown = () => {
+    setResendCooldownUntil(new Date(Date.now() + RESEND_COOLDOWN_MS).toISOString());
+  };
+
+  const showBlockPopup = (err) => {
+    setPopup({
+      title:
+        err.code === "EMAIL_COOLDOWN"
+          ? "Cannot Send Again"
+          : "Too Many Attempts",
+      message: err.message,
+      retryUntil: err.retryAfter,
+      code: err.code,
+    });
+  };
 
   const update = (field) => (e) => {
     const value = e.target.value;
 
     setForm((prev) => {
-      const updated = {
-        ...prev,
-        [field]: value,
-      };
-
-      const error = validateField(field, value, updated);
-
+      const next = { ...prev, [field]: value };
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [field]: error,
+        [field]: validateField(field, value, next),
       }));
-
-      return updated;
+      return next;
     });
 
     if (status.type === "error") {
@@ -144,6 +208,7 @@ export default function ContactForm() {
       name: validateField("name", form.name, form),
       email: validateField("email", form.email, form),
       phone: validateField("phone", form.phone, form),
+      service: validateField("service", form.service, form),
       message: validateField("message", form.message, form),
     };
 
@@ -164,13 +229,21 @@ export default function ContactForm() {
 
     try {
       await apiPost("/contact/send-otp", form);
+      setDraftEmail(form.email.trim());
+      setEditingEmail(false);
+      setRemainingAttempts(3);
+      startResendCooldown();
       setStep("otp");
       setStatus({
         type: "success",
-        message: `Verification code sent to ${form.email.trim()}. Valid for 10 minutes.`,
+        message: `Verification code sent to ${form.email.trim()}. Valid for 10 minutes. Please check your inbox and spam folder.`,
       });
     } catch (err) {
-      setStatus({ type: "error", message: err.message });
+      if (err.code === "EMAIL_COOLDOWN" || err.code === "OTP_ATTEMPTS_EXCEEDED") {
+        showBlockPopup(err);
+      } else {
+        setStatus({ type: "error", message: err.message });
+      }
     } finally {
       setLoading(false);
     }
@@ -199,14 +272,33 @@ export default function ContactForm() {
       setStep("done");
       setStatus({ type: "success", message: data.message });
     } catch (err) {
-      setStatus({ type: "error", message: err.message });
+      if (err.code === "OTP_ATTEMPTS_EXCEEDED" || err.code === "EMAIL_COOLDOWN") {
+        showBlockPopup(err);
+        setStep("form");
+        setOtp("");
+      } else if (err.code === "WRONG_OTP") {
+        if (typeof err.remainingAttempts === "number") {
+          setRemainingAttempts(err.remainingAttempts);
+        }
+        setStatus({
+          type: "error",
+          message:
+            typeof err.remainingAttempts === "number"
+              ? `Wrong OTP. ${err.remainingAttempts} attempt(s) remaining.`
+              : err.message,
+        });
+      } else {
+        setStatus({ type: "error", message: err.message });
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handleResendOtp = async () => {
-    setLoading(true);
+    if (!canResend) return;
+
+    setResendLoading(true);
     setStatus({ type: null, message: "" });
 
     try {
@@ -214,7 +306,73 @@ export default function ContactForm() {
         email: form.email.trim(),
       });
 
+      if (typeof data.remainingAttempts === "number") {
+        setRemainingAttempts(data.remainingAttempts);
+      }
+      startResendCooldown();
+      setOtp("");
       setStatus({ type: "success", message: data.message });
+    } catch (err) {
+      if (err.code === "OTP_ATTEMPTS_EXCEEDED" || err.code === "EMAIL_COOLDOWN") {
+        showBlockPopup(err);
+        setStep("form");
+        setOtp("");
+      } else {
+        setStatus({ type: "error", message: err.message });
+      }
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
+  const handleChangeEmail = async (e) => {
+    e?.preventDefault?.();
+
+    const emailError = validateField("email", draftEmail, form);
+    if (emailError) {
+      setStatus({ type: "error", message: emailError });
+      return;
+    }
+
+    const normalizedDraft = draftEmail.trim().toLowerCase();
+    const normalizedCurrent = form.email.trim().toLowerCase();
+
+    if (normalizedDraft === normalizedCurrent) {
+      setEditingEmail(false);
+      setStatus({
+        type: "error",
+        message: "Please enter a different email address.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ type: null, message: "" });
+
+    try {
+      const data = await apiPost("/contact/change-email", {
+        previousEmail: form.email.trim(),
+        email: draftEmail.trim(),
+      });
+
+      setForm((prev) => ({ ...prev, email: data.email || draftEmail.trim() }));
+      setDraftEmail(data.email || draftEmail.trim());
+      setEditingEmail(false);
+      setOtp("");
+      startResendCooldown();
+      setStatus({
+        type: "success",
+        message: data.message,
+      });
+    } catch (err) {
+      if (err.code === "EMAIL_COOLDOWN" || err.code === "OTP_ATTEMPTS_EXCEEDED") {
+        showBlockPopup(err);
+        setStep("form");
+        setOtp("");
+        setEditingEmail(false);
+      } else {
+        setStatus({ type: "error", message: err.message });
+      }
     } finally {
       setLoading(false);
     }
@@ -226,10 +384,47 @@ export default function ContactForm() {
     setErrors({});
     setStep("form");
     setStatus({ type: null, message: "" });
+    setEditingEmail(false);
+    setDraftEmail("");
+    setRemainingAttempts(3);
+    setResendCooldownUntil(null);
   };
+
+  const popupOverlay = popup ? (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-6 shadow-2xl">
+        <div className="mb-4 flex items-start gap-3">
+          <AlertCircle className="mt-0.5 h-6 w-6 shrink-0 text-red-500" />
+          <div className="w-full">
+            <h3 className="text-lg font-bold text-[#081028]">{popup.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{popup.message}</p>
+            {popup.retryUntil && (
+              <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-center">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-red-500">
+                  Try again after
+                </p>
+                <p className="mt-1 text-2xl font-black tracking-wider text-red-600">
+                  {formatCountdown(popupWaitMs)}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setPopup(null)}
+          className="w-full rounded-xl bg-[#081028] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-600"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  ) : null;
 
   if (step === "done") {
     return (
+      <>
+        {popupOverlay}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -298,13 +493,15 @@ export default function ContactForm() {
           <ArrowRight size={16} />
         </button>
       </motion.div>
+      </>
     );
   }
 
   if (step === "otp") {
     return (
-      <motion.form
-        onSubmit={handleVerifyOtp}
+      <>
+        {popupOverlay}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="
@@ -315,24 +512,88 @@ export default function ContactForm() {
           md:rounded-[36px]
           border
           border-slate-200/70
-          bg-white/90
-          backdrop-blur-xl
+          bg-white/95
+          backdrop-blur-sm
           p-4
           sm:p-6
           md:p-10
         "
       >
-        <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
-        <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
+        <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full pointer-events-none" />
 
-        <div className="relative z-10 space-y-6">
+        <form onSubmit={handleVerifyOtp} className="relative z-10 space-y-6">
           {status.message && (
             <StatusBanner type={status.type} message={status.message} />
           )}
 
-          <p className="text-sm leading-relaxed text-slate-600">
-            Enter the 6-digit code we sent to{" "}
-            <strong className="text-[#081028]">{form.email}</strong>.
+          <div className="rounded-2xl border border-slate-200 bg-[#f8fafc] p-4">
+            {!editingEmail ? (
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm leading-relaxed text-slate-600">
+                  Enter the 6-digit code we sent to{" "}
+                  <strong className="text-[#081028]">{form.email}</strong>.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDraftEmail(form.email);
+                    setEditingEmail(true);
+                    setStatus({ type: null, message: "" });
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-all hover:border-emerald-500/30 hover:text-emerald-600"
+                >
+                  <Pencil size={14} />
+                  Edit Email
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] block ml-1">
+                  Update Email Address
+                </label>
+                <input
+                  type="email"
+                  value={draftEmail}
+                  onChange={(e) => setDraftEmail(e.target.value)}
+                  className="w-full h-[52px] rounded-2xl border border-slate-200 bg-white text-[#081028] px-4 text-sm focus:outline-none focus:border-emerald-500/30"
+                  placeholder="you@company.com"
+                  required
+                />
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={handleChangeEmail}
+                    className="flex-1 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:opacity-60"
+                  >
+                    Send Code to New Email
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => {
+                      setEditingEmail(false);
+                      setDraftEmail(form.email);
+                      setStatus({ type: null, message: "" });
+                    }}
+                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition-all hover:border-emerald-500/30 hover:text-emerald-600 disabled:opacity-60"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+            <p className="text-sm text-amber-900">
+              You have <strong>{remainingAttempts}</strong> attempt(s) left to enter the correct code.
+            </p>
+          </div>
+
+          <p className="text-xs text-slate-500">
+            Did not receive the email? Check spam/promotions folder, then use Resend Code.
           </p>
 
           <div>
@@ -373,9 +634,7 @@ export default function ContactForm() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <motion.button
-              whileHover={{ scale: 1.01, y: -2 }}
-              whileTap={{ scale: 0.99 }}
+            <button
               type="submit"
               disabled={loading}
               className="
@@ -396,43 +655,62 @@ export default function ContactForm() {
                 justify-center
                 gap-2
                 hover:bg-emerald-700
-                transition-all
-                duration-300
+                active:scale-[0.99]
+                transition-colors
+                duration-150
                 disabled:opacity-60
+                disabled:cursor-not-allowed
+                touch-manipulation
               "
             >
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               Verify & Submit
-            </motion.button>
+            </button>
 
             <button
               type="button"
-              disabled={loading}
+              disabled={!canResend || resendLoading}
               onClick={handleResendOtp}
               className="
+                min-w-[148px]
+                h-[56px]
+                sm:h-[64px]
                 rounded-2xl
                 border
                 border-slate-200
                 px-6
-                py-4
                 text-sm
                 font-semibold
                 text-slate-700
-                transition-all
+                flex
+                items-center
+                justify-center
+                gap-2
                 hover:border-emerald-500/30
                 hover:text-emerald-600
+                active:scale-[0.99]
+                transition-colors
+                duration-150
+                disabled:cursor-not-allowed
                 disabled:opacity-60
+                touch-manipulation
               "
             >
-              Resend Code
+              {resendLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {resendWaitMs > 0
+                ? `Resend in ${Math.ceil(resendWaitMs / 1000)}s`
+                : "Resend Code"}
             </button>
           </div>
-        </div>
-      </motion.form>
+        </form>
+      </motion.div>
+      </>
     );
   }
 
   return (
+    <>
+      {popupOverlay}
     <motion.form
       onSubmit={handleSendOtp}
       initial={{ opacity: 0 }}
@@ -445,23 +723,24 @@ export default function ContactForm() {
         md:rounded-[36px]
         border
         border-slate-200/70
-        bg-white/90
-        backdrop-blur-xl
+        bg-white/95
+        backdrop-blur-sm
         p-4
         sm:p-6
         md:p-10
       "
     >
-      <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full" />
-      <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full" />
+      <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 space-y-6 sm:space-y-8">
         {status.message && (
           <StatusBanner type={status.type} message={status.message} />
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 [&>*]:min-w-0">
           <FormInput
+            id="contact-name"
             icon={User}
             label="Full Name"
             placeholder="Your name"
@@ -473,6 +752,7 @@ export default function ContactForm() {
           />
 
           <FormInput
+            id="contact-email"
             icon={Mail}
             label="Email"
             placeholder="you@company.com"
@@ -484,16 +764,19 @@ export default function ContactForm() {
             helperText="Use an active email to receive OTP verification."
           />
 
-          <div className="space-y-2 sm:space-y-3">
-            <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1">
+          <div className="min-w-0 overflow-hidden">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1 block">
               Phone Number *
-            </label>
+            </span>
 
-            <div className="flex gap-3">
+            <div className="mt-2 sm:mt-3 flex gap-3 min-w-0">
               <select
+                id="contact-country-code"
                 value={form.countryCode}
                 onChange={update("countryCode")}
+                aria-label="Country code"
                 className="
+                  shrink-0
                   h-[56px]
                   sm:h-[62px]
                   rounded-2xl
@@ -502,8 +785,10 @@ export default function ContactForm() {
                   bg-[#f8fafc]
                   px-4
                   text-sm
+                  cursor-pointer
                   focus:outline-none
                   focus:border-emerald-500/30
+                  focus:bg-white
                 "
               >
                 <option value="+91">🇮🇳 +91</option>
@@ -511,64 +796,41 @@ export default function ContactForm() {
                 <option value="+44">🇬🇧 +44</option>
               </select>
 
-              <div className="relative group flex-1">
-                <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                  <Phone size={17} />
-                </div>
-
+              <label
+                htmlFor="contact-phone"
+                className={`
+                  relative flex flex-1 min-w-0 items-center h-[56px] sm:h-[62px]
+                  rounded-2xl border bg-[#f8fafc] cursor-text
+                  ${errors.phone ? "border-red-300" : "border-slate-200 focus-within:border-emerald-500/30 focus-within:bg-white"}
+                `}
+              >
+                <Phone
+                  size={17}
+                  className="pointer-events-none shrink-0 ml-4 sm:ml-5 text-slate-400"
+                />
                 <input
+                  id="contact-phone"
                   type="tel"
                   inputMode="numeric"
                   maxLength={15}
                   value={form.phone}
                   onChange={(e) => {
                     const cleaned = e.target.value.replace(/\D/g, "");
-
-                    update("phone")({
-                      target: { value: cleaned },
-                    });
+                    update("phone")({ target: { value: cleaned } });
                   }}
                   placeholder="9876543210"
-                  className={`
-                    w-full
-                    h-[56px]
-                    sm:h-[62px]
-                    rounded-2xl
-                    border
-                    bg-[#f8fafc]
-                    text-[#081028]
-                    placeholder:text-slate-400
-                    pl-12
-                    sm:pl-14
-                    pr-4
-                    sm:pr-5
-                    text-[14px]
-                    sm:text-sm
-                    focus:outline-none
-                    focus:bg-white
-                    transition-all
-                    ${
-                      errors.phone
-                        ? "border-red-300 focus:border-red-400"
-                        : "border-slate-200 focus:border-emerald-500/30"
-                    }
-                  `}
+                  className="min-w-0 flex-1 h-full bg-transparent px-3 text-[14px] sm:text-sm text-[#081028] placeholder:text-slate-400 outline-none"
                 />
-              </div>
+              </label>
             </div>
 
-            <p
-              className={`text-xs ml-1 ${
-                errors.phone ? "text-red-500" : "text-slate-500"
-              }`}
-            >
-              {errors.phone
-                ? errors.phone
-                : "Include your active WhatsApp/contact number with country code."}
+            <p className={`text-xs mt-2 ml-1 ${errors.phone ? "text-red-500" : "text-slate-500"}`}>
+              {errors.phone || "Include your active WhatsApp/contact number with country code."}
             </p>
           </div>
 
           <FormInput
+            id="contact-company"
             icon={Building2}
             label="Company"
             placeholder="Company name (optional)"
@@ -577,16 +839,23 @@ export default function ContactForm() {
             helperText="Your startup or business name."
           />
 
-          <FormSelect
-            icon={Cpu}
-            label="Service *"
-            value={form.service}
-            onChange={update("service")}
-            options={SERVICES}
-            required
-          />
+          <div className="min-w-0 space-y-2 sm:space-y-3">
+            <FormSelect
+              id="contact-service"
+              icon={Cpu}
+              label="Service *"
+              value={form.service}
+              onChange={update("service")}
+              options={SERVICES}
+              required
+            />
+            {errors.service && (
+              <p className="text-xs ml-1 text-red-500">{errors.service}</p>
+            )}
+          </div>
 
           <FormSelect
+            id="contact-budget"
             icon={IndianRupee}
             label="Budget"
             value={form.budget}
@@ -595,65 +864,16 @@ export default function ContactForm() {
           />
         </div>
 
-        <div>
-          <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] mb-3 block ml-1">
+        <div className="min-w-0">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] mb-3 block ml-1">
             Message *
-          </label>
+          </span>
 
-          <div className="relative group">
-            <div className="absolute top-4 sm:top-5 left-4 sm:left-5 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-              <MessageSquareText size={18} />
-            </div>
-
-            <textarea
-              required
-              minLength={10}
-              maxLength={5000}
-              rows={5}
-              value={form.message}
-              onChange={update("message")}
-              placeholder="Tell us about your project, timeline, and goals..."
-              className={`
-                w-full
-                rounded-[22px]
-                sm:rounded-[28px]
-                border
-                bg-[#f8fafc]
-                text-[#081028]
-                placeholder:text-slate-400
-                pl-12
-                sm:pl-14
-                pr-4
-                sm:pr-6
-                py-4
-                sm:py-5
-                min-h-[160px]
-                sm:min-h-[180px]
-                resize-none
-                text-[14px]
-                sm:text-sm
-                leading-relaxed
-                focus:outline-none
-                focus:bg-white
-                transition-all
-                ${
-                  errors.message
-                    ? "border-red-300 focus:border-red-400"
-                    : "border-slate-200 focus:border-emerald-500/30"
-                }
-              `}
-            />
-          </div>
-
-          <p
-            className={`text-xs mt-2 ml-1 ${
-              errors.message ? "text-red-500" : "text-slate-500"
-            }`}
-          >
-            {errors.message
-              ? errors.message
-              : "Briefly explain your project goals, timeline, and expectations."}
-          </p>
+          <MessageField
+            value={form.message}
+            onChange={update("message")}
+            error={errors.message}
+          />
         </div>
 
         <motion.button
@@ -693,6 +913,47 @@ export default function ContactForm() {
         </motion.button>
       </div>
     </motion.form>
+    </>
+  );
+}
+
+function fieldBoxClass(error, multiline = false) {
+  const base = multiline
+    ? "rounded-[22px] sm:rounded-[28px] min-h-[160px] sm:min-h-[180px] items-start pt-4 sm:pt-5"
+    : "h-[56px] sm:h-[62px] items-center rounded-2xl";
+
+  const state = error
+    ? "border-red-300 bg-red-50/20"
+    : "border-slate-200 bg-[#f8fafc] focus-within:border-emerald-500/30 focus-within:bg-white";
+
+  return `relative flex w-full min-w-0 border cursor-text ${base} ${state}`;
+}
+
+function MessageField({ value, onChange, error }) {
+  return (
+    <>
+      <label htmlFor="contact-message" className={fieldBoxClass(error, true)}>
+        <MessageSquareText
+          size={18}
+          className="pointer-events-none shrink-0 ml-4 sm:ml-5 text-slate-400"
+        />
+        <textarea
+          id="contact-message"
+          required
+          minLength={10}
+          maxLength={5000}
+          rows={5}
+          value={value}
+          onChange={onChange}
+          placeholder="Tell us about your project, timeline, and goals..."
+          className="min-w-0 flex-1 resize-none bg-transparent px-3 pb-4 sm:pb-5 text-[14px] sm:text-sm leading-relaxed text-[#081028] placeholder:text-slate-400 outline-none"
+        />
+      </label>
+
+      <p className={`text-xs mt-2 ml-1 ${error ? "text-red-500" : "text-slate-500"}`}>
+        {error || "Briefly explain your project goals, timeline, and expectations."}
+      </p>
+    </>
   );
 }
 
@@ -701,97 +962,66 @@ function FormInput({
   label,
   error,
   helperText,
+  id,
   ...props
 }) {
+  const inputId = id || props.name || label?.toLowerCase().replace(/\s+/g, "-");
+
   return (
-    <div className="space-y-2 sm:space-y-3">
-      <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1">
+    <div className="min-w-0 space-y-2 sm:space-y-3">
+      <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1 block">
         {label}
-      </label>
+      </span>
 
-      <div className="relative group">
-        <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-          <Icon size={17} />
-        </div>
-
+      <label htmlFor={inputId} className={fieldBoxClass(error)}>
+        <Icon
+          size={17}
+          className="pointer-events-none shrink-0 ml-4 sm:ml-5 text-slate-400"
+        />
         <input
           {...props}
-          className={`
-            w-full
-            h-[56px]
-            sm:h-[62px]
-            rounded-2xl
-            border
-            bg-[#f8fafc]
-            text-[#081028]
-            placeholder:text-slate-400
-            pl-12
-            sm:pl-14
-            pr-4
-            sm:pr-5
-            text-[14px]
-            sm:text-sm
-            focus:outline-none
-            focus:bg-white
-            transition-all
-            ${
-              error
-                ? "border-red-300 focus:border-red-400"
-                : "border-slate-200 focus:border-emerald-500/30"
-            }
-          `}
+          id={inputId}
+          className="min-w-0 flex-1 h-full bg-transparent px-3 text-[14px] sm:text-sm text-[#081028] placeholder:text-slate-400 outline-none"
         />
-      </div>
+      </label>
 
-      <p
-        className={`text-xs ml-1 ${
-          error ? "text-red-500" : "text-slate-500"
-        }`}
-      >
+      <p className={`text-xs ml-1 ${error ? "text-red-500" : "text-slate-500"}`}>
         {error || helperText}
       </p>
     </div>
   );
 }
 
-function FormSelect({ icon: Icon, label, options, ...props }) {
+function FormSelect({ icon: Icon, label, options, id, ...props }) {
+  const selectId = id || props.name || "contact-select";
+
   return (
-    <div className="space-y-2 sm:space-y-3">
-      <label className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1">
+    <div className="min-w-0 space-y-2 sm:space-y-3">
+      <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] ml-1 block">
         {label}
-      </label>
+      </span>
 
-      <div className="relative group">
-        <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors z-10">
-          <Icon size={17} />
-        </div>
-
+      <div className="relative min-w-0">
+        <Icon
+          size={17}
+          className="pointer-events-none absolute left-4 sm:left-5 top-1/2 z-10 -translate-y-1/2 text-slate-400"
+        />
+        <ChevronDown
+          size={16}
+          className="pointer-events-none absolute right-4 sm:right-5 top-1/2 z-10 -translate-y-1/2 text-slate-400"
+        />
         <select
           {...props}
+          id={selectId}
           className="
-            w-full
-            h-[56px]
-            sm:h-[62px]
-            rounded-2xl
-            border
-            border-slate-200
-            bg-[#f8fafc]
-            text-[#081028]
-            pl-12
-            sm:pl-14
-            pr-5
-            text-[14px]
-            sm:text-sm
-            appearance-none
-            cursor-pointer
-            focus:outline-none
-            focus:border-emerald-500/30
-            focus:bg-white
-            transition-all
+            block w-full min-w-0 h-[56px] sm:h-[62px] cursor-pointer appearance-none
+            rounded-2xl border border-slate-200 bg-[#f8fafc]
+            pl-12 sm:pl-14 pr-10 sm:pr-12
+            text-[14px] sm:text-sm text-[#081028]
+            focus:outline-none focus:border-emerald-500/30 focus:bg-white
           "
         >
           <option value="">Select Option</option>
-
           {options.map((option) => (
             <option key={option} value={option}>
               {option}
