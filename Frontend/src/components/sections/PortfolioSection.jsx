@@ -299,7 +299,10 @@ export default function PortfolioSection() {
                 </p>
 
                 {/* DESCRIPTION */}
-                <p className="text-[#0f172a]/62 text-[15px] leading-relaxed mb-6">
+                <p
+                  className="text-[#0f172a]/62 text-[15px] leading-relaxed mb-6 text-justify hyphens-auto"
+                  style={{ textAlignLast: "left" }}
+                >
                   {project.desc}
                 </p>
 
