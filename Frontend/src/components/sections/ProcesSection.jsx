@@ -54,11 +54,9 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="relative py-20 overflow-hidden bg-white">
-
+    <section className="relative py-16 sm:py-20 overflow-hidden bg-white">
       {/* Premium Background */}
       <div className="absolute inset-0 overflow-hidden">
-
         {/* gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.07),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
@@ -69,16 +67,14 @@ export default function ProcessSection() {
         <div className="absolute top-[-120px] right-[-80px] w-[320px] h-[320px] rounded-full bg-[#0E8F6F]/10 blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* HEADER */}
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
-
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-14 sm:mb-20">
           {/* Badge */}
           <div
             className="
               inline-flex items-center gap-2
-              px-5 py-2
+              px-4 sm:px-5 py-2
               rounded-full
               bg-white
               border border-[#e7eaee]
@@ -88,12 +84,12 @@ export default function ProcessSection() {
           >
             <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
 
-            <span className="text-[11px] tracking-[0.25em] uppercase font-semibold text-[#0E8F6F]">
+            <span className="text-[10px] sm:text-[11px] tracking-[0.25em] uppercase font-semibold text-[#0E8F6F]">
               HOW WE WORK
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold leading-[1.02] tracking-tight text-[#0f172a]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-[#0f172a]">
             A Roadmap Built for
             <br />
             <span className="text-[#0f172a]/45">
@@ -101,7 +97,7 @@ export default function ProcessSection() {
             </span>
           </h2>
 
-          <p className="mt-6 text-lg text-[#0f172a]/60 max-w-2xl leading-relaxed">
+          <p className="mt-5 text-base sm:text-lg text-[#0f172a]/60 max-w-2xl leading-relaxed px-2 sm:px-0">
             Transparent milestone-driven execution that keeps you informed,
             aligned and confident from discovery to launch.
           </p>
@@ -109,15 +105,12 @@ export default function ProcessSection() {
 
         {/* ROADMAP */}
         <div className="relative">
-
           {/* center line */}
           <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#0E8F6F]/0 via-[#0E8F6F]/20 to-[#0E8F6F]/0 -translate-x-1/2" />
 
-          <div className="space-y-10">
-
+          <div className="space-y-6 sm:space-y-8 lg:space-y-10">
             {steps.map((step, i) => {
               const Icon = step.icon;
-
               const isLeft = i % 2 === 0;
 
               return (
@@ -125,14 +118,9 @@ export default function ProcessSection() {
                   key={step.num}
                   className={`
                     relative flex items-center
-                    ${
-                      isLeft
-                        ? "lg:justify-start"
-                        : "lg:justify-end"
-                    }
+                    ${isLeft ? "lg:justify-start" : "lg:justify-end"}
                   `}
                 >
-
                   {/* center node */}
                   <div
                     className="
@@ -148,7 +136,6 @@ export default function ProcessSection() {
                       z-20
                     "
                   >
-                    {/* pulse */}
                     <div className="absolute inset-0 rounded-full bg-[#0E8F6F]/10 animate-ping" />
 
                     <Icon className="relative z-10 w-6 h-6 text-[#0E8F6F]" />
@@ -160,7 +147,7 @@ export default function ProcessSection() {
                       group
                       relative
                       w-full lg:w-[46%]
-                      rounded-[28px]
+                      rounded-[24px] sm:rounded-[28px]
                       bg-white/90
                       backdrop-blur-xl
                       border border-[#e7eaee]
@@ -171,7 +158,6 @@ export default function ProcessSection() {
                       overflow-hidden
                     "
                   >
-
                     {/* hover glow */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.06),transparent_45%)]" />
 
@@ -189,19 +175,16 @@ export default function ProcessSection() {
                       `}
                     />
 
-                    <div className="relative z-10 p-7">
-
+                    <div className="relative z-10 p-5 sm:p-6 lg:p-7">
                       {/* TOP */}
-                      <div className="flex items-start justify-between mb-6">
-
+                      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between mb-6">
                         {/* left */}
-                        <div className="flex items-center gap-4">
-
+                        <div className="flex items-start sm:items-center gap-4 min-w-0">
                           {/* icon */}
                           <div
                             className="
                               relative
-                              w-14 h-14
+                              w-12 h-12 sm:w-14 sm:h-14
                               rounded-2xl
                               bg-[#0E8F6F]/10
                               border border-[#0E8F6F]/10
@@ -209,18 +192,19 @@ export default function ProcessSection() {
                               transition-all duration-500
                               group-hover:bg-[#0E8F6F]
                               group-hover:scale-105
+                              shrink-0
                             "
                           >
-                            <Icon className="w-6 h-6 text-[#0E8F6F] group-hover:text-white transition-all duration-500" />
+                            <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#0E8F6F] group-hover:text-white transition-all duration-500" />
                           </div>
 
                           {/* step */}
-                          <div>
+                          <div className="min-w-0">
                             <div className="text-[#0E8F6F] text-xs font-semibold tracking-[0.2em] uppercase mb-2">
                               Step {step.num}
                             </div>
 
-                            <h3 className="text-[#0f172a] text-2xl font-bold leading-tight">
+                            <h3 className="text-[#0f172a] text-xl sm:text-2xl font-bold leading-tight">
                               {step.title}
                             </h3>
                           </div>
@@ -229,12 +213,15 @@ export default function ProcessSection() {
                         {/* duration */}
                         <div
                           className="
-                            px-4 py-2
+                            self-start
+                            sm:self-auto
+                            px-3 sm:px-4
+                            py-2
                             rounded-full
                             bg-[#0E8F6F]/8
                             border border-[#0E8F6F]/10
                             text-[#0E8F6F]
-                            text-xs
+                            text-[11px] sm:text-xs
                             font-semibold
                             whitespace-nowrap
                           "
@@ -244,10 +231,9 @@ export default function ProcessSection() {
                       </div>
 
                       {/* description */}
-                      <p className="text-[#0f172a]/60 text-[15px] leading-relaxed max-w-xl">
+                      <p className="text-[#0f172a]/60 text-sm sm:text-[15px] leading-relaxed max-w-xl">
                         {step.desc}
                       </p>
-
                     </div>
                   </div>
                 </div>
@@ -255,7 +241,6 @@ export default function ProcessSection() {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );
