@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./routes";
 import WhatsAppWidget from "../components/WhatsAppWidget";
 
-
 function App() {
   return (
     <BrowserRouter>

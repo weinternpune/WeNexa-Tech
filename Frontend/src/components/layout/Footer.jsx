@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import foot_logo from "../../assets/images/Wenexa-footer-logo.png";
 
 import {
@@ -28,8 +28,24 @@ export default function Footer() {
   const [status, setStatus] = useState({ type: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [showCareerPopup, setShowCareerPopup] = useState(false);
+  const pendingScrollRef = useRef(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Scroll to section after navigation completes
+  useEffect(() => {
+    if (pendingScrollRef.current) {
+      const sectionId = pendingScrollRef.current;
+      pendingScrollRef.current = null;
+      requestAnimationFrame(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+  }, [location.pathname]);
 
   const fadeUp = {
     hidden: {
@@ -124,35 +140,19 @@ export default function Footer() {
   const handleNavigation = (path, sectionId = null) => {
     if (sectionId) {
       if (window.location.pathname === path) {
+        // Same page — scroll immediately
         const element = document.getElementById(sectionId);
-
         if (element) {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       } else {
+        // Different page — store sectionId, navigate, then scroll via useEffect
+        pendingScrollRef.current = sectionId;
         navigate(path);
-
-        setTimeout(() => {
-          const element = document.getElementById(sectionId);
-
-          if (element) {
-            element.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        }, 100);
       }
     } else {
       navigate(path);
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -273,22 +273,14 @@ export default function Footer() {
                     href: "tel:+917414974582",
                   },
                 ].map((item, index) => (
-                  <motion.a
+                  <a
                     key={index}
-                    variants={fadeUp}
-                    whileHover={{ y: -4 }}
                     href={item.href}
-                    className="group flex items-center gap-5"
+                    className="group flex items-center gap-5 rounded-2xl p-3 -m-3 hover:bg-white/5 focus:bg-white/5 focus:outline-none focus:ring-2 focus:ring-[#0F5C4D]/50 transition-all duration-300"
                   >
-                    <motion.div
-                      whileHover={{
-                        scale: 1.08,
-                        rotate: 3,
-                      }}
-                      className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center"
-                    >
+                    <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center group-hover:bg-[#0F5C4D]/20 group-hover:scale-105 transition-all duration-300">
                       {item.icon}
-                    </motion.div>
+                    </div>
 
                     <div>
                       <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-2">
@@ -299,23 +291,13 @@ export default function Footer() {
                         {item.value}
                       </p>
                     </div>
-                  </motion.a>
+                  </a>
                 ))}
 
-                <motion.div
-                  variants={fadeUp}
-                  whileHover={{ y: -4 }}
-                  className="flex items-center gap-5"
-                >
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                      rotate: 3,
-                    }}
-                    className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center"
-                  >
+                <div className="flex items-center gap-5 rounded-2xl p-3 -m-3">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center">
                     <IoLocationOutline className="w-6 h-6 text-[#0F5C4D]" />
-                  </motion.div>
+                  </div>
 
                   <div>
                     <p className="text-white/30 text-xs uppercase tracking-[0.3em] mb-2">
@@ -326,21 +308,18 @@ export default function Footer() {
                       Pune, Maharashtra, India
                     </p>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             </motion.div>
 
             {/* RIGHT SIDE */}
             <div className="w-full lg:max-w-[460px] lg:ml-auto lg:translate-x-6 xl:translate-x-10">
               <motion.div
-                className="rounded-3xl border border-white/10 bg-[#06101F] p-5 sm:p-6 lg:p-7 h-fit"
+                className="rounded-3xl border border-white/10 bg-[#06101F] p-5 sm:p-6 lg:p-7 h-fit hover:-translate-y-1 transition-transform duration-300"
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                whileHover={{
-                  y: -3,
-                }}
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
@@ -383,33 +362,17 @@ export default function Footer() {
                       disabled={loading}
                     />
 
-                    <motion.button
-                      whileHover={{
-                        scale: 1.08,
-                      }}
-                      whileTap={{
-                        scale: 0.92,
-                      }}
+                    <button
                       type="submit"
                       disabled={loading}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0F5C4D] flex items-center justify-center text-white hover:bg-[#0d7461] transition-all duration-300 disabled:opacity-50"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0F5C4D] flex items-center justify-center text-white hover:bg-[#0d7461] active:scale-95 transition-all duration-300 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#0F5C4D]/60 focus:ring-offset-2 focus:ring-offset-[#020817]"
                     >
                       {loading ? (
                         <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       ) : (
-                        <motion.div
-                          animate={{
-                            x: [0, 2, 0],
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                          }}
-                        >
-                          <HiArrowRight className="w-4 h-4" />
-                        </motion.div>
+                        <HiArrowRight className="w-4 h-4" />
                       )}
-                    </motion.button>
+                    </button>
                   </div>
                 </form>
 
@@ -473,26 +436,15 @@ export default function Footer() {
                       hoverColor: "hover:text-[#FF0000]",
                     },
                   ].map(({ Icon, url, hoverColor }, i) => (
-                    <motion.a
+                    <a
                       key={i}
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{
-                        y: -5,
-                        scale: 1.08,
-                      }}
-                      whileTap={{
-                        scale: 0.92,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                      }}
-                      className={`w-11 h-11 rounded-xl border border-white/10 bg-[#0B1628] flex items-center justify-center text-white/35 ${hoverColor} hover:border-white/20 transition-all duration-300`}
+                      className={`w-11 h-11 rounded-xl border border-white/10 bg-[#0B1628] flex items-center justify-center text-white/35 ${hoverColor} hover:border-white/20 hover:-translate-y-1 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0F5C4D]/50 transition-all duration-200`}
                     >
                       <Icon className="w-4 h-4" />
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </motion.div>
@@ -509,11 +461,11 @@ export default function Footer() {
           >
             {/* SERVICES */}
             <div>
-              <h4 className="text-white font-semibold text-sm uppercase tracking-[0.2em] mb-6">
+              <h4 className="text-white font-semibold text-sm uppercase tracking-[0.2em] mb-6 px-2">
                 Services
               </h4>
 
-              <ul className="space-y-4">
+              <ul className="space-y-4 px-2">
                 {[
                   {
                     label: "Web Development",
@@ -542,15 +494,14 @@ export default function Footer() {
                   },
                 ].map((item) => (
                   <li key={item.label}>
-                    <motion.button
-                      whileHover={{ x: 5 }}
+                    <button
                       onClick={() =>
                         handleNavigation(item.href, item.section)
                       }
-                      className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                      className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                     >
                       {item.label}
-                    </motion.button>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -571,62 +522,57 @@ export default function Footer() {
                   "Real Estate",
                 ].map((item) => (
                   <li key={item}>
-                    <motion.button
-                      whileHover={{ x: 5 }}
-                      className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                    <button
+                      className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                     >
                       {item}
-                    </motion.button>
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* COMPANY */}
-            <div className="col-span-2 md:col-span-1">
+            <div className="col-span-2 md:col-span-1 px-2">
               <h4 className="text-white font-semibold text-sm uppercase tracking-[0.2em] mb-6">
                 Company
               </h4>
 
               <ul className="space-y-4">
                 <li>
-                  <motion.button
-                    whileHover={{ x: 5 }}
+                  <button
                     onClick={() => handleNavigation("/about")}
-                    className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                    className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                   >
                     About Us
-                  </motion.button>
+                  </button>
                 </li>
 
                 <li>
-                  <motion.button
-                    whileHover={{ x: 5 }}
+                  <button
                     onClick={handleCareersClick}
-                    className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                    className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                   >
                     Careers
-                  </motion.button>
+                  </button>
                 </li>
 
                 <li>
-                  <motion.button
-                    whileHover={{ x: 5 }}
+                  <button
                     onClick={() => handleNavigation("/blog")}
-                    className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                    className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                   >
                     Blog
-                  </motion.button>
+                  </button>
                 </li>
 
                 <li>
-                  <motion.button
-                    whileHover={{ x: 5 }}
+                  <button
                     onClick={() => handleNavigation("/contact")}
-                    className="text-white/40 hover:text-white transition-all duration-300 text-sm"
+                    className="text-white/40 hover:text-white hover:translate-x-1 focus:text-white focus:outline-none transition-all duration-200 text-sm"
                   >
                     Contact Us
-                  </motion.button>
+                  </button>
                 </li>
               </ul>
             </div>

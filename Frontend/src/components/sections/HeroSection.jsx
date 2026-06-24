@@ -61,7 +61,7 @@ const HeroSection = () => {
   }, []);
 
   return (
- <section className="relative overflow-hidden bg-[#020617] h-[980px] sm:h-[750px]">
+    <section className="relative overflow-hidden bg-[#020617] h-[750px] sm:h-[750px]">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <motion.img
@@ -93,21 +93,20 @@ const HeroSection = () => {
         {/* Content */}
         <div
           className="relative z-10 w-full max-w-7xl mx-auto
-          px-5 sm:px-6 lg:px-8 xl:px-12
-          pt-24 pb-[26rem]
-          sm:pt-28 sm:pb-48
-          md:pt-32 md:pb-52
-          lg:pt-28 lg:pb-40
-          xl:pt-32 xl:pb-44"
+    px-6 lg:px-8 xl:px-0
+    pt-24 pb-[15rem]
+    sm:pt-28 sm:pb-48
+    md:pt-32 md:pb-64
+    lg:pt-28 lg:pb-40
+    xl:pt-32 xl:pb-44"
         >
           {/* LEFT SHIFTED */}
-          <div className="w-full max-w-[320px] sm:max-w-[560px] lg:ml-[-30px] xl:ml-[-95px]">
+          <div className="w-full max-w-[700px] xl:max-w-[760px]">
             <div
-              className={`space-y-3 sm:space-y-4 lg:space-y-5 transition-all duration-1000 ${
-                loaded
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
-              }`}
+              className={`space-y-3 sm:space-y-4 lg:space-y-5 transition-all duration-1000 ${loaded
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+                }`}
             >
               {/* Tag */}
               <motion.div
@@ -131,15 +130,24 @@ const HeroSection = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15 }}
-                className="text-[3.2rem] leading-[0.95] tracking-[-0.04em] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white"
+                className="
+                text-[1.5rem]
+                sm:text-[2rem]
+                md:text-[2rem]
+                lg:text-[3rem]
+                xl:text-[3rem]
+                leading-[1.1]
+                font-bold
+                leading-[0.95]
+                tracking-[-0.02em]
+                text-white
+                          "
               >
                 Digital Solutions.
                 <br />
-
-                <span className="text-[#00C97B]">Drive Real</span>
-
-                <br />
-                Growth.
+                <span className="text-[#00C97B]">
+                  Drive Real Growth.
+                </span>
               </motion.h1>
 
               {/* Description */}
@@ -195,12 +203,12 @@ const HeroSection = () => {
         </div>
 
         {/* BOTTOM SECTION */}
-        <div className="absolute bottom-4 sm:bottom-6 left-0 z-20 w-full px-5 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-end justify-between gap-5 sm:gap-8">
+        <div className="absolute bottom-4 sm:bottom-6 left-0 z-20 w-full px-5 sm:px-6 lg:px-12">
+          <div className="max-w-7xl mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-center gap-8 xl:gap-12">
 
             {/* FEATURE BAR */}
-            <div className="flex-[1.1] max-w-full lg:max-w-[720px] xl:max-w-[760px] w-full overflow-hidden pt-2 lg:ml-[-55px] xl:ml-[-75px] lg:-translate-y-10 xl:-translate-y-10">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-5 justify-items-center sm:flex sm:items-center sm:gap-6 xl:gap-8 sm:flex-wrap lg:flex-nowrap">
+            <div className="w-full xl:w-auto xl:flex-1 flex justify-center mt-3 md:mt-5 xl:mt-0">
+              <div className="grid grid-cols-2 min-[700px]:grid-cols-4 gap-6 xl:gap-5">
 
                 {features.map((item, index) => {
                   const Icon = item.icon;
@@ -214,7 +222,7 @@ const HeroSection = () => {
                         duration: 0.5,
                         delay: index * 0.1 + 0.6,
                       }}
-                      className="group flex items-center gap-3 w-full max-w-[145px]"
+                      className="group flex items-center gap-3 min-w-[150px]"
                     >
                       {/* Icon */}
                       <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border border-[#00C97B]/15 bg-[#00C97B]/8 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-[#00C97B]/12">
@@ -240,7 +248,7 @@ const HeroSection = () => {
             </div>
 
             {/* STAT BAR */}
-            <div className="flex-[1.35] w-full lg:max-w-[760px] pt-2">
+            <div className="w-full xl:flex-1 xl:max-w-[760px] pt-2 mx-auto">
               <div className="grid grid-cols-2 sm:grid-cols-4 overflow-hidden rounded-[18px] sm:rounded-[24px] border border-[#143049]/70 bg-[#07111F]/85 backdrop-blur-xl">
 
                 {stats.map((item, index) => (
@@ -252,30 +260,21 @@ const HeroSection = () => {
                       duration: 0.6,
                       delay: index * 0.12 + 0.9,
                     }}
-                    className="relative flex flex-col items-center justify-center py-6 sm:py-5 border-r last:border-r-0 border-white/[0.06]"
+                    className="relative flex flex-col items-center justify-center py-4 sm:py-5 border-r last:border-r-0 border-white/[0.06]"
                   >
                     {/* Divider Glow */}
                     <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-[#00C97B]/20 to-transparent" />
 
-                    <h3 className="text-white text-[24px] sm:text-[32px] font-black leading-none tracking-tight">
-                      {index === 0 && (
-                        <CountUp end={800} suffix="+" />
-                      )}
-
-                      {index === 1 && (
-                        <CountUp end={2500} suffix="+" />
-                      )}
-
-                      {index === 2 && (
-                        <CountUp end={98} suffix="%" />
-                      )}
-
+                   <h3 className="text-white text-[18px] min-[380px]:text-[20px] sm:text-[32px] font-black leading-none tracking-tight">
+                      {index === 0 && <CountUp end={800} suffix="+" />}
+                      {index === 1 && <CountUp end={2500} suffix="+" />}
+                      {index === 2 && <CountUp end={98} suffix="%" />}
                       {index === 3 && (
                         <CountUp end={4.9} suffix="/5" decimal />
                       )}
                     </h3>
 
-                    <p className="text-white/70 text-[11px] sm:text-[13px] mt-1.5 sm:mt-2 font-medium text-center px-1">
+                    <p  className="text-white/70 text-[10px] min-[380px]:text-[11px] sm:text-[13px] mt-1 sm:mt-2 font-medium text-center px-1">
                       {item.label}
                     </p>
 

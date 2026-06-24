@@ -54,68 +54,105 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
+  const [cardsToShow, setCardsToShow] = useState(3);
+
+  useEffect(() => {
+    const updateCards = () => {
+      if (window.innerWidth < 640) {
+        setCardsToShow(1);
+      } else if (window.innerWidth < 1280) {
+        setCardsToShow(2);
+      } else {
+        setCardsToShow(3);
+      }
+    };
+
+    updateCards();
+    window.addEventListener("resize", updateCards);
+
+    return () => window.removeEventListener("resize", updateCards);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      nextSlide();
+      setCurrent((prev) =>
+        prev >= testimonials.length - cardsToShow ? 0 : prev + 1
+      );
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [current]);
-
-  const nextSlide = () => {
-    if (current >= testimonials.length - 3) {
-      setCurrent(0);
-    } else {
-      setCurrent(current + 1);
-    }
-  };
+  }, [cardsToShow]);
 
   return (
     <section
       className="
         relative overflow-hidden
-        py-24 lg:py-32
+       pt-1 pb-6
+       sm:pt-16 sm:pb-8
+        lg:pt-7 lg:pb-10
         bg-white
       "
     >
       {/* Background */}
       <div className="absolute inset-0">
-        {/* Gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_35%)]" />
 
-        {/* Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="mb-16">
-          <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-5 font-semibold">
-            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
+        <div className="mb-10 md:mb-14 lg:mb-16">
+          <div className=" px-4 inline-flex items-center gap-2 text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.25em] text-[#0E8F6F] uppercase mb-4 sm:mb-5 font-semibold">
+            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse " />
             Testimonials
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a] leading-tight">
-            What Our Clients Say
-          </h2>
+          <h2
+  className="
+    px-2
+    text-[17px]
+    sm:text-[28px]
+    md:text-[32px]
+    lg:text-[38px]
+    xl:text-[45px]
+    font-bold
+    leading-[1.1]
+    px-4
+    tracking-tight
+    text-[#0f172a]
+  "
+>
+  What Our Clients Say
+</h2>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            xl:grid-cols-3
+            gap-5
+            md:gap-6
+          "
+        >
           {testimonials
-            .slice(current, current + 3)
+            .slice(current, current + cardsToShow)
             .map((t, index) => (
               <div
                 key={index}
                 className="
                   group relative overflow-hidden
-                  rounded-[28px]
+                  rounded-[24px] lg:rounded-[28px]
                   border border-[#e7eaee]
                   bg-white/85
                   backdrop-blur-xl
-                  p-7
-                  min-h-[320px]
+                  p-5 sm:p-6 lg:p-7
+                  min-h-[280px]
+                  sm:min-h-[300px]
+                  lg:min-h-[320px]
                   flex flex-col justify-between
                   transition-all duration-500
                   hover:-translate-y-2
@@ -136,11 +173,10 @@ export default function TestimonialsSection() {
                   <div className="absolute -top-12 -right-12 w-44 h-44 bg-[#0E8F6F]/10 blur-3xl rounded-full" />
                 </div>
 
-                {/* Border */}
                 <div
                   className="
                     absolute inset-[1px]
-                    rounded-[26px]
+                    rounded-[22px] lg:rounded-[26px]
                     border border-white/40
                     opacity-0 group-hover:opacity-100
                     transition-all duration-500
@@ -149,28 +185,27 @@ export default function TestimonialsSection() {
                 />
 
                 <div className="relative z-10 flex flex-col h-full">
-                  {/* Top */}
                   <div>
                     {/* Quote + Rating */}
-                    <div className="flex items-center justify-between mb-6">
-                      <Quote className="w-7 h-7 text-[#0E8F6F]" />
+                    <div className="flex items-center justify-between mb-5 sm:mb-6">
+                      <Quote className="w-6 h-6 sm:w-7 sm:h-7 text-[#0E8F6F]" />
 
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <Star
                             key={i}
-                            className="w-4 h-4 fill-[#f59e0b] text-[#f59e0b]"
+                            className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#f59e0b] text-[#f59e0b]"
                           />
                         ))}
                       </div>
                     </div>
 
-                    {/* Text */}
                     <p
                       className="
                         text-[#0f172a]/70
                         leading-relaxed
-                        text-[15px]
+                        text-sm
+                        sm:text-[15px]
                       "
                     >
                       {t.text}
@@ -178,37 +213,50 @@ export default function TestimonialsSection() {
                   </div>
 
                   {/* Bottom */}
-                  <div className="mt-10 pt-6 border-t border-[#e7eaee] flex items-center justify-between gap-4">
-                    {/* User */}
-                    <div className="flex items-center gap-4">
+                  <div
+                    className="
+                      mt-8
+                      pt-5
+                      border-t border-[#e7eaee]
+                      flex
+                      flex-col
+                      sm:flex-row
+                      sm:items-center
+                      justify-between
+                      gap-4
+                    "
+                  >
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <img
                         src={t.image}
                         alt={t.name}
                         className="
-                          w-14 h-14
-                          rounded-2xl
+                          w-12 h-12
+                          sm:w-14 sm:h-14
+                          rounded-xl sm:rounded-2xl
                           object-cover
                           border border-[#e7eaee]
                         "
                       />
 
                       <div>
-                        <div className="text-[#0f172a] font-semibold">
+                        <div className="text-[#0f172a] font-semibold text-sm sm:text-base">
                           {t.name}
                         </div>
 
-                        <div className="text-sm text-[#0f172a]/50">
+                        <div className="text-xs sm:text-sm text-[#0f172a]/50">
                           {t.role}
                         </div>
                       </div>
                     </div>
 
-                    {/* Company */}
                     <div
                       className="
                         text-[#0f172a]
                         font-bold
-                        text-xl
+                        text-base
+                        sm:text-lg
+                        lg:text-xl
                         tracking-tight
                       "
                     >
@@ -220,20 +268,19 @@ export default function TestimonialsSection() {
             ))}
         </div>
 
-        {/* Functional Dots */}
-        <div className="flex items-center justify-center gap-3 mt-10">
+        {/* Dots */}
+        <div className="flex items-center justify-center gap-3 mt-8 sm:mt-10">
           {Array.from({
-            length: testimonials.length - 2,
+            length: testimonials.length - cardsToShow + 1,
           }).map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrent(index)}
               className={`
                 transition-all duration-300 rounded-full
-                ${
-                  current === index
-                    ? "w-8 h-2 bg-[#0E8F6F]"
-                    : "w-2 h-2 bg-[#0f172a]/20 hover:bg-[#0E8F6F]/40"
+                ${current === index
+                  ? "w-8 h-2 bg-[#0E8F6F]"
+                  : "w-2 h-2 bg-[#0f172a]/20 hover:bg-[#0E8F6F]/40"
                 }
               `}
             />

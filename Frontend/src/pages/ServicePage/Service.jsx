@@ -201,7 +201,7 @@ const scaleIn = {
 
 export default function ServicesPage() {
   return (
-    <div className="relative overflow-hidden bg-white pt-24 sm:pt-28 pb-16 sm:pb-24">
+    <div className="relative overflow-hidden bg-white pt-24 sm:pt-24 pb-16 sm:pb-24">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
@@ -217,12 +217,12 @@ export default function ServicesPage() {
           animate="visible"
           className="max-w-4xl mb-16 sm:mb-20 lg:mb-24"
         >
-          <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-6 font-semibold">
+          <div className="px-2 inline-flex items-center gap-2 text-xs tracking-[0.25em] text-[#0E8F6F] uppercase mb-6 font-semibold">
             <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
             Services
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#0f172a] leading-[1.05] mb-5 sm:mb-7">
+          <h1 className="text-2xl px-2 sm:text-4xl md:text-5xl lg:text-5xl font-bold text-[#0f172a] leading-[1.05] mb-5 sm:mb-7">
             Everything You Need
             <br />
             <span className="text-[#0f172a]/45">
@@ -230,14 +230,14 @@ export default function ServicesPage() {
             </span>
           </h1>
 
-          <p className="text-[#0f172a]/65 text-base sm:text-lg leading-relaxed max-w-2xl">
+          <p className="text-[#0f172a]/65 px-2 text-base sm:text-lg leading-relaxed max-w-2xl">
             Five core service pillars. One dedicated team. A single point of
             accountability for your entire tech stack.
           </p>
         </motion.div>
 
         {/* Services */}
-        <div className="flex flex-col gap-12 sm:gap-16 lg:gap-20">
+        <div className="flex flex-col mt-[-40px] gap-10 sm:gap-10 lg:gap-10">
           {services.map((svc, i) => {
             const Icon = svc.icon;
 
@@ -274,12 +274,11 @@ export default function ServicesPage() {
                   </div>
 
                   {/* Floating Accent */}
-                  <div className="absolute top-8 right-8 w-24 h-24 rounded-full border border-[#0E8F6F]/10 opacity-60 transition-all duration-700 group-hover:scale-125 group-hover:rotate-6" />
 
                   {/* Content */}
                   <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex flex-col">
                     {/* Header */}
-                    <div className="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-6">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-4">
                       <motion.div
                         animate={{
                           y: [0, -4, 0],
@@ -306,19 +305,19 @@ export default function ServicesPage() {
                         <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#0E8F6F] relative z-10 transition-transform duration-500 group-hover:rotate-3" />
                       </motion.div>
 
-                      <div>
-                        <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold mb-2">
-                          Premium Service
-                        </div>
-
-                        <h2 className="text-2xl sm:text-[28px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
-                          {svc.title}
-                        </h2>
-
-                        <p className="text-[#0f172a]/50 text-sm">
-                          {svc.tagline}
-                        </p>
+                      <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold">
+                        Premium Service
                       </div>
+                    </div>
+
+                    <div className="mb-5 sm:mb-6">
+                      <h2 className="text-[1rem] sm:text-[14px] lg:text-[22px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
+                        {svc.title}
+                      </h2>
+
+                      <p className="text-[#0f172a]/50 text-sm">
+                        {svc.tagline}
+                      </p>
                     </div>
 
                     {/* Description */}
@@ -328,40 +327,57 @@ export default function ServicesPage() {
 
                     {/* Features */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
-                      {svc.features.map((f) => (
-                        <div
-                          key={f}
-                          className="
-                            flex items-start gap-3
-                            rounded-2xl
-                            border border-[#eef2f5]
-                            bg-[#fafafa]
-                            p-3 sm:p-3.5
-                            transition-all duration-300
-                            hover:border-[#0E8F6F]/15
-                            hover:bg-[#0E8F6F]/[0.03]
-                            hover:-translate-y-[2px]
-                          "
-                        >
-                          <div className="w-5 h-5 rounded-full bg-[#0E8F6F]/10 flex items-center justify-center shrink-0 mt-0.5">
-                            <Check className="w-3 h-3 text-[#0E8F6F]" />
-                          </div>
+                   
+  {svc.features.slice(0, 6).map((f) => (
+    <div
+      key={f}
+      className="
+        flex items-start gap-3
+        rounded-2xl
+        border border-[#eef2f5]
+        bg-[#fafafa]
+        p-3 sm:p-3.5
+        transition-all duration-300
+        hover:border-[#0E8F6F]/15
+        hover:bg-[#0E8F6F]/[0.03]
+        hover:-translate-y-[2px]
+      "
+    >
+      <span className="text-sm text-[#0f172a]/75 leading-relaxed">
+        {f}
+      </span>
+    </div>
+  ))}
 
-                          <span className="text-sm text-[#0f172a]/75 leading-relaxed">
-                            {f}
-                          </span>
-                        </div>
-                      ))}
+  {svc.features.length > 6 && (
+    <div
+      className="
+        flex items-center justify-center
+        rounded-2xl
+        border border-dashed border-[#0E8F6F]/20
+        bg-[#0E8F6F]/[0.03]
+        p-3 sm:p-3.5
+      "
+    >
+      <span className="text-sm font-medium text-[#0E8F6F]">
+        +{svc.features.length - 6} More Features
+      </span>
+    </div>
+  )}
+
                     </div>
 
                     {/* CTA */}
-                    <div className="mt-auto pt-1">
+                    <div className="mt-auto  pt-1">
                       <Link
                         to="/contact"
                         className="
                           relative overflow-hidden
                           inline-flex items-center gap-2
-                          px-5 sm:px-6 py-3
+                          px-10 sm:px-6 py-3
+                          lg:px-20
+                          
+                          
                           rounded-xl sm:rounded-2xl
                           bg-[#0f172a]
                           text-white
@@ -376,10 +392,12 @@ export default function ServicesPage() {
                           className="
                             absolute inset-0
                             -translate-x-[120%]
+                            
                             bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)]
                             group-hover/btn:translate-x-[120%]
                             transition-transform duration-1000
                           "
+                          
                         />
 
                         <span className="relative z-10">
@@ -444,42 +462,34 @@ export default function ServicesPage() {
                     </div>
 
                     {/* Tech Stack */}
-                    <div className="mb-8">
-                      <div className="text-xs tracking-[0.2em] uppercase font-semibold text-white/45 mb-4">
-                        Tech Stack
-                      </div>
+   <div className="mb-6">
+  <div className="text-xs tracking-[0.2em] uppercase font-semibold text-white/45 mb-4">
+    Tech Stack
+  </div>
 
-                      <div className="flex flex-wrap gap-2.5">
-                        {svc.tech.map((t) => (
-                          <motion.span
-                            key={t}
-                            whileHover={{
-                              y: -3,
-                              scale: 1.04,
-                            }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 300,
-                            }}
-                            className="
-                              text-xs
-                              text-white/75
-                              bg-white/[0.04]
-                              border border-white/10
-                              px-3 py-1.5 sm:px-3.5 sm:py-2
-                              rounded-full
-                              transition-all duration-300
-                              hover:bg-[#0E8F6F]/10
-                              hover:border-[#0E8F6F]/20
-                              hover:text-white
-                            "
-                          >
-                            {t}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-
+  <div className="grid grid-cols-2 gap-2.5">
+    {svc.tech.map((t) => (
+      <div
+        key={t}
+        className="
+          rounded-xl
+          border border-white/10
+          bg-white/[0.04]
+          px-3 py-2.5
+          text-sm
+          text-center
+          text-white/75
+          transition-all duration-300
+          hover:bg-[#0E8F6F]/10
+          hover:border-[#0E8F6F]/20
+          hover:text-white
+        "
+      >
+        {t}
+      </div>
+    ))}
+  </div>
+</div>
                     {/* Bottom Premium Box */}
                     <div className="mt-auto">
                       <div
@@ -541,7 +551,7 @@ export default function ServicesPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-16 sm:mt-20 lg:mt-28 relative overflow-hidden rounded-[24px] sm:rounded-[36px] bg-[#0f172a] p-6 sm:p-10 md:p-16 text-white shadow-[0_30px_120px_rgba(15,23,42,0.18)]"
+          className="mt-10 sm:mt-20 lg:mt-20 relative overflow-hidden rounded-[24px] sm:rounded-[36px] bg-[#0f172a] p-6 sm:p-10 md:p-16 text-white shadow-[0_30px_120px_rgba(15,23,42,0.18)]"
         >
           <div className="absolute inset-0">
             <motion.div
