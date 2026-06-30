@@ -197,9 +197,7 @@ export default function ProductsPage() {
           backgroundSize: "48px 48px",
         }}
       />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-200/30 blur-[120px] rounded-full" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-sky-200/30 blur-[120px] rounded-full" />
-
+     
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
         {/* HEADER – LEFT‑ALIGNED with compact font sizes */}
         <div className="w-full text-left mb-8">
