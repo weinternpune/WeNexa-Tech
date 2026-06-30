@@ -276,9 +276,9 @@ export default function Footer() {
                   <a
                     key={index}
                     href={item.href}
-                    className="group flex items-center gap-5 rounded-2xl p-3 -m-3 hover:bg-white/5 focus:bg-white/5 focus:outline-none focus:ring-2 focus:ring-[#0F5C4D]/50 transition-all duration-300"
+                    className="group flex items-center gap-5 rounded-2xl p-3 -m-3 transition-all duration-300"
                   >
-                    <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center group-hover:bg-[#0F5C4D]/20 group-hover:scale-105 transition-all duration-300">
+                    <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#0F5C4D]/10 flex items-center justify-center group-hover:scale-105 transition-all duration-300">
                       {item.icon}
                     </div>
 

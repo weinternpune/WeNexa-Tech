@@ -3,6 +3,7 @@ import {
   sendOTP,
   verifyOTPAndSave,
   resendOTP,
+  changeOtpEmail,
   getAllContacts,
   updateContactStatus,
   deleteContact
@@ -13,15 +14,21 @@ import {
   resendLimiter,
   globalLimiter
 } from "../middleware/rateLimit.js";
-import { validateContact } from "../middleware/validation.js";
+import {
+  validateContact,
+  validateVerifyOtp,
+  validateResendOtp,
+  validateChangeOtpEmail,
+} from "../middleware/validation.js";
 
 const router = express.Router();
 
 router.use(globalLimiter);
 
 router.post("/contact/send-otp", ipLimiter, otpSendLimiter, validateContact, sendOTP);
-router.post("/contact/verify-otp", ipLimiter, verifyOTPAndSave);
-router.post("/contact/resend-otp", ipLimiter, resendLimiter, resendOTP);
+router.post("/contact/verify-otp", validateVerifyOtp, verifyOTPAndSave);
+router.post("/contact/resend-otp", resendLimiter, validateResendOtp, resendOTP);
+router.post("/contact/change-email", ipLimiter, validateChangeOtpEmail, changeOtpEmail);
 
 router.get("/admin/contacts", getAllContacts);
 router.put("/admin/contacts/:id/status", updateContactStatus);

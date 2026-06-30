@@ -505,19 +505,19 @@ export default function ContactForm() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="
-  relative
-  overflow-hidden
-  rounded-[24px]
-  sm:rounded-[28px]
-  md:rounded-[30px]
-  border
-  border-slate-200/70
-  bg-white/95
-  backdrop-blur-sm
-  p-4
-  sm:p-5
-  md:p-7
-"
+          relative
+          overflow-hidden
+          rounded-[26px]
+          sm:rounded-[30px]
+          md:rounded-[36px]
+          border
+          border-slate-200/70
+          bg-white/95
+          backdrop-blur-sm
+          p-4
+          sm:p-6
+          md:p-10
+        "
       >
         <div className="absolute top-[-120px] right-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-120px] left-[-120px] w-[220px] sm:w-[260px] h-[220px] sm:h-[260px] bg-cyan-500/5 blur-[100px] rounded-full pointer-events-none" />
@@ -864,13 +864,12 @@ export default function ContactForm() {
           />
         </div>
 
-        <div className="min-w-2">
+        <div className="min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-[0.16em] sm:tracking-[0.18em] mb-3 block ml-1">
             Message *
           </span>
 
           <MessageField
-          
             value={form.message}
             onChange={update("message")}
             error={errors.message}
@@ -936,7 +935,7 @@ function MessageField({ value, onChange, error }) {
       <label htmlFor="contact-message" className={fieldBoxClass(error, true)}>
         <MessageSquareText
           size={18}
-          className="pointer-events-none shrink-0 ml-2 sm:ml-5 text-slate-400"
+          className="pointer-events-none shrink-0 ml-4 sm:ml-5 text-slate-400"
         />
         <textarea
           id="contact-message"

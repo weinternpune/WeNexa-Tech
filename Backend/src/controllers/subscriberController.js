@@ -20,7 +20,7 @@ const subscribe = async (req, res) => {
       if (existingSubscriber.status === "active") {
         return res.status(400).json({
           success: false,
-          message: "This email is already subscribed to our newsletter"
+          message: "You are already subscribed to our newsletter."
         });
       } else {
         // Reactivate subscriber
