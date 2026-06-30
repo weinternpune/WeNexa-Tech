@@ -20,6 +20,7 @@ const navLinks = [
   { label: "Our Work", href: "/portfolio" },
   { label: "Products", href: "/products" },
   { label: "About Us", href: "/about" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export default function Navbar() {
@@ -53,9 +54,8 @@ export default function Navbar() {
       setTimeout(() => {
         const el = document.getElementById(hash);
         if (el) {
-          const yOffset = -80;
-          const y =
-            el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          const yOffset = -90;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: "smooth" });
         }
       }, 100);
@@ -96,26 +96,6 @@ const handleNavClick = (href, closeMobile = false) => {
             window.pageYOffset +
             yOffset;
 
-    const performNavigation = () => {
-      if (hash) {
-        if (window.location.pathname === path || path === "") {
-          const el = document.getElementById(hash);
-          if (el) {
-            const yOffset = -80;
-            const y =
-              el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({
-              top: y,
-              behavior: "smooth",
-            });
-          }
-        } else {
-          pendingHashRef.current = hash;
-          navigate(path);
-        }
-      } else {
-        navigate(path);
-        setTimeout(() => {
           window.scrollTo({
             top: y,
             behavior: "smooth",
@@ -137,20 +117,19 @@ const handleNavClick = (href, closeMobile = false) => {
     }
   };
 
-  const handleScheduleCall = () => {
+  if (closeMobile) {
     setOpen(false);
+    setMobileDropdown(null);
 
     setTimeout(() => {
-      const phone = "917414974582";
-      const message = "Hi Wenexa Tech! I'd like to discuss a project.";
+      performNavigation();
+    }, 250);
 
-      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(
-        message,
-      )}`;
+    return;
+  }
 
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-    }, 100);
-  };
+  performNavigation();
+};
 
   // Mobile-optimized phone call handler
   const handleScheduleCall = () => {
@@ -197,10 +176,6 @@ const handleNavClick = (href, closeMobile = false) => {
       setActiveDropdown(activeDropdown === link.label ? null : link.label);
     }
   };
-  const isActive = (href) => {
-    const path = href.split("#")[0];
-    return location.pathname === path;
-  };
 
   return (
     <>
@@ -210,29 +185,22 @@ const handleNavClick = (href, closeMobile = false) => {
             ? "bg-white/70 backdrop-blur-xl shadow-[0_8px_30px_rgba(15,92,77,0.12)] border-b border-white/20 py-3"
             : "bg-white py-4"
         }`}
-        style={{ height: "72px" }}
+        style={
+          scrolled
+            ? { backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }
+            : {}
+        }
       >
-        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 xl:px-0 flex items-center justify-between">
-          <Link
-            to="/"
-            className="flex items-center group shrink-0 h-full"
+        <div className="max-w-7xl mx-auto px-6 xl:px-0 flex items-center justify-between">
+          <Link 
+            to="/" 
+            className="flex items-center group shrink-0"
             onClick={() => setOpen(false)}
           >
             <img
               src={Logo}
               alt="WeNexa Logo"
-              className="
-      h-9
-      sm:h-12
-      md:h-12
-      lg:h-12
-      xl:h-14
-      w-auto
-      object-contain
-      transition-all
-      duration-300
-      group-hover:scale-[1.02]
-    "
+              className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]"
             />
           </Link>
 
@@ -242,9 +210,7 @@ const handleNavClick = (href, closeMobile = false) => {
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() =>
-                  !link.dropup && link.dropdown && setActiveDropdown(link.label)
-                }
+                onMouseEnter={() => !link.dropup && link.dropdown && setActiveDropdown(link.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <button
@@ -252,47 +218,16 @@ const handleNavClick = (href, closeMobile = false) => {
                     if (!link.dropdown) {
                       handleNavClick(link.href);
                     } else {
-                      setActiveDropdown(
-                        activeDropdown === link.label ? null : link.label,
-                      );
+                      // For dropdown items on desktop, toggle dropdown
+                      setActiveDropdown(activeDropdown === link.label ? null : link.label);
                     }
                   }}
-                  className={`group relative flex items-center gap-1.5 px-4 py-2.5 rounded-xl overflow-hidden text-[15px] font-semibold transition-all duration-300 cursor-pointer ${
-                    isActive(link.href)
-                      ? "text-[#0F5C4D]"
-                      : "text-[#0B1F3A] hover:text-[#0F5C4D]"
-                  }`}
+                  className="group relative flex items-center gap-1.5 px-5 py-3 rounded-xl text-[15px] font-semibold text-[#0B1F3A] hover:text-[#0F5C4D] transition-all duration-300 cursor-pointer"
                 >
-                  {/* Active Animated Border */}
-                  {isActive(link.href) ? (
-                    <>
-                      {/* Rotating Gradient */}
-                      <span className="absolute inset-0 rounded-xl overflow-hidden">
-                        <span className="absolute inset-[-180%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_110deg,#22C55E_160deg,#34D399_180deg,#22C55E_200deg,transparent_250deg,transparent_360deg)]" />
-                      </span>
-
-                      {/* Inner Card */}
-                      <span className="absolute inset-[1.5px] rounded-[10px] bg-gradient-to-r from-[#F7FFF9] via-white to-[#F7FFF9]" />
-
-                      {/* Soft Glow */}
-                      <span className="absolute inset-0 rounded-xl shadow-[0_0_25px_rgba(34,197,94,0.18)]" />
-                    </>
-                  ) : (
-                    <span className="absolute inset-0 rounded-xl bg-[#F0FDF4] opacity-0 scale-95 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100" />
-                  )}
-
-                  {/* Label */}
-                  <span className="relative z-20">{link.label}</span>
-
-                  {/* Dropdown Icon */}
+                  <span className="absolute inset-0 rounded-xl bg-[#F0FDF4] opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300" />
+                  <span className="relative z-10">{link.label}</span>
                   {link.dropdown && (
-                    <ChevronDown
-                      className={`relative z-20 w-4 h-4 transition-all duration-300 ${
-                        isActive(link.href)
-                          ? "rotate-180 text-[#0F5C4D]"
-                          : "opacity-70 group-hover:rotate-180"
-                      }`}
-                    />
+                    <ChevronDown className="relative z-10 w-4 h-4 opacity-70 transition-all duration-300 group-hover:rotate-180" />
                   )}
                 </button>
 
@@ -339,8 +274,7 @@ const handleNavClick = (href, closeMobile = false) => {
           {/* Mobile Toggle Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="xl:hidden flex items-center justify-center p-0 rounded-xl text-[#0B1F3A] hover:bg-[#F1F5F9] active:bg-[#E2E8F0] transition-all z-[60] relative cursor-pointer"
-            style={{ width: "36px", height: "36px" }}
+            className="lg:hidden p-2.5 rounded-xl text-[#0B1F3A] hover:bg-[#F1F5F9] active:bg-[#E2E8F0] transition-all z-[60] relative cursor-pointer"
             aria-label={open ? "Close menu" : "Open menu"}
           >
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -392,9 +326,7 @@ const handleNavClick = (href, closeMobile = false) => {
                     </button>
                     <div
                       className={`overflow-hidden transition-all duration-200 ${
-                        mobileDropdown === link.label
-                          ? "max-h-96 opacity-100"
-                          : "max-h-0 opacity-0"
+                        mobileDropdown === link.label ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                       }`}
                     >
                       <div className="pl-4 mt-1 flex flex-col gap-1">

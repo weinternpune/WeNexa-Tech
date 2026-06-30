@@ -143,48 +143,30 @@ export default function TechStackSection() {
             const Icon = stack.icon;
 
             return (
-            <div
-  key={i}
-  className="
-    group
-    relative
-    overflow-hidden
-    rounded-[22px]
-    backdrop-blur-2xl
-    border
-    p-4
-    sm:p-5
-    transition-all
-    duration-500
-    hover:-translate-y-2
-    hover:shadow-[0_24px_60px_rgba(0,0,0,0.16)]
-  "
-  style={{
-    background: `linear-gradient(
-      135deg,
-      ${stack.color}10 0%,
-      rgba(255,255,255,0.92) 40%,
-      ${stack.color}08 100%
-    )`,
-    borderColor: `${stack.color}20`,
-    boxShadow:
-      "0 12px 32px rgba(15,23,42,0.06), inset 0 1px 0 rgba(255,255,255,0.75)",
-  }}
->
+              <div
+                key={i}
+                className="
+                  group
+                  relative
+                  overflow-hidden
+                  rounded-[22px]
+                  border border-[#e7eaee]
+                  bg-white/90
+                  backdrop-blur-xl
+                  p-4 sm:p-5
+                  transition-all duration-500
+                  hover:-translate-y-1
+                  hover:border-[#0E8F6F]/20
+                  hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)]
+                "
+              >
                 {/* Hover Glow */}
                 <div
-  className="absolute inset-0 pointer-events-none"
-  style={{
-    background: `
-      radial-gradient(circle at top left, ${stack.color}15, transparent 55%),
-      radial-gradient(circle at bottom right, ${stack.color}08, transparent 60%)
-    `,
-  }}
-/>
-
-<div
-  className="absolute -top-16 -left-16 w-64 h-40 rounded-full bg-white/30 blur-3xl pointer-events-none"
-/>
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
+                  style={{
+                    background: `radial-gradient(circle at top left, ${stack.color}10, transparent 55%)`,
+                  }}
+                />
 
                 <div className="relative z-10">
                   {/* Top */}

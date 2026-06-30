@@ -141,38 +141,25 @@ export default function TestimonialsSection() {
           {testimonials
             .slice(current, current + cardsToShow)
             .map((t, index) => (
-            <div
-  key={index}
-  className="
-    group
-    relative
-    overflow-hidden
-    rounded-[24px]
-    lg:rounded-[28px]
-    border
-    border-[#0E8F6F]/15
-    backdrop-blur-2xl
-    p-5
-    sm:p-6
-    lg:p-7
-    min-h-[280px]
-    sm:min-h-[300px]
-    lg:min-h-[320px]
-    flex
-    flex-col
-    justify-between
-    transition-all
-    duration-500
-    hover:-translate-y-2
-    hover:shadow-[0_30px_70px_rgba(0,0,0,0.18)]
-  "
-  style={{
-    background:
-      "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(244,255,251,0.88) 45%, rgba(229,250,243,0.82) 100%)",
-    boxShadow:
-      "0 12px 32px rgba(15,23,42,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
-  }}
->
+              <div
+                key={index}
+                className="
+                  group relative overflow-hidden
+                  rounded-[24px] lg:rounded-[28px]
+                  border border-[#e7eaee]
+                  bg-white/85
+                  backdrop-blur-xl
+                  p-5 sm:p-6 lg:p-7
+                  min-h-[280px]
+                  sm:min-h-[300px]
+                  lg:min-h-[320px]
+                  flex flex-col justify-between
+                  transition-all duration-500
+                  hover:-translate-y-2
+                  hover:border-[#0E8F6F]/20
+                  hover:shadow-[0_25px_80px_rgba(15,23,42,0.12)]
+                "
+              >
                 {/* Hover Glow */}
                 <div
                   className="

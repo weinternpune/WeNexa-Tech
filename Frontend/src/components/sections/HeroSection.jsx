@@ -89,7 +89,7 @@ const HeroSection = () => {
       />
 
       {/* Main Layout */}
-      <div className="relative z-10 flex pt-6 flex-col h-full">
+      <div className="relative z-10 flex flex-col h-full">
         {/* Content */}
         <div
           className="relative z-10 w-full max-w-7xl mx-auto
@@ -103,11 +103,10 @@ const HeroSection = () => {
           {/* LEFT SHIFTED */}
           <div className="w-full max-w-[700px] xl:max-w-[760px]">
             <div
-              className={`space-y-3 sm:space-y-4 lg:space-y-5 transition-all duration-1000 ${
-                loaded
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
-              }`}
+              className={`space-y-3 sm:space-y-4 lg:space-y-5 transition-all duration-1000 ${loaded
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+                }`}
             >
               {/* Tag */}
               <motion.div
@@ -146,7 +145,9 @@ const HeroSection = () => {
               >
                 Digital Solutions.
                 <br />
-                <span className="text-[#00C97B]">Drive Real Growth.</span>
+                <span className="text-[#00C97B]">
+                  Drive Real Growth.
+                </span>
               </motion.h1>
 
               {/* Description */}
@@ -174,6 +175,7 @@ const HeroSection = () => {
 
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       Book Free Consultation
+
                       <span className="transition-transform duration-300 group-hover:translate-x-1">
                         →
                       </span>
@@ -191,7 +193,9 @@ const HeroSection = () => {
                     <PhoneCall className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#00C97B]" />
                   </span>
 
-                  <span className="relative z-10">Schedule a Call</span>
+                  <span className="relative z-10">
+                    Schedule a Call
+                  </span>
                 </a>
               </motion.div>
             </div>
@@ -201,9 +205,11 @@ const HeroSection = () => {
         {/* BOTTOM SECTION */}
         <div className="absolute bottom-4 sm:bottom-6 left-0 z-20 w-full px-5 sm:px-6 lg:px-12">
           <div className="max-w-7xl mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-center gap-8 xl:gap-12">
+
             {/* FEATURE BAR */}
             <div className="w-full xl:w-auto xl:flex-1 flex justify-center mt-3 md:mt-5 xl:mt-0">
               <div className="grid grid-cols-2 min-[700px]:grid-cols-4 gap-6 xl:gap-5">
+
                 {features.map((item, index) => {
                   const Icon = item.icon;
 
@@ -242,8 +248,9 @@ const HeroSection = () => {
             </div>
 
             {/* STAT BAR */}
-            <div className="w-full xl:flex-1 xl:max-w-[520px] mx-auto">
-              <div className="grid grid-cols-2 sm:grid-cols-4  overflow-hidden rounded-[16px] border border-[#143049]/60 bg-[#07111F]/85 backdrop-blur-xl shadow-[0_8px_25px_rgba(0,0,0,0.22)]">
+            <div className="w-full xl:flex-1 xl:max-w-[760px] pt-2 mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-4 overflow-hidden rounded-[18px] sm:rounded-[24px] border border-[#143049]/70 bg-[#07111F]/85 backdrop-blur-xl">
+
                 {stats.map((item, index) => (
                   <motion.div
                     key={index}
@@ -253,33 +260,30 @@ const HeroSection = () => {
                       duration: 0.6,
                       delay: index * 0.12 + 0.9,
                     }}
-                    className="relative flex flex-col items-center justify-center py-2.5 sm:py-3 px-1.5 border-r last:border-r-0 border-white/[0.05]"
+                    className="relative flex flex-col items-center justify-center py-4 sm:py-5 border-r last:border-r-0 border-white/[0.06]"
                   >
                     {/* Divider Glow */}
-                    {index !== stats.length - 1 && (
-                      <div className="absolute inset-y-2 right-0 w-px bg-gradient-to-b from-transparent via-[#00C97B]/15 to-transparent" />
-                    )}
+                    <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-[#00C97B]/20 to-transparent" />
 
-                    {/* Number */}
-                    <h3 className="text-white text-[14px] min-[380px]:text-[15px] sm:text-[22px] font-black leading-none tracking-tight">
+                   <h3 className="text-white text-[18px] min-[380px]:text-[20px] sm:text-[32px] font-black leading-none tracking-tight">
                       {index === 0 && <CountUp end={800} suffix="+" />}
                       {index === 1 && <CountUp end={2500} suffix="+" />}
                       {index === 2 && <CountUp end={98} suffix="%" />}
-                      {index === 3 && <CountUp end={4.9} suffix="/5" decimal />}
+                      {index === 3 && (
+                        <CountUp end={4.9} suffix="/5" decimal />
+                      )}
                     </h3>
 
-                    {/* Label */}
-                    <p className="mt-1 text-center text-[8px] min-[380px]:text-[9px] sm:text-[10px] leading-tight font-medium text-white/65 px-1">
+                    <p  className="text-white/70 text-[10px] min-[380px]:text-[11px] sm:text-[13px] mt-1 sm:mt-2 font-medium text-center px-1">
                       {item.label}
                     </p>
 
-                    {/* Stars */}
                     {item.stars && (
-                      <div className="flex items-center gap-[2px] mt-1">
+                      <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <span
                             key={i}
-                            className="text-[#FFC83D] text-[7px] sm:text-[8px]"
+                            className="text-[#FFC83D] text-[9px] sm:text-[11px]"
                           >
                             ★
                           </span>
@@ -290,6 +294,7 @@ const HeroSection = () => {
                 ))}
               </div>
             </div>
+
           </div>
         </div>
       </div>

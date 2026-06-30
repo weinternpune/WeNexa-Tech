@@ -81,79 +81,13 @@ const services = [
   },
 ];
 
-const cardThemes = [
-  {
-    bg: "linear-gradient(135deg,#F6FFF9 0%,#ECFFF5 50%,#E4F9F0 100%)",
-    title: "from-[#16A34A] to-[#0E8F6F]",
-    chip: "bg-[#16A34A]/10 border border-[#16A34A]/15 text-[#166534]",
-
-    chipHover: "hover:bg-[#16A34A]/15 hover:border-[#16A34A]/25",
-    icon: "from-[#ECFFF5] to-[#DDF7EC] border-[#BCEBD7]",
-    iconColor: "text-[#16A34A]",
-
-    learnMore: "text-[#16A34A] hover:text-[#15803D]",
-    arrow: "text-[#16A34A]",
-  },
-
-  {
-    bg: "linear-gradient(135deg,#F5FAFF 0%,#EAF5FF 50%,#DFF1FF 100%)",
-    title: "from-[#2563EB] to-[#06B6D4]",
-    chip: "bg-[#2563EB]/10 border border-[#2563EB]/15 text-[#1D4ED8]",
-
-    chipHover: "hover:bg-[#2563EB]/15 hover:border-[#2563EB]/25",
-    icon: "from-[#EEF6FF] to-[#DDEEFF] border-[#BFDBFE]",
-    iconColor: "text-[#2563EB]",
-
-    learnMore: "text-[#2563EB] hover:text-[#1D4ED8]",
-    arrow: "text-[#2563EB]",
-  },
-
-  {
-    bg: "linear-gradient(135deg,#FBF7FF 0%,#F3EDFF 50%,#ECE6FF 100%)",
-    title: "from-[#7C3AED] to-[#A855F7]",
-    chip: "bg-[#7C3AED]/10 border border-[#7C3AED]/15 text-[#6D28D9]",
-
-    chipHover: "hover:bg-[#7C3AED]/15 hover:border-[#7C3AED]/25",
-    icon: "from-[#F5F0FF] to-[#ECE4FF] border-[#DDD6FE]",
-    iconColor: "text-[#7C3AED]",
-
-    learnMore: "text-[#7C3AED] hover:text-[#6D28D9]",
-    arrow: "text-[#7C3AED]",
-  },
-
-  {
-    bg: "linear-gradient(135deg,#FFF9F4 0%,#FFF2E7 50%,#FFE8D4 100%)",
-    title: "from-[#EA580C] to-[#F97316]",
-    chip: "bg-[#EA580C]/10 border border-[#EA580C]/15 text-[#C2410C]",
-
-    chipHover: "hover:bg-[#EA580C]/15 hover:border-[#EA580C]/25",
-    icon: "from-[#FFF5ED] to-[#FFE7D6] border-[#FED7AA]",
-    iconColor: "text-[#EA580C]",
-
-    learnMore: "text-[#EA580C] hover:text-[#C2410C]",
-    arrow: "text-[#EA580C]",
-  },
-
-  {
-    bg: "linear-gradient(135deg,#F3FDFF 0%,#E7FAFF 50%,#DDF6FF 100%)",
-    title: "from-[#0891B2] to-[#06B6D4]",
-    chip: "bg-[#0891B2]/10 border border-[#0891B2]/15 text-[#0E7490]",
-
-    chipHover: "hover:bg-[#0891B2]/15 hover:border-[#0891B2]/25",
-    icon: "from-[#F0FDFF] to-[#DDF7FF] border-[#A5F3FC]",
-    iconColor: "text-[#0891B2]",
-
-    learnMore: "text-[#0891B2] hover:text-[#0E7490]",
-    arrow: "text-[#0891B2]",
-  },
-];
-
 export default function ServicesSection() {
   return (
     <section id="services" className="py-14 relative overflow-hidden bg-white">
       {/* Background */}
       <div className="absolute inset-0">
         {/* Soft Premium Gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
         {/* Grid Texture */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
@@ -161,8 +95,8 @@ export default function ServicesSection() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div
-          className="
+       <div
+  className="
     flex flex-col
     items-start
     text-left
@@ -172,10 +106,10 @@ export default function ServicesSection() {
     mb-12 sm:mb-16 lg:mb-20
     px-2 sm:px-0
   "
-        >
-          {/* Badge */}
-          <div
-            className="
+>
+  {/* Badge */}
+  <div
+    className="
       inline-flex items-center gap-2
       text-[8px]
       sm:text-[11px]
@@ -185,14 +119,14 @@ export default function ServicesSection() {
       mb-4 sm:mb-5
       font-semibold
     "
-          >
-            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
-            What We Do
-          </div>
+  >
+    <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
+    What We Do
+  </div>
 
-          {/* Heading */}
-          <h2
-            className="
+  {/* Heading */}
+  <h2
+  className="
     text-[17px]
     sm:text-[28px]
     md:text-[32px]
@@ -204,15 +138,17 @@ export default function ServicesSection() {
     text-[#0f172a]
     mb-4 sm:mb-5
   "
-          >
-            End-to-End IT Services
-            <br className="block sm:hidden" />
-            <span className="text-[#0f172a]/55"> That Actually Deliver</span>
-          </h2>
+>
+  End-to-End IT Services
+  <br className="block sm:hidden" />
+  <span className="text-[#0f172a]/55">
+    {" "}That Actually Deliver
+  </span>
+</h2>
 
-          {/* Paragraph */}
-          <p
-            className="
+  {/* Paragraph */}
+  <p
+    className="
       text-[14px]
       sm:text-[15px]
       md:text-[16px]
@@ -222,148 +158,161 @@ export default function ServicesSection() {
       text-left
       
     "
-          >
-            From your first website to full enterprise automation — we’re your
-            single tech partner for everything digital.
-          </p>
-        </div>
+  >
+    From your first website to full enterprise automation — we’re your
+    single tech partner for everything digital.
+  </p>
+</div>
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
-          {services.map((svc, index) => {
-            const Icon = svc.icon;
-            const theme = cardThemes[index];
+  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+  {services.map((svc, index) => {
+    const Icon = svc.icon;
 
-            return (
+    return (
+      <div
+        key={svc.id}
+        className="
+          relative h-full
+          p-5 sm:p-6
+          rounded-[22px]
+          bg-white/95
+          backdrop-blur-sm
+          border border-[#e7eaee]
+          shadow-[0_8px_25px_rgba(15,23,42,0.05)]
+          transition-all duration-500
+          hover:-translate-y-2
+          hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)]
+          hover:border-[#0E8F6F]/20
+          overflow-hidden
+          group
+        "
+        style={{
+          animationDelay: `${index * 100}ms`,
+        }}
+      >
+        {/* Hover Glow */}
+        <div
+          className="
+            absolute inset-0 opacity-0
+            group-hover:opacity-100
+            transition-all duration-500
+            pointer-events-none
+          "
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.06),transparent_40%)]" />
+
+          <div className="absolute -top-16 -right-16 w-28 h-28 bg-[#0E8F6F]/10 blur-3xl rounded-full" />
+        </div>
+
+        <div className="relative z-10 flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3 min-w-0">
               <div
-                key={svc.id}
                 className="
-    relative h-full
-    overflow-hidden
-    rounded-[24px]
-    border border-[#d7eee7]
-    backdrop-blur-xl
-    transition-all duration-500
-    hover:-translate-y-2
-    hover:border-[#d7e2ea] hover:bg-white
-    hover:shadow-[0_20px_45px_rgba(15,23,42,0.10)]
-    group
-  "
-                style={{
-                  background: theme.bg,
-                }}
+                  flex-shrink-0
+                  w-10 h-10
+                  rounded-xl
+                  bg-[#0E8F6F]/10
+                  border border-[#0E8F6F]/10
+                  flex items-center justify-center
+                  transition-all duration-500
+                  group-hover:scale-110
+                  group-hover:bg-[#0E8F6F]/15
+                "
               >
-                {/* Noise Layer */}
-                <div
-                  className="
-      absolute inset-0
-      opacity-[0.04]
-      mix-blend-overlay
-      pointer-events-none
-    "
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(rgba(15,23,42,.25) 1px, transparent 1px)",
-                    backgroundSize: "8px 8px",
-                  }}
-                />
-
-                {/* Strong Frosted Glow */}
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col h-full p-5 sm:p-6">
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`
-            w-11
-            h-11
-            rounded-2xl
-           
-            border border-[#bcebd7]
-            shadow-[0_6px_18px_rgba(16,185,129,.12)]
-            flex
-            items-center
-            justify-center
-            transition-all
-            duration-500
-            group-hover:scale-110
-            group-hover:rotate-3 ${theme.icon}
-          `}
-                      >
-                        <Icon className={`w-5 h-5 ${theme.iconColor}`} />
-                      </div>
-
-                      <h3
-                        className={`font-bold text-base leading-tight bg-gradient-to-r ${theme.title} bg-clip-text text-transparent`}
-                      >
-                        {svc.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-[#0f172a]/65 text-[13px] sm:text-sm leading-relaxed mb-4">
-                    {svc.short}
-                  </p>
-
-                  {/* Features */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {svc.features.map((f) => (
-                      <span
-                        key={f}
-                        className={`
-  px-3
-  py-1
-  rounded-full
-  text-[11px]
-  sm:text-xs
-  shadow-sm
-  transition-all
-  duration-300
-  ${theme.chip}
-`}
-                      >
-                        {f}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Learn More */}
-                  <a
-                    href={svc.href}
-                    className={`
-    mt-auto
-    inline-flex
-    items-center
-    gap-2
-    font-semibold
-    transition-all
-    duration-300
-    hover:gap-3
-    ${theme.learnMore}
-  `}
-                  >
-                    Learn More
-                    <ArrowRight
-                      className={`
-      w-4
-      h-4
-      transition-transform
-      duration-300
-      group-hover:translate-x-1
-      ${theme.arrow}
-    `}
-                    />
-                  </a>
-                </div>
+                <Icon className="w-5 h-5 text-[#0E8F6F]" />
               </div>
-            );
-          })}
 
-          {/* CTA Card */}
-          <div
+              <h3
+                className="
+                  text-[#0f172a]
+                  font-bold
+                  text-base 
+                  text-sm
+                  leading-tight
+                  transition-all duration-300
+                  group-hover:text-[#0E8F6F]
+                "
+              >
+                {svc.title}
+              </h3>
+            </div>
+
+            <ArrowRight
+              className="
+                w-4 h-4
+                text-[#0E8F6F]
+                opacity-0
+                -translate-x-1
+                group-hover:opacity-100
+                group-hover:translate-x-0
+                transition-all duration-300
+                flex-shrink-0
+              "
+            />
+          </div>
+
+          {/* Description */}
+          <p className="text-[#0f172a]/60 text-[13px] sm:text-sm leading-relaxed mb-4">
+            {svc.short}
+          </p>
+
+          {/* Features */}
+          <div className="flex flex-wrap gap-1.5 mb-5">
+            {svc.features.map((f) => (
+              <span
+                key={f}
+                className="
+                  text-[11px]
+                  sm:text-xs
+                  text-[#0f172a]/75
+                  bg-[#f8fafc]
+                  border border-[#e5e7eb]
+                  px-2.5 py-1
+                  rounded-full
+                  transition-all duration-300
+                  hover:border-[#0E8F6F]/20
+                  hover:bg-[#0E8F6F]/5
+                  hover:text-[#0E8F6F]
+                "
+              >
+                {f}
+              </span>
+            ))}
+          </div>
+
+          {/* Learn More */}
+          <a
+            href={svc.href}
             className="
+              mt-auto
+              inline-flex items-center gap-1.5
+              text-[13px] sm:text-sm
+              font-semibold
+              text-[#0E8F6F]
+              transition-all duration-300
+              hover:gap-2.5
+            "
+          >
+            Learn More
+
+            <ArrowRight
+              className="
+                w-4 h-4
+                transition-transform duration-300
+                hover:translate-x-1
+              "
+            />
+          </a>
+        </div>
+      </div>
+    );
+  })}
+
+  {/* CTA Card */}
+  <div
+    className="
       relative overflow-hidden
       p-5 sm:p-6
       rounded-[22px]
@@ -375,33 +324,33 @@ export default function ServicesSection() {
       hover:-translate-y-2
       group
     "
-          >
-            {/* Background Accent */}
-            <div className="absolute inset-0 opacity-40">
-              <div className="absolute -bottom-20 -right-20 w-60 h-60 border border-[#0E8F6F]/20 rounded-full" />
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 border border-[#0E8F6F]/20 rounded-full" />
-            </div>
+  >
+    {/* Background Accent */}
+    <div className="absolute inset-0 opacity-40">
+      <div className="absolute -bottom-20 -right-20 w-60 h-60 border border-[#0E8F6F]/20 rounded-full" />
+      <div className="absolute -bottom-10 -right-10 w-40 h-40 border border-[#0E8F6F]/20 rounded-full" />
+    </div>
 
-            <div className="relative z-10">
-              <div className="text-[#34d399] text-[10px] font-semibold tracking-[0.2em] uppercase mb-3">
-                Custom Engagement
-              </div>
+    <div className="relative z-10">
+      <div className="text-[#34d399] text-[10px] font-semibold tracking-[0.2em] uppercase mb-3">
+        Custom Engagement
+      </div>
 
-              <h3 className="font-bold text-md sm:text-2xl mb-3 leading-tight">
-                Not sure what
-                <br />
-                you need?
-              </h3>
+      <h3 className="font-bold text-md sm:text-2xl mb-3 leading-tight">
+        Not sure what
+        <br />
+        you need?
+      </h3>
 
-              <p className="text-white/70 text-[11px] sm:text-sm leading-relaxed mb-6">
-                Book a free 30-minute discovery call. We'll assess your needs
-                and propose the right solution.
-              </p>
-            </div>
+      <p className="text-white/70 text-[11px] sm:text-sm leading-relaxed mb-6">
+        Book a free 30-minute discovery call. We'll assess your needs and
+        propose the right solution.
+      </p>
+    </div>
 
-            <Link
-              to="/contact"
-              className="
+    <Link
+      to="/contact"
+      className="
         relative overflow-hidden
         inline-flex items-center justify-center gap-2
         h-[50px]
@@ -414,12 +363,13 @@ export default function ServicesSection() {
         transition-all duration-300
         hover:bg-[#0c7a5f]
       "
-            >
-              Book Free Consultation
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </div>
+    >
+      Book Free Consultation
+
+      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+    </Link>
+  </div>
+</div>
       </div>
     </section>
   );

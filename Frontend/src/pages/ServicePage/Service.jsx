@@ -254,198 +254,161 @@ export default function ServicesPage() {
               >
                 {/* LEFT CARD */}
                 <div
-  className={`
-    relative overflow-hidden
-    rounded-[24px] sm:rounded-[30px]
-    border border-[#BEEAD8]/80
-    bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(236,253,245,0.82))]
-    backdrop-blur-3xl
-    shadow-[0_12px_40px_rgba(15,23,42,0.05)]
-    transition-all duration-500
-    hover:-translate-y-2
-    hover:scale-[1.01]
-    hover:border-[#0E8F6F]/25
-    hover:shadow-[0_24px_60px_rgba(14,143,111,0.12)]
-    group
-    ${i % 2 === 1 ? "lg:order-2" : ""}
-  `}
->
-  {/* Frosted Glass Glow */}
-  <div className="absolute inset-0 pointer-events-none">
-    <div className="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-[#6EE7B7]/15 blur-3xl" />
-    <div className="absolute -bottom-24 -left-16 w-64 h-64 rounded-full bg-white/40 blur-3xl" />
-  </div>
+                  className={`
+                    relative overflow-hidden
+                    rounded-[24px] sm:rounded-[30px]
+                    border border-[#e5e7eb]
+                    bg-white
+                    shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                    transition-all duration-500
+                    hover:-translate-y-2
+                    hover:scale-[1.01]
+                    hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]
+                    group
+                    ${i % 2 === 1 ? "lg:order-2" : ""}
+                  `}
+                >
+                  {/* Soft Hover Glow */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#0E8F6F]/[0.04] blur-3xl rounded-full" />
+                  </div>
 
-  {/* Glass Shine */}
-  <div
-    className="
-      absolute
-      inset-0
-      opacity-0
-      group-hover:opacity-100
-      transition-all
-      duration-700
-      pointer-events-none
-    "
-  >
+                  {/* Floating Accent */}
+
+                  {/* Content */}
+                  <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex flex-col">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 sm:gap-4 mb-4">
+                      <motion.div
+                        animate={{
+                          y: [0, -4, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="
+                          relative
+                          w-12 h-12 sm:w-14 sm:h-14
+                          rounded-2xl
+                          bg-[#0E8F6F]/10
+                          border border-[#0E8F6F]/10
+                          flex items-center justify-center
+                          transition-all duration-500
+                          group-hover:scale-105
+                          group-hover:-translate-y-1
+                        "
+                      >
+                        <div className="absolute inset-0 rounded-2xl bg-[#0E8F6F]/10 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-[#0E8F6F] relative z-10 transition-transform duration-500 group-hover:rotate-3" />
+                      </motion.div>
+
+                      <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold">
+                        Premium Service
+                      </div>
+                    </div>
+
+                    <div className="mb-5 sm:mb-6">
+                      <h2 className="text-[1rem] sm:text-[14px] lg:text-[22px] font-bold leading-tight mb-1 transition-all duration-300 group-hover:text-[#111827]">
+                        {svc.title}
+                      </h2>
+
+                      <p className="text-[#0f172a]/50 text-sm">
+                        {svc.tagline}
+                      </p>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-[#0f172a]/65 leading-relaxed text-sm sm:text-[15px] mb-6">
+                      {svc.desc}
+                    </p>
+
+                    {/* Features */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
+                   
+  {svc.features.slice(0, 6).map((f) => (
+    <div
+      key={f}
+      className="
+        flex items-start gap-3
+        rounded-2xl
+        border border-[#eef2f5]
+        bg-[#fafafa]
+        p-3 sm:p-3.5
+        transition-all duration-300
+        hover:border-[#0E8F6F]/15
+        hover:bg-[#0E8F6F]/[0.03]
+        hover:-translate-y-[2px]
+      "
+    >
+      <span className="text-sm text-[#0f172a]/75 leading-relaxed">
+        {f}
+      </span>
+    </div>
+  ))}
+
+  {svc.features.length > 6 && (
     <div
       className="
-        absolute
-        -left-1/2
-        top-0
-        h-full
-        w-1/2
-        rotate-12
-        bg-gradient-to-r
-        from-transparent
-        via-white/40
-        to-transparent
-        translate-x-[-150%]
-        group-hover:translate-x-[350%]
-        transition-transform
-        duration-[1800ms]
+        flex items-center justify-center
+        rounded-2xl
+        border border-dashed border-[#0E8F6F]/20
+        bg-[#0E8F6F]/[0.03]
+        p-3 sm:p-3.5
       "
-    />
-  </div>
-
-  {/* Mint Hover Glow */}
-  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
-    <div className="absolute top-0 right-0 w-72 h-72 bg-[#0E8F6F]/10 blur-3xl rounded-full" />
-  </div>
-
-  {/* Content */}
-  <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex flex-col">
-
-    {/* Header */}
-    <div className="flex items-center gap-3 sm:gap-4 mb-4">
-      <motion.div
-        animate={{ y: [0, -4, 0] }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
-          relative
-          w-12 h-12 sm:w-14 sm:h-14
-          rounded-2xl
-          bg-[#ECFDF5]/80
-          backdrop-blur-xl
-          border border-[#BBF7D0]/60
-          flex items-center justify-center
-          transition-all duration-500
-          group-hover:scale-105
-          group-hover:-translate-y-1
-        "
-      >
-        <div className="absolute inset-0 rounded-2xl bg-[#6EE7B7]/20 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-
-        <Icon className="relative z-10 w-6 h-6 sm:w-7 sm:h-7 text-[#0E8F6F] transition-transform duration-500 group-hover:rotate-3" />
-      </motion.div>
-
-      <div className="text-[11px] uppercase tracking-[0.25em] text-[#0E8F6F] font-semibold">
-        Premium Service
-      </div>
+    >
+      <span className="text-sm font-medium text-[#0E8F6F]">
+        +{svc.features.length - 6} More Features
+      </span>
     </div>
+  )}
 
-    {/* Title */}
-    <div className="mb-5 sm:mb-6">
-      <h2 className="text-[1rem] sm:text-[14px] lg:text-[22px] font-bold leading-tight mb-1 text-slate-900 transition-all duration-300">
-        {svc.title}
-      </h2>
+                    </div>
 
-      <p className="text-slate-500 text-sm">
-        {svc.tagline}
-      </p>
-    </div>
+                    {/* CTA */}
+                    <div className="mt-auto  pt-1">
+                      <Link
+                        to="/contact"
+                        className="
+                          relative overflow-hidden
+                          inline-flex items-center gap-2
+                          px-10 sm:px-6 py-3
+                          lg:px-20
+                          
+                          
+                          rounded-xl sm:rounded-2xl
+                          bg-[#0f172a]
+                          text-white
+                          font-medium
+                          transition-all duration-300
+                          hover:bg-[#111827]
+                          hover:shadow-[0_12px_30px_rgba(15,23,42,0.18)]
+                          group/btn
+                        "
+                      >
+                        <span
+                          className="
+                            absolute inset-0
+                            -translate-x-[120%]
+                            
+                            bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)]
+                            group-hover/btn:translate-x-[120%]
+                            transition-transform duration-1000
+                          "
+                          
+                        />
 
-    {/* Description */}
-    <p className="text-slate-600 leading-relaxed text-sm sm:text-[15px] mb-6">
-      {svc.desc}
-    </p>
+                        <span className="relative z-10">
+                          Get Quote
+                        </span>
 
-    {/* Features */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
-
-      {svc.features.slice(0, 6).map((f) => (
-        <div
-          key={f}
-          className="
-            flex items-start gap-3
-            rounded-2xl
-            border border-[#D7F5E8]
-            bg-white/55
-            backdrop-blur-xl
-            p-3 sm:p-3.5
-            transition-all duration-300
-            hover:border-[#0E8F6F]/30
-            hover:bg-[#ECFDF5]/70
-            hover:-translate-y-[2px]
-          "
-        >
-          <span className="text-sm text-slate-700 leading-relaxed">
-            {f}
-          </span>
-        </div>
-      ))}
-
-      {svc.features.length > 6 && (
-        <div
-          className="
-            flex items-center justify-center
-            rounded-2xl
-            border border-dashed border-[#0E8F6F]/30
-            bg-[#ECFDF5]/70
-            backdrop-blur-xl
-            p-3 sm:p-3.5
-          "
-        >
-          <span className="text-sm font-semibold text-[#0E8F6F]">
-            +{svc.features.length - 6} More Features
-          </span>
-        </div>
-      )}
-
-    </div>
-
-    {/* CTA */}
-    <div className="mt-auto pt-1">
-      <Link
-        to="/contact"
-        className="
-          relative overflow-hidden
-          inline-flex items-center gap-2
-          px-10 sm:px-6 py-3
-          lg:px-20
-          rounded-xl sm:rounded-2xl
-          bg-[#0F172A]
-          text-white
-          font-medium
-          transition-all duration-300
-          hover:shadow-[0_18px_40px_rgba(15,23,42,0.22)]
-          group/btn
-        "
-      >
-        <span
-          className="
-            absolute inset-0
-            -translate-x-[120%]
-            bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent)]
-            group-hover/btn:translate-x-[120%]
-            transition-transform duration-1000
-          "
-        />
-
-        <span className="relative z-10">
-          Get Quote
-        </span>
-
-        <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-      </Link>
-    </div>
-
-  </div>
-</div>
+                        <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
 
                 {/* RIGHT CARD */}
                 <div
@@ -462,7 +425,7 @@ export default function ServicesPage() {
                     group
                     ${i % 2 === 1 ? "lg:order-1" : ""}
                   `}
-                  >
+                >
                   {/* Elegant Glow */}
                   <div className="absolute top-0 right-0 w-72 h-72 bg-[#0E8F6F]/10 blur-3xl rounded-full opacity-70 transition-all duration-700 group-hover:scale-125" />
 
