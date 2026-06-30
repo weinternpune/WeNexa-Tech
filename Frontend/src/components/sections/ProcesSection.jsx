@@ -54,56 +54,11 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="relative py-8 sm:py-10 md:py-12 lg:py-5 pb-[0.5rem] overflow-hidden bg-white">
-      <div className="relative z-10 max-w-7xl mx-auto container-responsive">
-        {/* Header - Now left aligned and justified */}
-    <div
-  className="
-    flex flex-col
-    items-start
-    text-left
-    w-full
-    max-w-5xl
-    ml-2 md:ml-6 lg:ml-4
-    mb-10 sm:mb-8 lg:mb-16
-  "
->
-  <div
-    className="
-      inline-flex items-center gap-2
-      px-3 sm:px-4 md:px-5 py-1.5 sm:py-2
-      rounded-full
-      bg-white
-      border border-[#e7eaee]
-      shadow-[0_8px_25px_rgba(15,23,42,0.04)]
-      mb-3
-    "
-  >
-    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
-
-    <span className="text-[8px] sm:text-[11px] tracking-[0.22em] uppercase font-semibold text-[#0E8F6F]">
-      HOW WE WORK
-    </span>
-  </div>
-
-  <h2
-  className="
-    text-[17px]
-    sm:text-[28px]
-    md:text-[32px]
-    lg:text-[38px]
-    xl:text-[45px]
-    font-bold
-    leading-[1.1]
-    tracking-tight
-    text-[#0f172a]
-  "
->
-  A Roadmap Built for
-  <span className="text-[#0f172a]/45">
-    {" "}Zero Surprises
-  </span>
-</h2>
+    <section className="relative py-16 sm:py-20 overflow-hidden bg-white">
+      {/* Premium Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.07),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
 
   <p
     className="
@@ -121,12 +76,52 @@ export default function ProcessSection() {
   </p>
 </div>
 
-        {/* Timeline */}
+        {/* blur */}
+        <div className="absolute top-[-120px] right-[-80px] w-[320px] h-[320px] rounded-full bg-[#0E8F6F]/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+        {/* HEADER */}
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-14 sm:mb-20">
+          {/* Badge */}
+          <div
+            className="
+              inline-flex items-center gap-2
+              px-4 sm:px-5 py-2
+              rounded-full
+              bg-white
+              border border-[#e7eaee]
+              shadow-[0_8px_25px_rgba(15,23,42,0.04)]
+              mb-6
+            "
+          >
+            <div className="w-2 h-2 rounded-full bg-[#0E8F6F] animate-pulse" />
+
+            <span className="text-[10px] sm:text-[11px] tracking-[0.25em] uppercase font-semibold text-[#0E8F6F]">
+              HOW WE WORK
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-[#0f172a]">
+            A Roadmap Built for
+            <br />
+            <span className="text-[#0f172a]/45">
+              Zero Surprises
+            </span>
+          </h2>
+
+          <p className="mt-5 text-base sm:text-lg text-[#0f172a]/60 max-w-2xl leading-relaxed px-2 sm:px-0">
+            Transparent milestone-driven execution that keeps you informed,
+            aligned and confident from discovery to launch.
+          </p>
+        </div>
+
+        {/* ROADMAP */}
         <div className="relative">
-          {/* Center Line - Hidden on mobile/tablet */}
+          {/* center line */}
           <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#0E8F6F]/0 via-[#0E8F6F]/20 to-[#0E8F6F]/0 -translate-x-1/2" />
 
-          <div className="space-y-1 sm:space-y-1.5 md:space-y-2 lg:space-y-2.5">
+          <div className="space-y-6 sm:space-y-8 lg:space-y-10">
             {steps.map((step, i) => {
               const Icon = step.icon;
               const isLeft = i % 2 === 0;
@@ -134,11 +129,12 @@ export default function ProcessSection() {
               return (
                 <div
                   key={step.num}
-                  className={`relative flex items-center ${
-                    isLeft ? "lg:justify-start" : "lg:justify-end"
-                  }`}
+                  className={`
+                    relative flex items-center
+                    ${isLeft ? "lg:justify-start" : "lg:justify-end"}
+                  `}
                 >
-                  {/* Center Icon - Desktop only */}
+                  {/* center node */}
                   <div
                     className="
                       hidden lg:flex
@@ -181,7 +177,7 @@ export default function ProcessSection() {
                   >
                     <div className="absolute inset-0 opacity-100 transition-all duration-500 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.10),transparent_55%),linear-gradient(135deg,rgba(255,255,255,0.14),transparent)] group-hover:bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.18),transparent_55%),linear-gradient(135deg,rgba(255,255,255,0.20),transparent)]" />
 
-                    {/* Connecting line to center - Desktop only */}
+                    {/* line connector */}
                     <div
                       className={`hidden lg:block absolute top-1/2 ${
                         isLeft
@@ -250,6 +246,11 @@ export default function ProcessSection() {
                           </p>
                         </div>
                       </div>
+
+                      {/* description */}
+                      <p className="text-[#0f172a]/60 text-sm sm:text-[15px] leading-relaxed max-w-xl">
+                        {step.desc}
+                      </p>
                     </div>
                   </div>
                 </div>

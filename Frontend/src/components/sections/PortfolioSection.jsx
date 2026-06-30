@@ -241,13 +241,149 @@ export default function PortfolioSection() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_45%)]" />
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0E8F6F]/30 to-transparent" />
 
-              <div className="relative z-10 p-4 sm:p-5 flex flex-col h-full justify-between">
-                {/* Top Content */}
-                <div>
-                  {/* Category */}
-                  <div className="inline-flex items-center gap-2 w-fit px-3 py-1.5 rounded-full bg-[#0E8F6F]/8 border border-[#0E8F6F]/10 text-[#0E8F6F] text-[11px] uppercase tracking-[0.18em] font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#0E8F6F]" />
-                    {project.category}
+              {/* Floating Gradient */}
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-[#0E8F6F]/0 group-hover:bg-[#0E8F6F]/10 blur-3xl transition-all duration-700" />
+
+              {/* CONTENT */}
+              <div className="relative z-10 p-8 flex flex-col h-full">
+
+                {/* CATEGORY */}
+                <div
+                  className="
+                    inline-flex items-center gap-2
+                    w-fit
+                    px-3 py-1.5
+                    rounded-full
+                    bg-[#0E8F6F]/8
+                    border border-[#0E8F6F]/10
+                    text-[#0E8F6F]
+                    text-[11px]
+                    uppercase
+                    tracking-[0.2em]
+                    font-semibold
+                    mb-7
+                  "
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#0E8F6F]" />
+
+                  {project.category}
+                </div>
+
+                {/* TITLE */}
+                <h3
+                  className="
+                    text-[#0f172a]
+                    text-[30px]
+                    leading-[1]
+                    font-bold
+                    tracking-tight
+                    mb-4
+                  "
+                >
+                  {project.title}
+                </h3>
+
+                {/* CLIENT */}
+                <p className="text-[#0f172a]/45 text-[15px] mb-6">
+                  {project.client}
+                </p>
+
+                {/* DESCRIPTION */}
+                <p
+                  className="text-[#0f172a]/62 text-[15px] leading-relaxed mb-6 text-justify hyphens-auto"
+                  style={{ textAlignLast: "left" }}
+                >
+                  {project.desc}
+                </p>
+
+                {/* TAGS */}
+                <div className="flex flex-wrap gap-2 mb-8">
+
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="
+                        text-xs
+                        px-3 py-1.5
+                        rounded-full
+                        bg-[#f8fafc]
+                        border border-[#e7eaee]
+                        text-[#0f172a]/65
+                        transition-all duration-300
+                        hover:border-[#0E8F6F]/15
+                        hover:text-[#0E8F6F]
+                      "
+                    >
+                      {tag}
+                    </span>
+                  ))}
+
+                </div>
+
+                {/* PUSH CTA DOWN */}
+                <div className="flex-1" />
+
+                {/* CTA SECTION */}
+                <div
+                  className="
+                    relative
+                    overflow-hidden
+                    rounded-[24px]
+                    bg-[#041b17]
+                    px-5 py-5
+                  "
+                >
+
+                  {/* glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,143,111,0.18),transparent_50%)]" />
+
+                  <div className="relative z-10 flex items-center justify-between">
+
+                    {/* LEFT */}
+                    <div>
+
+                      <div className="text-white/35 text-[11px] uppercase tracking-[0.22em] mb-2">
+                        Result Delivered
+                      </div>
+
+                      <div className="text-[#4ade80] font-semibold text-[15px] leading-tight max-w-[190px]">
+                        {project.result}
+                      </div>
+
+                    </div>
+
+                    {/* ADVANCED CTA BUTTON */}
+                    <button
+                      className="
+                        group/btn
+                        relative
+                        w-14 h-14
+                        rounded-2xl
+                        bg-white/5
+                        border border-white/10
+                        flex items-center justify-center
+                        overflow-hidden
+                        transition-all duration-500
+                        hover:bg-[#0E8F6F]
+                        hover:border-[#0E8F6F]
+                        hover:scale-105
+                      "
+                    >
+
+                      {/* hover shine */}
+                      <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-all duration-500 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),transparent_60%)]" />
+
+                      <ArrowRight
+                        className="
+                          relative z-10
+                          w-5 h-5
+                          text-white
+                          transition-all duration-500
+                          group-hover/btn:translate-x-[2px]
+                        "
+                      />
+                    </button>
+
                   </div>
 
                   {/* Title */}
