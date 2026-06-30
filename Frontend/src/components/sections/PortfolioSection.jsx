@@ -208,26 +208,36 @@ export default function PortfolioSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
           {filteredProjects.map((project) => (
             <div
-              key={project.id}
-              className="
-        group
-        relative
-        overflow-hidden
-        rounded-[24px]
-        bg-white
-        border
-        border-[#e7eaee]
-        shadow-[0_10px_30px_rgba(15,23,42,0.05)]
-        hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)]
-        hover:border-[#0E8F6F]/20
-        transition-all
-        duration-500
-        hover:-translate-y-1
-        flex
-        flex-col
-        h-full
-      "
-            >
+  key={project.id}
+  className="
+    group
+    relative
+    overflow-hidden
+    rounded-[24px]
+    border
+    border-[#0E8F6F]/20
+    backdrop-blur-3xl
+    transition-all
+    duration-500
+    hover:-translate-y-2
+    hover:shadow-[0_30px_70px_rgba(0,0,0,0.18)]
+    flex
+    flex-col
+    h-full
+  "
+  style={{
+    background: `
+      linear-gradient(
+        150deg,
+        rgba(255,255,255,0.88) 0%,
+        rgba(242,255,250,0.92) 35%,
+        rgba(224,250,242,0.88) 100%
+      )
+    `,
+    boxShadow:
+      "0 15px 40px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,0.75)",
+  }}
+>
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.08),transparent_45%)]" />
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0E8F6F]/30 to-transparent" />
 

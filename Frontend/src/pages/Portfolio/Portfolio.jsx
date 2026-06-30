@@ -281,23 +281,53 @@ export default function PortfolioPage() {
       key={project.id}
       variants={fadeUp}
       whileHover={{ y: -6 }}
-      className="
-        group relative overflow-hidden
-        rounded-[28px]
-        border border-[#e8edf3]
-        bg-white
-        shadow-[0_10px_35px_rgba(15,23,42,0.05)]
-        hover:shadow-[0_24px_60px_rgba(15,23,42,0.10)]
-        transition-all duration-500
-        flex flex-col
-        h-full
-      "
+     className="
+  group
+  relative
+  overflow-hidden
+  rounded-[28px]
+
+  border border-[#0E8F6F]/25
+
+ 
+
+  backdrop-blur-2xl
+
+  shadow-[0_12px_35px_rgba(14,143,111,0.08)]
+  hover:shadow-[0_28px_70px_rgba(14,143,111,0.18)]
+
+  transition-all
+  duration-500
+  flex flex-col
+  h-full
+"
+style={{
+    background: `
+      linear-gradient(
+        190deg,
+        rgba(255,255,255,0.88) 0%,
+        rgba(242,255,250,0.92) 35%,
+        rgba(224,250,242,0.88) 100%
+      )
+    `,
+    boxShadow:
+      "0 15px 40px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,0.75)",
+  }}
     >
 
-      {/* Hover Glow */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#0E8F6F]/[0.05] blur-3xl rounded-full" />
-      </div>
+     
+     {/* Frosted Mint Glow */}
+<div className="absolute inset-0 overflow-hidden pointer-events-none">
+
+  <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#A7F3D0]/35 blur-3xl" />
+
+  <div className="absolute -bottom-24 -left-20 w-64 h-64 rounded-full bg-white/60 blur-3xl" />
+
+  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.45),transparent_55%)] opacity-80" />
+
+  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.35),transparent)]" />
+
+</div>
 
       <div className="relative z-10 p-5 sm:p-6 lg:p-7 flex flex-col h-full">
         {/* Category */}
