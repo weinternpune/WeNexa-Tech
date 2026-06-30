@@ -291,9 +291,17 @@ export default function SaaSSection() {
                   className={`
                     group relative overflow-hidden min-w-[220px] lg:min-w-full text-left rounded-2xl border transition-all duration-500 sidebar-btn-saas
                     ${isActive
-                      ? "bg-[#041b17] border-[#0E8F6F]/20 shadow-[0_20px_40px_rgba(15,23,42,0.12)]"
-                      : "bg-white/90 border-[#e7eaee] hover:border-[#0E8F6F]/15 hover:shadow-[0_10px_30px_rgba(15,23,42,0.06)]"
-                    }
+  ? "bg-[#041b17] border-[#0E8F6F]/20 shadow-[0_20px_40px_rgba(15,23,42,0.12)]"
+  : `
+      bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(236,255,248,0.72))]
+      backdrop-blur-xl
+      border border-[#0E8F6F]/12
+      shadow-[0_12px_32px_rgba(15,23,42,0.06)]
+      hover:border-[#0E8F6F]/25
+      hover:shadow-[0_18px_40px_rgba(14,143,111,0.10)]
+      hover:-translate-y-[2px]
+    `
+}
                   `}
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.06),transparent_45%)]" />
