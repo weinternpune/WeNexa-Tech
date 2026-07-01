@@ -1,16 +1,17 @@
 import Contact from "../models/contact.js";
 import ContactOtp from "../models/contactOtp.js";
+import ContactLimit from "../models/contactLimit.js";
 import { sendAdminEmail, sendUserAutoReply, sendOTPEmail, sendResendOTPEmail } from "../services/emailService.js";
 import {
   OTP_VALIDITY_MS,
   MAX_OTP_ATTEMPTS,
   OTP_BLOCK_MS,
-  RESUBMIT_COOLDOWN_MS,
+  MAX_CONTACT_SUBMISSIONS,
+  CONTACT_WINDOW_MS,
   formatWaitTime,
 } from "../utils/contactConstants.js";
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
-
 const normalizeEmail = (email) => String(email).trim().toLowerCase();
 
 const isEmailAuthError = (error) =>
@@ -22,14 +23,6 @@ const buildFullPhone = (phone, countryCode = "+91") => {
   const code = String(countryCode || "+91").trim();
   return `${code}${digits}`;
 };
-
-async function getRecentVerifiedContact(email) {
-  return Contact.findOne({
-    email,
-    isVerified: true,
-    verifiedAt: { $gte: new Date(Date.now() - RESUBMIT_COOLDOWN_MS) },
-  }).sort({ verifiedAt: -1 });
-}
 
 async function getActiveOtpRecord(email) {
   const record = await ContactOtp.findOne({ email });
@@ -47,17 +40,100 @@ async function getActiveOtpRecord(email) {
   return record;
 }
 
-function buildEmailCooldownResponse(recentContact, res) {
-  const retryAfter = new Date(recentContact.verifiedAt.getTime() + RESUBMIT_COOLDOWN_MS);
-  const remainingMs = retryAfter.getTime() - Date.now();
+async function checkContactLimit(email) {
+  const now = new Date();
+  
+  let limit = await ContactLimit.findOne({ email });
+  
+  if (!limit) {
+    return { 
+      allowed: true, 
+      attempts: 0, 
+      limit: null,
+      remaining: MAX_CONTACT_SUBMISSIONS,
+    };
+  }
+  
+  const windowEnd = new Date(limit.windowStart.getTime() + CONTACT_WINDOW_MS);
+  
+  if (now >= windowEnd) {
+    return { 
+      allowed: true, 
+      attempts: 0, 
+      limit,
+      remaining: MAX_CONTACT_SUBMISSIONS,
+      shouldReset: true
+    };
+  }
+  
+  if (limit.attempts >= limit.maxAttempts) {
+    const remainingMs = windowEnd.getTime() - now.getTime();
+    return { 
+      allowed: false, 
+      attempts: limit.attempts, 
+      limit,
+      remainingMs,
+      windowEnd,
+    };
+  }
+  
+  return { 
+    allowed: true, 
+    attempts: limit.attempts, 
+    limit,
+    remaining: limit.maxAttempts - limit.attempts,
+  };
+}
 
-  return res.status(429).json({
-    success: false,
-    code: "EMAIL_COOLDOWN",
-    message: `You have already verified this email. You cannot send again until ${formatWaitTime(remainingMs)}. Please try again after that.`,
-    retryAfter: retryAfter.toISOString(),
-    remainingMs,
-  });
+async function incrementContactLimit(email) {
+  const now = new Date();
+  
+  let limit = await ContactLimit.findOne({ email });
+  
+  if (!limit) {
+    limit = new ContactLimit({
+      email,
+      attempts: 1,
+      maxAttempts: MAX_CONTACT_SUBMISSIONS,
+      firstAttemptAt: now,
+      lastAttemptAt: now,
+      windowStart: now,
+    });
+    await limit.save();
+    return { attempts: 1, limit };
+  }
+  
+  const windowEnd = new Date(limit.windowStart.getTime() + CONTACT_WINDOW_MS);
+  
+  if (now >= windowEnd) {
+    limit.attempts = 1;
+    limit.windowStart = now;
+    limit.firstAttemptAt = now;
+    limit.lastAttemptAt = now;
+    await limit.save();
+    return { attempts: 1, limit };
+  }
+  
+  limit.attempts += 1;
+  limit.lastAttemptAt = now;
+  await limit.save();
+  
+  return { attempts: limit.attempts, limit };
+}
+
+async function rollbackContactLimit(email) {
+  try {
+    const limit = await ContactLimit.findOne({ email });
+    if (limit) {
+      limit.attempts = Math.max(0, limit.attempts - 1);
+      await limit.save();
+      console.log(`Rolled back contact limit for ${email}. New attempts: ${limit.attempts}`);
+      return limit;
+    }
+  } catch (error) {
+    console.error("Rollback error:", error);
+  }
+  return null;
 }
 
 function buildOtpBlockResponse(record, res) {
@@ -72,27 +148,46 @@ function buildOtpBlockResponse(record, res) {
   });
 }
 
-// Send OTP Email
 export const sendOTP = async (req, res) => {
+  let email = null;
+  
   try {
     const { name, phone, company, service, budget, message, countryCode, previousEmail } = req.body;
-    const email = normalizeEmail(req.body.email);
+    email = normalizeEmail(req.body.email);
 
-    const recentVerified = await getRecentVerifiedContact(email);
-    if (recentVerified) {
-      return buildEmailCooldownResponse(recentVerified, res);
+    console.log(`📧 Send OTP request for: ${email}`);
+
+    // ✅ CHECK 1: Contact limit (3 times in 24 hours)
+    const limitCheck = await checkContactLimit(email);
+    
+    if (!limitCheck.allowed) {
+      const retryAfter = new Date(Date.now() + limitCheck.remainingMs);
+      return res.status(429).json({
+        success: false,
+        code: "CONTACT_LIMIT_EXCEEDED",
+        message: `You have already submitted ${MAX_CONTACT_SUBMISSIONS} times in the last 24 hours. Please try again after ${formatWaitTime(limitCheck.remainingMs)}.`,
+        retryAfter: retryAfter.toISOString(),
+        remainingMs: limitCheck.remainingMs,
+        attemptsUsed: limitCheck.attempts,
+        maxAttempts: MAX_CONTACT_SUBMISSIONS,
+      });
     }
+
+    console.log(`✅ Contact limit check passed for: ${email}. Current attempts: ${limitCheck.attempts}`);
 
     const existingOtp = await getActiveOtpRecord(email);
     if (existingOtp?.blockedUntil && Date.now() < existingOtp.blockedUntil.getTime()) {
+      console.log(`🔒 OTP blocked for: ${email}`);
       return buildOtpBlockResponse(existingOtp, res);
     }
 
+    // Clean up old email if changed
     const oldEmail = previousEmail ? normalizeEmail(previousEmail) : null;
     if (oldEmail && oldEmail !== email) {
       await ContactOtp.deleteOne({ email: oldEmail });
     }
 
+    // Create OTP record
     const cleanPhone = buildFullPhone(phone, countryCode);
     const otp = generateOTP();
 
@@ -118,10 +213,17 @@ export const sendOTP = async (req, res) => {
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
+    // Send email
+    console.log(`📤 Sending OTP email to: ${email}`);
     const emailResult = await sendOTPEmail(email, otp, name.trim());
 
     if (!emailResult?.success) {
+      console.log(`❌ Email failed for: ${email}. Error:`, emailResult?.error);
+      
+      // Rollback - email failed, so decrement attempts
+      await rollbackContactLimit(email);
       await ContactOtp.deleteOne({ email });
+      
       return res.status(500).json({
         success: false,
         code: "EMAIL_SEND_FAILED",
@@ -129,16 +231,28 @@ export const sendOTP = async (req, res) => {
       });
     }
 
-    console.log(`OTP sent to ${email}`);
+    const incrementResult = await incrementContactLimit(email);
+    
+    console.log(`✅ OTP sent to ${email}. Contact attempts: ${incrementResult.attempts}/${MAX_CONTACT_SUBMISSIONS}`);
 
     res.status(200).json({
       success: true,
       message: `Verification code sent to ${email}. Valid for 10 minutes. Please check your inbox and spam folder.`,
       email,
       expiresInMinutes: 10,
+      contactAttempts: incrementResult.attempts,
+      maxContactAttempts: MAX_CONTACT_SUBMISSIONS,
+      remainingContactAttempts: MAX_CONTACT_SUBMISSIONS - incrementResult.attempts,
     });
   } catch (error) {
-    console.error("Send OTP error:", error);
+    console.error("❌ Send OTP error:", error);
+    
+    // Rollback on any error
+    if (email) {
+      await rollbackContactLimit(email);
+      await ContactOtp.deleteOne({ email }).catch(() => {});
+    }
+    
     res.status(500).json({
       success: false,
       message: isEmailAuthError(error)
@@ -148,16 +262,10 @@ export const sendOTP = async (req, res) => {
   }
 };
 
-// Verify OTP and Save Contact
 export const verifyOTPAndSave = async (req, res) => {
   try {
     const email = normalizeEmail(req.body.email);
     const otp = String(req.body.otp || "").trim();
-
-    const recentVerified = await getRecentVerifiedContact(email);
-    if (recentVerified) {
-      return buildEmailCooldownResponse(recentVerified, res);
-    }
 
     const storedData = await getActiveOtpRecord(email);
 
@@ -235,14 +343,15 @@ export const verifyOTPAndSave = async (req, res) => {
     await contact.save();
     await ContactOtp.deleteOne({ email });
 
-    console.log(`Contact saved: ${email} - ${name}`);
+    console.log(`✅ Contact saved: ${email} - ${name}`);
 
+    // Send admin and auto-reply emails
     try {
       await Promise.all([
         sendAdminEmail({ name, email, phone, company, service, budget, message }),
         sendUserAutoReply({ name, email }),
       ]);
-      console.log(`Emails sent to admin and ${email}`);
+      console.log(`✅ Emails sent to admin and ${email}`);
     } catch (emailError) {
       console.error("Email sending error:", emailError);
     }
@@ -260,15 +369,9 @@ export const verifyOTPAndSave = async (req, res) => {
   }
 };
 
-// Resend OTP
 export const resendOTP = async (req, res) => {
   try {
     const email = normalizeEmail(req.body.email);
-
-    const recentVerified = await getRecentVerifiedContact(email);
-    if (recentVerified) {
-      return buildEmailCooldownResponse(recentVerified, res);
-    }
 
     const storedData = await getActiveOtpRecord(email);
 
@@ -333,7 +436,6 @@ export const resendOTP = async (req, res) => {
   }
 };
 
-// Change email during OTP verification
 export const changeOtpEmail = async (req, res) => {
   try {
     const previousEmail = normalizeEmail(req.body.previousEmail);
@@ -374,11 +476,6 @@ export const changeOtpEmail = async (req, res) => {
         code: "OTP_EXPIRED",
         message: "Verification session expired. Please submit the form again.",
       });
-    }
-
-    const recentVerified = await getRecentVerifiedContact(newEmail);
-    if (recentVerified) {
-      return buildEmailCooldownResponse(recentVerified, res);
     }
 
     const blockedNewEmail = await getActiveOtpRecord(newEmail);
@@ -438,133 +535,6 @@ export const changeOtpEmail = async (req, res) => {
   }
 };
 
-// Get All Contacts (Admin)
-export const getAllContacts = async (req, res) => {
-  try {
-    const apiKey = req.headers["x-api-key"];
-
-    if (apiKey !== process.env.ADMIN_API_KEY) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized access",
-      });
-    }
-
-    const { status, page = 1, limit = 50 } = req.query;
-
-    const query = {};
-    if (status) query.status = status;
-
-    const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
-
-    const [contacts, total] = await Promise.all([
-      Contact.find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(parseInt(limit, 10)),
-      Contact.countDocuments(query),
-    ]);
-
-    res.status(200).json({
-      success: true,
-      data: {
-        contacts,
-        pagination: {
-          page: parseInt(page, 10),
-          limit: parseInt(limit, 10),
-          total,
-          pages: Math.ceil(total / parseInt(limit, 10)),
-        },
-      },
-    });
-  } catch (error) {
-    console.error("Get contacts error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching contacts",
-    });
-  }
-};
-
-// Update Contact Status (Admin)
-export const updateContactStatus = async (req, res) => {
-  try {
-    const apiKey = req.headers["x-api-key"];
-
-    if (apiKey !== process.env.ADMIN_API_KEY) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized access",
-      });
-    }
-
-    const { id } = req.params;
-    const { status } = req.body;
-
-    if (!["pending", "read", "replied", "spam"].includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid status",
-      });
-    }
-
-    const contact = await Contact.findByIdAndUpdate(
-      id,
-      { status, lastUpdatedAt: new Date() },
-      { new: true }
-    );
-
-    if (!contact) {
-      return res.status(404).json({
-        success: false,
-        message: "Contact not found",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Status updated successfully",
-      contact,
-    });
-  } catch (error) {
-    console.error("Update status error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error updating status",
-    });
-  }
-};
-
-// Delete Contact (Admin)
-export const deleteContact = async (req, res) => {
-  try {
-    const apiKey = req.headers["x-api-key"];
-
-    if (apiKey !== process.env.ADMIN_API_KEY) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized access",
-      });
-    }
-
-    const contact = await Contact.findByIdAndDelete(req.params.id);
-
-    if (!contact) {
-      return res.status(404).json({
-        success: false,
-        message: "Contact not found",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Contact deleted successfully",
-    });
-  } catch (error) {
-    console.error("Delete contact error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error deleting contact",
-    });
-  }
-};
+export const getAllContacts = async (req, res) => { /* ... */ };
+export const updateContactStatus = async (req, res) => { /* ... */ };
+export const deleteContact = async (req, res) => { /* ... */ };

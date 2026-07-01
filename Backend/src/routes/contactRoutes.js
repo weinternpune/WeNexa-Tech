@@ -12,7 +12,8 @@ import {
   ipLimiter,
   otpSendLimiter,
   resendLimiter,
-  globalLimiter
+  globalLimiter,
+  contactSubmitLimiter,
 } from "../middleware/rateLimit.js";
 import {
   validateContact,
@@ -25,7 +26,7 @@ const router = express.Router();
 
 router.use(globalLimiter);
 
-router.post("/contact/send-otp", ipLimiter, otpSendLimiter, validateContact, sendOTP);
+router.post("/contact/send-otp", ipLimiter, otpSendLimiter, contactSubmitLimiter, validateContact, sendOTP);
 router.post("/contact/verify-otp", validateVerifyOtp, verifyOTPAndSave);
 router.post("/contact/resend-otp", resendLimiter, validateResendOtp, resendOTP);
 router.post("/contact/change-email", ipLimiter, validateChangeOtpEmail, changeOtpEmail);

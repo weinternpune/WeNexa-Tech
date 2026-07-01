@@ -11,7 +11,6 @@ const buildRateLimitHandler = (code, message, windowMs) => (req, res) => {
   });
 };
 
-// IP based rate limiter - 30 requests per hour per IP
 export const ipLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 30,
@@ -74,6 +73,19 @@ export const resendLimiter = rateLimit({
     "RESEND_LIMIT",
     "Too many resend attempts. Please wait before requesting another code.",
     60 * 60 * 1000
+  ),
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const contactSubmitLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  max: 3,
+  keyGenerator: (req) => `contact:${String(req.body.email || "").trim().toLowerCase()}`,
+  handler: buildRateLimitHandler(
+    "CONTACT_SUBMIT_LIMIT",
+    "You have reached the maximum of 3 submissions in 24 hours. Please try again tomorrow.",
+    24 * 60 * 60 * 1000
   ),
   standardHeaders: true,
   legacyHeaders: false,

@@ -1,7 +1,9 @@
 export const OTP_VALIDITY_MS = 10 * 60 * 1000;
 export const MAX_OTP_ATTEMPTS = 3;
 export const OTP_BLOCK_MS = 24 * 60 * 60 * 1000;
-export const RESUBMIT_COOLDOWN_MS = 4 * 24 * 60 * 60 * 1000;
+
+export const MAX_CONTACT_SUBMISSIONS = 3;
+export const CONTACT_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export const ALLOWED_SERVICES = [
   "Web Development",
