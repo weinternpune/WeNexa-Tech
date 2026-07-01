@@ -59,23 +59,6 @@ export default function ProcessSection() {
       <div className="absolute inset-0 overflow-hidden">
         {/* gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,143,111,0.07),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.04),transparent_40%)]" />
-
-  <p
-    className="
-      mt-2
-      max-w-2xl
-      text-[14px]
-      sm:text-[15px]
-      md:text-[16px]
-      leading-relaxed
-      text-[#0f172a]/60
-    "
-  >
-    Transparent milestone-driven execution that keeps you informed,
-    aligned and confident from discovery to launch.
-  </p>
-</div>
-
         {/* blur */}
         <div className="absolute top-[-120px] right-[-80px] w-[320px] h-[320px] rounded-full bg-[#0E8F6F]/10 blur-3xl" />
       </div>
@@ -105,9 +88,7 @@ export default function ProcessSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-[#0f172a]">
             A Roadmap Built for
             <br />
-            <span className="text-[#0f172a]/45">
-              Zero Surprises
-            </span>
+            <span className="text-[#0f172a]/45">Zero Surprises</span>
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-[#0f172a]/60 max-w-2xl leading-relaxed px-2 sm:px-0">
@@ -154,7 +135,7 @@ export default function ProcessSection() {
                     <Icon className="relative z-10 w-3.5 h-3.5 xl:w-4 xl:h-4 text-[#0E8F6F]" />
                   </div>
 
-                  {/* Card - With py-[1px] for all devices */}
+                  {/* Card */}
                   <div
                     className="
                       group
@@ -235,42 +216,7 @@ export default function ProcessSection() {
                             whitespace-nowrap
                           "
                         >
-                          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-4.5 md:h-4.5 text-[#0E8F6F] group-hover:text-white transition-all duration-500" />
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex flex-wrap items-start justify-between gap-1 mb-0.5">
-                            <div className="min-w-0">
-                              <div className="text-[7px] sm:text-[8px] md:text-[9px] tracking-[0.15em] sm:tracking-[0.18em] uppercase font-semibold text-[#0E8F6F]">
-                                Step {step.num}
-                              </div>
-
-                              <h3 className="text-[12px] sm:text-[12px] md:text-[12px] lg:text-[14px] font-bold text-[#0f172a] leading-tight">
-                                {step.title}
-                              </h3>
-                            </div>
-
-                            <div
-                              className="
-                                px-1.5 sm:px-2 md:px-2.5 py-0.5
-                                rounded-full
-                                bg-[#0E8F6F]/8
-                                border border-[#0E8F6F]/10
-                                text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px]
-                                font-semibold
-                                text-[#0E8F6F]
-                                whitespace-nowrap
-                                shrink-0
-                              "
-                            >
-                              {step.duration}
-                            </div>
-                          </div>
-
-                          <p className="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] text-[#0f172a]/60 leading-relaxed">
-                            {step.desc}
-                          </p>
+                          {step.duration}
                         </div>
                       </div>
 
