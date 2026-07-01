@@ -158,7 +158,7 @@ export default function ProcessSection() {
                     <Icon className="relative z-10 w-3.5 h-3.5 xl:w-4 xl:h-4 text-[#0E8F6F]" />
                   </div>
 
-                  {/* Card - With py-[1px] for all devices */}
+                  {/* Card */}
                   <div
                     className="
                       group
